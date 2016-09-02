@@ -1,2 +1,2 @@
 # Spatia
-A little search engine usign vector spaces for documents
+A little search engine using vector spaces for documents
