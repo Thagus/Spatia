@@ -1,6 +1,9 @@
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 /**
@@ -14,6 +17,7 @@ public class View {
         Scene scene = new Scene(layout, 1280, 720);
 
         createMenus(layout);
+        createSearchBox(layout);
 
         window.setScene(scene);
         window.show();
@@ -33,5 +37,14 @@ public class View {
         menuBar.getMenus().addAll(menuFile);
         layout.setTop(menuBar);
 
+    }
+
+    private void createSearchBox(BorderPane layout){
+        TextField searchBox = new TextField();
+        searchBox.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        searchBox.setMaxSize(450, 45);
+
+
+        layout.setCenter(searchBox);
     }
 }
