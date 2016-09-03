@@ -39,4 +39,8 @@ public class ModelDatabase {
             return uniqueInstance;
         }
     }
+
+    public void close(){
+
+    }
 }

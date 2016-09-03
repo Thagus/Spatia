@@ -1,4 +1,6 @@
 import javafx.application.Application;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 /**
@@ -16,5 +18,26 @@ public class Main extends Application{
     public void start(Stage primaryStage) throws Exception {
         this.window = primaryStage;
         db = ModelDatabase.instance();
+
+        window.setOnCloseRequest(e -> {
+            e.consume();
+            closeProgram();
+        });
+
+        View view = new View();
+        view.start(window);
+    }
+
+    private void closeProgram(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to quit?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+        alert.setTitle("Exit");
+        alert.setHeaderText(null);
+
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES){
+            db.close();
+            window.close();
+        }
     }
 }
