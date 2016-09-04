@@ -11,7 +11,6 @@ import java.sql.Statement;
  */
 public class ModelDatabase {
     private static ModelDatabase uniqueInstance;
-    private Connection con;
     private Statement st;
 
     private ModelDatabase() throws Exception {
@@ -20,7 +19,7 @@ public class ModelDatabase {
         try {
             Class.forName("org.h2.Driver");
             //String addr = System.getProperty("user.home") + "\\.spatia\\spatia";
-            con = DriverManager.getConnection("jdbc:h2:./database/spatia", "spatia", "hi");
+            Connection con = DriverManager.getConnection("jdbc:h2:./database/spatia", "spatia", "hi");
 
             st = con.createStatement();
         } catch (ClassNotFoundException e) {
@@ -53,43 +52,53 @@ public class ModelDatabase {
     }
 
     public void createTables(){
+        //Create Documents table
+        try {
+            st.execute("CREATE TABLE SPATIA.DOCUMENT(" +
+                    "idDoc INTEGER NOT NULL," +
+                    "title VARCHAR NOT NULL," +
+                    "journal INTEGER NOT NULL," +
+                    "PRIMARY KEY (idDoc)" +
+                    ")");
+        } catch (SQLException e) {
+            System.out.println("Error creating DOCUMENT table:");
+            e.printStackTrace();
+        }
+
         //Create Terms table
         try {
             st.execute("CREATE TABLE SPATIA.TERMS(" +
                     "idDoc INTEGER NOT NULL," +
                     "term VARCHAR NOT NULL," +
-                    "occurrence INTEGER NOT NULL," +
-                    "PRIMARY KEY (id,term)" +
+                    "tf INTEGER NOT NULL," +
+                    "tfidf FLOAT NOT NULL," +
+                    "FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE," +
+                    "PRIMARY KEY (idDoc,term)" +
                     ")");
         } catch (SQLException e) {
-            System.out.println("Error creating terms table:");
+            System.out.println("Error creating TERMS table:");
             e.printStackTrace();
         }
 
-        //Create Documents table
+        //Create IDF table
         try {
-            st.execute("CREATE TABLE SPATIA.DOCUMENT(" +
-                    "idDoc INTEGER NOT NULL," +
+            st.execute("CREATE TABLE SPATIA.IDF(" +
                     "term VARCHAR NOT NULL," +
-                    "occurrence INTEGER NOT NULL," +
-                    "PRIMARY KEY (id,term)" +
+                    "numDocs INTEGER NOT NULL," +
+                    "idf FLOAT NOT NULL," +
+                    "PRIMARY KEY (term)" +
                     ")");
         } catch (SQLException e) {
-            System.out.println("Error creating terms table:");
+            System.out.println("Error creating IDF table:");
             e.printStackTrace();
         }
     }
 
     public void clearDB(){
         try {
-            st.execute("DROP TABLE JNOMINAS.EMPLEADO");
-            st.execute("DROP TABLE JNOMINAS.HORARIO");
-            st.execute("DROP TABLE JNOMINAS.ASISTENCIA");
-            st.execute("DROP TABLE JNOMINAS.PERMISO");
-            st.execute("DROP TABLE JNOMINAS.FERIADO");
-            st.execute("DROP TABLE JNOMINAS.VACACIONES");
-            st.execute("DROP TABLE JNOMINAS.PERIODOECONOMICO");
-            //st.execute("DROP TABLE JNOMINAS.PASSWORD");
+            st.execute("DROP TABLE SPATIA.DOCUMENT");
+            st.execute("DROP TABLE SPATIA.TERMS");
+            st.execute("DROP TABLE SPATIA.IDF");
         } catch (SQLException e) {
             System.out.println("Error cleaning DB:");
             e.printStackTrace();
