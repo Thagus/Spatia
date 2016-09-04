@@ -14,7 +14,7 @@ public class Document {
     private String authors;
     private String abstractText;
     private String keywords;
-    private String chapters;
+    private String classification;
     private String citations;
 
     public Document(int idDoc){
@@ -70,11 +70,11 @@ public class Document {
         }
     }
 
-    public void appendChapters(String chapters) {
-        if(this.chapters == null){
-            this.chapters = chapters.trim();
+    public void appendClassification(String classification) {
+        if(this.classification == null){
+            this.classification = classification.trim();
         } else {
-            this.chapters += "; " + chapters.trim();
+            this.classification += "; " + classification.trim();
         }
     }
 
@@ -111,8 +111,8 @@ public class Document {
         return keywords;
     }
 
-    public String getChapters() {
-        return chapters;
+    public String getClassification() {
+        return classification;
     }
 
     public String getCitations() {

@@ -10,15 +10,13 @@ import java.util.HashMap;
 public class TermOperations {
     private PreparedStatement stAddTerm;
     private PreparedStatement stSetTFIDF;
-    private PreparedStatement stGetTFIDF;
 
     protected TermOperations(Connection connection) throws SQLException{
         stAddTerm = connection.prepareStatement("INSERT INTO SPATIA.TERMS(idDoc,term,tf) VALUES(?,?,?)");
         stSetTFIDF = connection.prepareStatement("UPDATE SPATIA.TERMS SET tfidf=? WHERE idDoc=?");
-        stGetTFIDF = connection.prepareStatement("SELECT tfidf FROM SPATIA.TERMS WHERE idDoc=? AND term=?");
     }
 
-    public boolean addTerm(int idDoc, String term, int tf){
+    public void addTerm(int idDoc, String term, int tf){
         try{
             stAddTerm.clearParameters();
             stAddTerm.setInt(1, idDoc);
@@ -30,19 +28,16 @@ public class TermOperations {
             //The insertion fails due to duplicate key
             if(e.getErrorCode()==23505){
                 JOptionPane.showMessageDialog(null, "There is already the term \"" + term + "\" for document id: " + idDoc);
-                return false;
             }
             //The insertion fails due to foreign key constraint failure
             else if(e.getErrorCode()==23506){
                 JOptionPane.showMessageDialog(null, "There is no document with id: " + idDoc);
-                return false;
             }
 
             //Unhandled error
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString(), "Error adding Term", JOptionPane.ERROR_MESSAGE);
         }
-        return false;
     }
 
     public boolean setTFIDF(int idDoc, float tfidf){
@@ -66,12 +61,7 @@ public class TermOperations {
         return false;
     }
 
-    public float getSimilarity(int idDoc, HashMap<String, Float> query){
-
-        return 0;
-    }
-
-    public void reaclculateTFIDF(){
+    public void reaclculateTFIDFs(){
 
     }
 }

@@ -13,11 +13,11 @@ public class DocumentOperations {
     private PreparedStatement stGetDocument;
 
     protected DocumentOperations(Connection connection) throws SQLException {
-        stAddDocument = connection.prepareStatement("INSERT INTO SPATIA.DOCUMENT(idDoc,title,journal,libraryInfo,authors,abstractText,keywords,chapters,citations) VALUES(?,?,?,?,?,?,?,?,?)");
+        stAddDocument = connection.prepareStatement("INSERT INTO SPATIA.DOCUMENT(idDoc,title,journal,libraryInfo,authors,abstractText,keywords,classification,citations) VALUES(?,?,?,?,?,?,?,?,?)");
         stGetDocument = connection.prepareStatement("SELECT * FROM SPATIA.DOCUMENT WHERE idDoc=?");
     }
 
-    public boolean addDocument(int idDoc, String title, String journal, String libraryInfo, String authors, String abstractText, String keywords, String chapters, String citations){
+    public boolean addDocument(int idDoc, String title, String journal, String libraryInfo, String authors, String abstractText, String keywords, String classification, String citations){
         try{
             stAddDocument.clearParameters();
             stAddDocument.setInt(1, idDoc);
@@ -40,10 +40,10 @@ public class DocumentOperations {
             else
                 stAddDocument.setString(7, keywords);
 
-            if(chapters==null)
+            if(classification==null)
                 stAddDocument.setNull(8, Types.VARCHAR);
             else
-                stAddDocument.setString(8, chapters);
+                stAddDocument.setString(8, classification);
 
             if(citations==null)
                 stAddDocument.setNull(9, Types.VARCHAR);
@@ -52,6 +52,7 @@ public class DocumentOperations {
 
 
             stAddDocument.executeUpdate();
+            return true;
         } catch(SQLException e){
             //The insertion fails due to duplicate key
             if(e.getErrorCode()==23505){

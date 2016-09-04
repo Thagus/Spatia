@@ -6,6 +6,8 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.ModelDatabase;
+
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
@@ -18,9 +20,11 @@ import java.util.stream.Stream;
  */
 public class ControllerImportDocument implements EventHandler<ActionEvent> {
     private final Stage window;
+    private final ModelDatabase db;
 
     public ControllerImportDocument(Stage window) {
         this.window = window;
+        this.db = ModelDatabase.instance();
     }
     @Override
     public void handle(ActionEvent event) {
@@ -89,7 +93,7 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
                         case 5:     //Case for .K - key words
 
                             break;
-                        case 6:     //Case for .C - chapters?
+                        case 6:     //Case for .C - Classification
                             //decimal numbers
                             break;
                         case 7:     //Case for .X - Citations
@@ -117,7 +121,15 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
         HashMap<String, Integer> wordCountLocal;
 
         for(Document doc : documents){
-            wordCountLocal = doc.countWords(documentWordOccurrence);
+            boolean insertCheck = db.opDocuments.addDocument(doc.getIdDoc(), doc.getTitle(), doc.getJournal(), doc.getLibraryInfo(), doc.getAuthors(), doc.getAbstractText(), doc.getKeywords(), doc.getClassification(), doc.getCitations());
+
+            if(insertCheck) {
+                wordCountLocal = doc.countWords(documentWordOccurrence);
+                for(Map.Entry<String, Integer> termEntry : wordCountLocal.entrySet()){
+                    db.opTerm.addTerm(doc.getIdDoc(), termEntry.getKey(), termEntry.getValue());
+                }
+            }
+
         }
 
 

@@ -15,6 +15,7 @@ public class ModelDatabase {
     private Connection con;
 
     public TermOperations opTerm;
+    public DocumentOperations opDocuments;
 
     private ModelDatabase() {
         try {
@@ -54,6 +55,7 @@ public class ModelDatabase {
     private void createOperations(){
         try {
             opTerm = new TermOperations(con);
+            opDocuments = new DocumentOperations(con);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -79,7 +81,7 @@ public class ModelDatabase {
                     "authors VARCHAR," +                //There can be no authors
                     "abstractText VARCHAR," +           //Might have an abstract
                     "keyWords VARCHAR," +               //There might be keyWords
-                    "chapters VARCHAR," +               //There might be chapters
+                    "classification VARCHAR," +         //There might be classification
                     "citations VARCHAR," +              //There might be citations
                     "PRIMARY KEY (idDoc)" +
                     ")");
