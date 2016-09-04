@@ -12,19 +12,27 @@ import java.sql.Statement;
 public class ModelDatabase {
     private static ModelDatabase uniqueInstance;
     private Statement st;
+    private Connection con;
 
-    private ModelDatabase() throws Exception {
-        if(uniqueInstance!=null)
-            throw new Exception("There can only be one instance of the database");
+    public ModelOperations opModel;
+
+    private ModelDatabase() {
         try {
             Class.forName("org.h2.Driver");
             //String addr = System.getProperty("user.home") + "\\.spatia\\spatia";
-            Connection con = DriverManager.getConnection("jdbc:h2:./database/spatia", "spatia", "hi");
-
+            con = DriverManager.getConnection("jdbc:h2:./database/spatia", "spatia", "hi");
             st = con.createStatement();
+
+            //createSchema();
+            //createTables();
+
+            createOperations();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString(), "Error accessing the database. Please, restart the program and ensure that there's no other instance running", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.toString(), "Error, database driver not found", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString(), "Error creating connection to database. Please, restart the program and ensure that there's no other instance running", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -42,7 +50,15 @@ public class ModelDatabase {
         }
     }
 
-    public void createSchema(){
+    private void createOperations(){
+        try {
+            opModel = new ModelOperations(con);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createSchema(){
         try {
             st.execute("CREATE SCHEMA SPATIA");
         } catch (SQLException e) {
@@ -51,13 +67,14 @@ public class ModelDatabase {
         }
     }
 
-    public void createTables(){
+    private void createTables(){
         //Create Documents table
         try {
             st.execute("CREATE TABLE SPATIA.DOCUMENT(" +
                     "idDoc INTEGER NOT NULL," +
                     "title VARCHAR NOT NULL," +
                     "journal INTEGER NOT NULL," +
+                    "abstractText INTEGER," +
                     "PRIMARY KEY (idDoc)" +
                     ")");
         } catch (SQLException e) {
@@ -71,7 +88,7 @@ public class ModelDatabase {
                     "idDoc INTEGER NOT NULL," +
                     "term VARCHAR NOT NULL," +
                     "tf INTEGER NOT NULL," +
-                    "tfidf FLOAT NOT NULL," +
+                    "tfidf FLOAT," +    //Can be null when first creating the term
                     "FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE," +
                     "PRIMARY KEY (idDoc,term)" +
                     ")");
