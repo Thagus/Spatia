@@ -16,6 +16,7 @@ public class ModelDatabase {
 
     public TermOperations opTerm;
     public DocumentOperations opDocuments;
+    public IDFOperations opIDF;
 
     private ModelDatabase() {
         try {
@@ -56,6 +57,7 @@ public class ModelDatabase {
         try {
             opTerm = new TermOperations(con);
             opDocuments = new DocumentOperations(con);
+            opIDF = new IDFOperations(con);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -77,7 +79,7 @@ public class ModelDatabase {
                     "idDoc INTEGER NOT NULL," +         //Must have an ID
                     "title VARCHAR NOT NULL," +         //Must have a title
                     "journal VARCHAR NOT NULL," +       //It must belong to a journal
-                    "libraryInfo VARCHAR NOT NULL," +   //There must be library info
+                    "libraryNotes VARCHAR NOT NULL," +   //There must be library notes
                     "authors VARCHAR," +                //There can be no authors
                     "abstractText VARCHAR," +           //Might have an abstract
                     "keyWords VARCHAR," +               //There might be keyWords

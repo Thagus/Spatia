@@ -10,7 +10,7 @@ public class Document {
     private int idDoc;
     private String title;
     private String journal;
-    private String libraryInfo;
+    private String libraryNotes;
     private String authors;
     private String abstractText;
     private String keywords;
@@ -42,15 +42,15 @@ public class Document {
             this.journal = journal.trim();
         }
         else {
-            JOptionPane.showMessageDialog(null, "There is more than one journal entry for document idDoc=" + idDoc);
+            JOptionPane.showMessageDialog(null, "There is more than one journal entry for document idDoc: " + idDoc);
         }
     }
 
-    public void setLibraryInfo(String libraryInfo){
-        if(this.libraryInfo==null)
-            this.libraryInfo = libraryInfo;
+    public void setLibraryNotes(String libraryNotes){
+        if(this.libraryNotes ==null)
+            this.libraryNotes = libraryNotes;
         else {
-            JOptionPane.showMessageDialog(null, "There is more than one library info entry for document idDoc=" + idDoc);
+            JOptionPane.showMessageDialog(null, "There is more than one library note entry for document idDoc: " + idDoc);
         }
     }
 
@@ -97,7 +97,7 @@ public class Document {
         return journal;
     }
 
-    public String getLibraryInfo() { return libraryInfo; }
+    public String getLibraryNotes() { return libraryNotes; }
 
     public String getAuthors(){
         return authors;
@@ -123,9 +123,6 @@ public class Document {
     public HashMap<String, Integer> countWords(HashMap<String, Integer> documentWordOccurrence){
         String text = title + " " + abstractText;
         String lowercase = text.toLowerCase();
-        //lowercase = lowercase.replaceAll("[()|\"]","");
-        //lowercase = lowercase.replaceAll("","");
-        //String[] spplited = lowercase.split("(\\s*(:|,|\\s)\\s*)|(\\.\\s+)|(\\.{2,})|\\.(?!\\S)|\\p{P}");
 
         //Remove numbers
         lowercase = lowercase.replaceAll("\\d","");

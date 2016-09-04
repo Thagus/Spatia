@@ -13,17 +13,17 @@ public class DocumentOperations {
     private PreparedStatement stGetDocument;
 
     protected DocumentOperations(Connection connection) throws SQLException {
-        stAddDocument = connection.prepareStatement("INSERT INTO SPATIA.DOCUMENT(idDoc,title,journal,libraryInfo,authors,abstractText,keywords,classification,citations) VALUES(?,?,?,?,?,?,?,?,?)");
+        stAddDocument = connection.prepareStatement("INSERT INTO SPATIA.DOCUMENT(idDoc,title,journal,libraryNotes,authors,abstractText,keywords,classification,citations) VALUES(?,?,?,?,?,?,?,?,?)");
         stGetDocument = connection.prepareStatement("SELECT * FROM SPATIA.DOCUMENT WHERE idDoc=?");
     }
 
-    public boolean addDocument(int idDoc, String title, String journal, String libraryInfo, String authors, String abstractText, String keywords, String classification, String citations){
+    public boolean addDocument(int idDoc, String title, String journal, String libraryNotes, String authors, String abstractText, String keywords, String classification, String citations){
         try{
             stAddDocument.clearParameters();
             stAddDocument.setInt(1, idDoc);
             stAddDocument.setString(2, title);
             stAddDocument.setString(3, journal);
-            stAddDocument.setString(4, libraryInfo);
+            stAddDocument.setString(4, libraryNotes);
             //The following might be null
             if(authors==null)
                 stAddDocument.setNull(5, Types.VARCHAR);
