@@ -1,3 +1,6 @@
+package view;
+
+import controller.ControllerImportDocument;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -10,11 +13,16 @@ import javafx.stage.Stage;
  * Created by Thagus on 02/09/16.
  */
 public class View {
+    private ControllerImportDocument controllerImportDocument;
+
     public void start(Stage window) {
         window.setTitle("Spatia");
 
         BorderPane layout = new BorderPane();
         Scene scene = new Scene(layout, 1280, 720);
+
+        //Create controllers
+        controllerImportDocument = new ControllerImportDocument(window);
 
         createMenus(layout);
         createSearchBox(layout);
@@ -30,7 +38,7 @@ public class View {
         Menu menuFile = new Menu("_File");
 
         MenuItem importDoc = new MenuItem("Import document...");
-        //importDoc.setOnAction(controllerImportDocument);
+        importDoc.setOnAction(controllerImportDocument);
         menuFile.getItems().add(importDoc);
 
 

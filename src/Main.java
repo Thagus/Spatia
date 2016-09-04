@@ -2,6 +2,8 @@ import javafx.application.Application;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import model.ModelDatabase;
+import view.View;
 
 /**
  * Created by Thagus on 01/09/16.
