@@ -3,6 +3,7 @@ package controller;
 import dataObjects.Document;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.swing.*;
@@ -99,6 +100,11 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
                     }
                 }
             });
+            Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Read " + documents.size() + " documents");
+            countInfo.setTitle("Successful reading!");
+            countInfo.setHeaderText(null);
+            countInfo.showAndWait();
+
             feedDatabase(documents);
         } catch (IOException e) {
             System.out.println("Error reading file:");
