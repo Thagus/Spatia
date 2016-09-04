@@ -14,7 +14,7 @@ public class ModelDatabase {
     private Statement st;
     private Connection con;
 
-    public ModelOperations opModel;
+    public TermOperations opTerm;
 
     private ModelDatabase() {
         try {
@@ -23,6 +23,7 @@ public class ModelDatabase {
             con = DriverManager.getConnection("jdbc:h2:./database/spatia", "spatia", "hi");
             st = con.createStatement();
 
+            //clearDB();
             //createSchema();
             //createTables();
 
@@ -52,7 +53,7 @@ public class ModelDatabase {
 
     private void createOperations(){
         try {
-            opModel = new ModelOperations(con);
+            opTerm = new TermOperations(con);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,10 +72,15 @@ public class ModelDatabase {
         //Create Documents table
         try {
             st.execute("CREATE TABLE SPATIA.DOCUMENT(" +
-                    "idDoc INTEGER NOT NULL," +
-                    "title VARCHAR NOT NULL," +
-                    "journal INTEGER NOT NULL," +
-                    "abstractText INTEGER," +
+                    "idDoc INTEGER NOT NULL," +         //Must have an ID
+                    "title VARCHAR NOT NULL," +         //Must have a title
+                    "journal VARCHAR NOT NULL," +       //It must belong to a journal
+                    "libraryInfo VARCHAR NOT NULL," +   //There must be library info
+                    "authors VARCHAR," +                //There can be no authors
+                    "abstractText VARCHAR," +           //Might have an abstract
+                    "keyWords VARCHAR," +               //There might be keyWords
+                    "chapters VARCHAR," +               //There might be chapters
+                    "citations VARCHAR," +              //There might be citations
                     "PRIMARY KEY (idDoc)" +
                     ")");
         } catch (SQLException e) {
