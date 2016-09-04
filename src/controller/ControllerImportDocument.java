@@ -9,9 +9,7 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -84,15 +82,15 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
                         case 3:     //Case for .A - Authors
                             documents.get(documents.size()-1).appendAuthor(line);
                             break;
-                        case 4:     //Case for .W -
-                            documents.get(documents.size()-1).appendText(line);
+                        case 4:     //Case for .W - abstract
+                            documents.get(documents.size()-1).appendAbstract(line);
                             break;
-                        case 5:     //Case for .K -
+                        case 5:     //Case for .K - key words
 
                             break;
                         case 6:     //Case for .C -
 
-                            //Random? decimal numbers
+                            //decimal numbers
                             break;
                         case 7:     //Case for .X - Citations
 
@@ -110,15 +108,17 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
     }
 
     private void feedDatabase(ArrayList<Document> documents){
-        HashMap<String, Integer> wordOccurrence = new HashMap<>();
+        HashMap<String, Integer> documentWordOccurrence = new HashMap<>();
+        HashMap<String, Integer> wordCountLocal;
 
         for(Document doc : documents){
-            doc.countWords(wordOccurrence);
+            wordCountLocal = doc.countWords(documentWordOccurrence);
         }
 
-        for(Map.Entry<String, Integer> entry : wordOccurrence.entrySet()){
-            //if(entry.getKey().contains("5"))
-            System.out.println(entry.getKey() + " - " + entry.getValue());
+
+        for(Map.Entry<String, Integer> entry : documentWordOccurrence.entrySet()){
+            //if(entry.getKey().length()<=3)
+                System.out.println(entry.getKey() + " - " + entry.getValue());
         }
     }
 

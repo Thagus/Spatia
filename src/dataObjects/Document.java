@@ -1,5 +1,7 @@
 package dataObjects;
 
+import javafx.util.Pair;
+
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +14,7 @@ public class Document {
     private String title;
     private String journal;
     private String authors;
-    private String contentText;
+    private String abstractText;
 
     public Document(int id){
         this.id = id;
@@ -43,11 +45,11 @@ public class Document {
         }
     }
 
-    public void appendText(String text){
-        if(contentText==null){
-            contentText = text.trim();
+    public void appendAbstract(String text){
+        if(abstractText ==null){
+            abstractText = text.trim();
         } else {
-            contentText += " " + text.trim();
+            abstractText += " " + text.trim();
         }
     }
 
@@ -63,8 +65,8 @@ public class Document {
         return journal;
     }
 
-    public void countWords(HashMap<String, Integer> wordOccurrence){
-        String text = title + " " + contentText;
+    public HashMap<String, Integer> countWords(HashMap<String, Integer> documentWordOccurrence){
+        String text = title + " " + abstractText;
         String lowercase = text.toLowerCase();
         //lowercase = lowercase.replaceAll("[()|\"]","");
         //lowercase = lowercase.replaceAll("","");
@@ -75,15 +77,29 @@ public class Document {
         //Split at spaces or punctuation
         String[] spplited = lowercase.split("(\\s+)|\\p{Punct}");
 
+        HashMap<String, Integer> wordCountLocal = new HashMap<>();
+
         for(String word : spplited){
-            if(word.length()<=1)
+            if(word.length()<=2)    //Filter void(0) words, and those with length 1 or 2
                 continue;
-            //System.out.println(word);
-            Integer count = wordOccurrence.get(word);
+
+            //Local count
+            Integer count = wordCountLocal.get(word);
             if(count==null){
                 count = 0;
+
+                //When first counting the word, add it to the global document word count
+                //Global document word count
+                Integer countGl = documentWordOccurrence.get(word);
+
+                if(countGl==null){
+                    countGl = 0;
+                }
+                documentWordOccurrence.put(word, countGl+1);
             }
-            wordOccurrence.put(word, count+1);
+            wordCountLocal.put(word, count+1);
         }
+
+        return wordCountLocal;
     }
 }
