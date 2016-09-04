@@ -76,7 +76,7 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
                         case 1:     //Case for .B - Journal name and edition
                             documents.get(documents.size()-1).setJournal(line);
                             break;
-                        case 2:     //Case for .N -
+                        case 2:     //Case for .N - library info?
 
                             break;
                         case 3:     //Case for .A - Authors
@@ -88,8 +88,7 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
                         case 5:     //Case for .K - key words
 
                             break;
-                        case 6:     //Case for .C -
-
+                        case 6:     //Case for .C - chapters?
                             //decimal numbers
                             break;
                         case 7:     //Case for .X - Citations
@@ -116,10 +115,10 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
         }
 
 
-        for(Map.Entry<String, Integer> entry : documentWordOccurrence.entrySet()){
+        /*for(Map.Entry<String, Integer> entry : documentWordOccurrence.entrySet()){
             //if(entry.getKey().length()<=3)
                 System.out.println(entry.getKey() + " - " + entry.getValue());
-        }
+        }*/
     }
 
 

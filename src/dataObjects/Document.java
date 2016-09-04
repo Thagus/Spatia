@@ -1,23 +1,24 @@
 package dataObjects;
 
-import javafx.util.Pair;
-
 import javax.swing.*;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Thagus on 03/09/16.
  */
 public class Document {
-    private int id;
+    private int idDoc;
     private String title;
     private String journal;
+    private String libraryInfo;
     private String authors;
     private String abstractText;
+    private String keywords;
+    private String chapters;
+    private String citations;
 
-    public Document(int id){
-        this.id = id;
+    public Document(int idDoc){
+        this.idDoc = idDoc;
         title = "";
     }
 
@@ -41,7 +42,15 @@ public class Document {
             this.journal = journal.trim();
         }
         else {
-            JOptionPane.showMessageDialog(null, "There is more than one journal entry for document id=" + id);
+            JOptionPane.showMessageDialog(null, "There is more than one journal entry for document idDoc=" + idDoc);
+        }
+    }
+
+    public void setLibraryInfo(String libraryInfo){
+        if(this.libraryInfo==null)
+            this.libraryInfo = libraryInfo;
+        else {
+            JOptionPane.showMessageDialog(null, "There is more than one library info entry for document idDoc=" + idDoc);
         }
     }
 
@@ -53,17 +62,63 @@ public class Document {
         }
     }
 
-    public String getTitle() {
-        return title;
+    public void appendKeywords(String keywords) {
+        if(this.keywords == null){
+            this.keywords = keywords.trim();
+        } else {
+            this.keywords += " " + keywords.trim();
+        }
     }
 
-    public String getAuthors(){
-        return authors;
+    public void appendChapters(String chapters) {
+        if(this.chapters == null){
+            this.chapters = chapters.trim();
+        } else {
+            this.chapters += "; " + chapters.trim();
+        }
+    }
+
+    public void appendCitations(String citations) {
+        if(this.citations == null){
+            this.citations = citations.trim();
+        }
+        else{
+            this.citations += "; " + citations.trim();
+        }
+    }
+
+    public int getIdDoc() { return idDoc; }
+
+    public String getTitle() {
+        return title;
     }
 
     public String getJournal() {
         return journal;
     }
+
+    public String getLibraryInfo() { return libraryInfo; }
+
+    public String getAuthors(){
+        return authors;
+    }
+
+    public String getAbstractText() {
+        return abstractText;
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public String getChapters() {
+        return chapters;
+    }
+
+    public String getCitations() {
+        return citations;
+    }
+
 
     public HashMap<String, Integer> countWords(HashMap<String, Integer> documentWordOccurrence){
         String text = title + " " + abstractText;
