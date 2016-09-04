@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -57,7 +59,6 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
                 } else if(line.startsWith(".W")){
                     setAllFalse(currentType);
                     currentType[4] = true;
-                    System.out.println(line);
                 } else if(line.startsWith(".K")){
                     setAllFalse(currentType);
                     currentType[5] = true;
@@ -72,20 +73,19 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
 
                     switch (type) {
                         case 0:     //Case for .T - Title
-                            documents.get(documents.size()-1).appendTitle(" " + line.trim());
+                            documents.get(documents.size()-1).appendTitle(" " + line);
                             break;
                         case 1:     //Case for .B - Journal name and edition
-                            documents.get(documents.size()-1).setJournal(line.trim());
+                            documents.get(documents.size()-1).setJournal(line);
                             break;
                         case 2:     //Case for .N -
 
                             break;
                         case 3:     //Case for .A - Authors
-                            documents.get(documents.size()-1).appendAuthor(line.trim());
+                            documents.get(documents.size()-1).appendAuthor(line);
                             break;
                         case 4:     //Case for .W -
-                            System.out.println(line);
-
+                            documents.get(documents.size()-1).appendText(line);
                             break;
                         case 5:     //Case for .K -
 
@@ -102,17 +102,24 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
                     }
                 }
             });
-                /*for(Document doc:documents){
-                    System.out.println(doc.getAuthors() + "\n");
-                }*/
+            feedDatabase(documents);
         } catch (IOException e) {
             System.out.println("Error reading file:");
             e.printStackTrace();
         }
     }
 
-    private void feedDatabase(){
+    private void feedDatabase(ArrayList<Document> documents){
+        HashMap<String, Integer> wordOccurrence = new HashMap<>();
 
+        for(Document doc : documents){
+            doc.countWords(wordOccurrence);
+        }
+
+        for(Map.Entry<String, Integer> entry : wordOccurrence.entrySet()){
+            //if(entry.getKey().contains("5"))
+            System.out.println(entry.getKey() + " - " + entry.getValue());
+        }
     }
 
 
