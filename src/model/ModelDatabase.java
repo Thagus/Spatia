@@ -27,8 +27,8 @@ public class ModelDatabase {
             st = con.createStatement();
 
             //clearDB();
-            //createSchema();
-            //createTables();
+            createSchema();
+            createTables();
 
             createOperations();
         } catch (ClassNotFoundException e) {
@@ -100,7 +100,7 @@ public class ModelDatabase {
                     "idDoc INTEGER NOT NULL," +
                     "term VARCHAR NOT NULL," +
                     "tf INTEGER NOT NULL," +
-                    "tfidf FLOAT," +    //Can be null when first creating the term
+                    "tfidf DOUBLE," +    //Can be null when first creating the term
                     "FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE," +
                     "PRIMARY KEY (idDoc,term)" +
                     ")");
@@ -114,7 +114,7 @@ public class ModelDatabase {
             st.execute("CREATE TABLE SPATIA.IDF(" +
                     "term VARCHAR NOT NULL," +
                     "numDocs INTEGER NOT NULL," +
-                    "idf FLOAT NOT NULL," +
+                    "idf DOUBLE NOT NULL," +
                     "PRIMARY KEY (term)" +
                     ")");
         } catch (SQLException e) {
