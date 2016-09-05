@@ -82,7 +82,7 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
                             documents.get(documents.size()-1).setJournal(line);
                             break;
                         case 2:     //Case for .N - library info?
-
+                            documents.get(documents.size()-1).setLibraryNotes(line);
                             break;
                         case 3:     //Case for .A - Authors
                             documents.get(documents.size()-1).appendAuthor(line);
@@ -91,13 +91,13 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
                             documents.get(documents.size()-1).appendAbstract(line);
                             break;
                         case 5:     //Case for .K - key words
-
+                            documents.get(documents.size()-1).appendKeywords(line);
                             break;
                         case 6:     //Case for .C - Classification
-                            //decimal numbers
+                            documents.get(documents.size()-1).appendClassification(line);
                             break;
                         case 7:     //Case for .X - Citations
-
+                            documents.get(documents.size()-1).appendCitations(line);
                             break;
                         default:
                             JOptionPane.showMessageDialog(null, "The file doesn't follow the expected structure!");
@@ -122,6 +122,7 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
 
         int documentCount = 0;
 
+        //Add documents and terms
         for(Document doc : documents){
             boolean insertCheck = db.opDocuments.addDocument(doc.getIdDoc(), doc.getTitle(), doc.getJournal(), doc.getLibraryNotes(), doc.getAuthors(), doc.getAbstractText(), doc.getKeywords(), doc.getClassification(), doc.getCitations());
 
@@ -136,11 +137,13 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
 
         }
 
+        //Calculate IDF
         for(Map.Entry<String, Integer> entry : documentWordOccurrence.entrySet()){
-            //Calculate IDF
-            System.out.println(entry.getKey() + " - " + entry.getValue());
-
+            db.opIDF.addTermIDF(entry.getKey(), entry.getValue(), Math.log10((double)documentCount/(double)entry.getValue()));
         }
+
+        //Calculate TFIDF
+        db.opModel.calculateTFIDFs();
 
         Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Successfully added " + documentCount + " documents");
         countInfo.setTitle("Successful index!");
