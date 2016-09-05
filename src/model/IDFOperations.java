@@ -16,16 +16,17 @@ public class IDFOperations {
 
     protected IDFOperations(Connection connection) throws SQLException{
         stAddTermIDF = connection.prepareStatement("INSERT INTO SPATIA.IDF(term,numDocs,idf) VALUES(?,?,?)");
-        stUpdateIDF = connection.prepareStatement("UPDATE SPATIA.IDF SET idf=? WWHERE term=?");
+        stUpdateIDF = connection.prepareStatement("UPDATE SPATIA.IDF SET idf=? WHERE term=?");
         stGetTermIDF = connection.prepareStatement("SELECT idf FROM SPATIA.IDF WHERE term=?");
     }
 
-    public void addTermIDF(String term, int numDocs, float idf){
+    public void addTermIDF(String term, int numDocs, double idf){
         try {
+            System.out.println(term + " - " + idf);
             stAddTermIDF.clearParameters();
             stAddTermIDF.setString(1, term);
             stAddTermIDF.setInt(2, numDocs);
-            stAddTermIDF.setFloat(3, idf);
+            stAddTermIDF.setDouble(3, idf);
 
             stAddTermIDF.executeUpdate();
         }catch (SQLException e){
@@ -40,10 +41,10 @@ public class IDFOperations {
         }
     }
 
-    public void updateIDF(String term, float idf){
+    public void updateIDF(String term, double idf){
         try {
             stGetTermIDF.clearParameters();
-            stGetTermIDF.setFloat(1, idf);
+            stGetTermIDF.setDouble(1, idf);
             stGetTermIDF.setString(2, term);
 
             stGetTermIDF.executeUpdate();
@@ -54,18 +55,26 @@ public class IDFOperations {
         }
     }
 
-    public float getTermIDF(String term){
+    public void updateNumDocs(String term, int numDocs){
+        //Get current numDocs, if null assume 0
+
+        //Add the current amount and the new amount
+
+        //Recalculate idf, and call updateIDF
+    }
+
+    public double getTermIDF(String term){
         try {
             stGetTermIDF.clearParameters();
             stGetTermIDF.setString(1, term);
 
             ResultSet rs = stGetTermIDF.executeQuery();
-            float idf = 0;
+            double idf = 0;
             boolean check = false;
 
             while(rs.next()){
                 check = true;
-                idf = rs.getFloat(1);
+                idf = rs.getDouble(1);
             }
 
             if(!check){
