@@ -1,15 +1,20 @@
 package view;
 
 import controller.ControllerImportDocument;
+import dataObjects.Document;
 import dataObjects.DocumentTerm;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -181,8 +186,43 @@ public class View {
             }
         });
 
-        tableTerms.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(newValue.getTitle());
+        /*tableTerms.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                    Node node = ((Node) event.getTarget()).getParent();
+                    TableRow row;
+                    if (node instanceof TableRow) {
+                        row = (TableRow) node;
+                    } else {
+                        // clicking on text part
+                        row = (TableRow) node.getParent();
+                    }
+                    DocumentTerm documentTerm = (DocumentTerm) row.getItem();
+                    System.out.println(documentTerm.getTitle());
+                }
+            }
+        });*/
+
+        tableTerms.setOnMouseClicked(event -> {
+            //Single click on row with primary button
+            if(event.getClickCount() == 1 && event.getButton()== MouseButton.PRIMARY){
+                Node node = ((Node) event.getTarget()).getParent();
+                TableRow row;
+                if (node instanceof TableRow) {
+                    row = (TableRow) node;
+                } else {
+                    //clicking on text part
+                    row = (TableRow) node.getParent();
+                }
+                DocumentTerm documentTerm = (DocumentTerm) row.getItem();
+
+                //Get document
+                Document document = ModelDatabase.instance().opDocuments.getDocument(documentTerm.getIdDoc());
+
+                //Create document view
+                new DocumentView(document);
+            }
         });
 
 
