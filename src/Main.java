@@ -40,6 +40,7 @@ public class Main extends Application{
         if (alert.getResult() == ButtonType.YES){
             db.close();
             window.close();
+            System.exit(0);
         }
     }
 }
