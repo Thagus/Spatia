@@ -26,8 +26,6 @@ public class Document implements Comparable<Document>{
         title = "";
     }
 
-    //Count terms while adding?
-
     public void appendTitle(String string){
         title += " " + string.trim();
         title = title.trim();
@@ -35,6 +33,8 @@ public class Document implements Comparable<Document>{
     }
 
     public void appendAuthor(String author){
+        if(author == null)
+            return;
         if(authors==null){
             authors = author.trim();
         } else {
@@ -43,7 +43,7 @@ public class Document implements Comparable<Document>{
     }
 
     public void setJournal(String journal){
-        if(this.journal==null) {
+        if(this.journal == null) {
             this.journal = journal.trim();
         }
         else {
@@ -52,7 +52,7 @@ public class Document implements Comparable<Document>{
     }
 
     public void setLibraryNotes(String libraryNotes){
-        if(this.libraryNotes ==null)
+        if(this.libraryNotes == null)
             this.libraryNotes = libraryNotes;
         else {
             JOptionPane.showMessageDialog(null, "There is more than one library note entry for document idDoc: " + idDoc);
@@ -60,6 +60,8 @@ public class Document implements Comparable<Document>{
     }
 
     public void appendAbstract(String text){
+        if(text==null)
+            return;
         if(abstractText ==null){
             abstractText = text.trim();
         } else {
@@ -68,6 +70,8 @@ public class Document implements Comparable<Document>{
     }
 
     public void appendKeywords(String keywords) {
+        if(keywords==null)
+            return;
         if(this.keywords == null){
             this.keywords = keywords.trim();
         } else {
@@ -76,6 +80,8 @@ public class Document implements Comparable<Document>{
     }
 
     public void appendClassification(String classification) {
+        if(classification==null)
+            return;
         if(this.classification == null){
             this.classification = classification.trim();
         } else {
@@ -84,6 +90,8 @@ public class Document implements Comparable<Document>{
     }
 
     public void appendCitations(String citations) {
+        if(citations==null)
+            return;
         if(this.citations == null){
             this.citations = citations.trim();
         }
