@@ -211,17 +211,24 @@ public class View {
                 TableRow row;
                 if (node instanceof TableRow) {
                     row = (TableRow) node;
-                } else {
+
+                    //Extract DocumentTerm
+                    DocumentTerm documentTerm = (DocumentTerm) row.getItem();
+                    //Get Document
+                    Document document = ModelDatabase.instance().opDocuments.getDocument(documentTerm.getIdDoc());
+                    //Create document view
+                    new DocumentView(document);
+                } else if (node.getParent() instanceof TableRow){
                     //clicking on text part
                     row = (TableRow) node.getParent();
+
+                    //Extract DocumentTerm
+                    DocumentTerm documentTerm = (DocumentTerm) row.getItem();
+                    //Get Document
+                    Document document = ModelDatabase.instance().opDocuments.getDocument(documentTerm.getIdDoc());
+                    //Create document view
+                    new DocumentView(document);
                 }
-                DocumentTerm documentTerm = (DocumentTerm) row.getItem();
-
-                //Get document
-                Document document = ModelDatabase.instance().opDocuments.getDocument(documentTerm.getIdDoc());
-
-                //Create document view
-                new DocumentView(document);
             }
         });
 
