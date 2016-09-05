@@ -120,23 +120,32 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
         HashMap<String, Integer> documentWordOccurrence = new HashMap<>();
         HashMap<String, Integer> wordCountLocal;
 
+        int documentCount = 0;
+
         for(Document doc : documents){
-            boolean insertCheck = db.opDocuments.addDocument(doc.getIdDoc(), doc.getTitle(), doc.getJournal(), doc.getLibraryInfo(), doc.getAuthors(), doc.getAbstractText(), doc.getKeywords(), doc.getClassification(), doc.getCitations());
+            boolean insertCheck = db.opDocuments.addDocument(doc.getIdDoc(), doc.getTitle(), doc.getJournal(), doc.getLibraryNotes(), doc.getAuthors(), doc.getAbstractText(), doc.getKeywords(), doc.getClassification(), doc.getCitations());
 
             if(insertCheck) {
+                documentCount++;
                 wordCountLocal = doc.countWords(documentWordOccurrence);
                 for(Map.Entry<String, Integer> termEntry : wordCountLocal.entrySet()){
+                    //Write tf
                     db.opTerm.addTerm(doc.getIdDoc(), termEntry.getKey(), termEntry.getValue());
                 }
             }
 
         }
 
+        for(Map.Entry<String, Integer> entry : documentWordOccurrence.entrySet()){
+            //Calculate IDF
+            System.out.println(entry.getKey() + " - " + entry.getValue());
 
-        /*for(Map.Entry<String, Integer> entry : documentWordOccurrence.entrySet()){
-            //if(entry.getKey().length()<=3)
-                System.out.println(entry.getKey() + " - " + entry.getValue());
-        }*/
+        }
+
+        Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Successfully added " + documentCount + " documents");
+        countInfo.setTitle("Successful index!");
+        countInfo.setHeaderText(null);
+        countInfo.showAndWait();
     }
 
 

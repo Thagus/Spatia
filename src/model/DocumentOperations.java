@@ -2,7 +2,7 @@ package model;
 
 import dataObjects.Document;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.sql.*;
 
 /**
@@ -11,10 +11,12 @@ import java.sql.*;
 public class DocumentOperations {
     private PreparedStatement stAddDocument;
     private PreparedStatement stGetDocument;
+    private PreparedStatement stCountDocuments;
 
     protected DocumentOperations(Connection connection) throws SQLException {
         stAddDocument = connection.prepareStatement("INSERT INTO SPATIA.DOCUMENT(idDoc,title,journal,libraryNotes,authors,abstractText,keywords,classification,citations) VALUES(?,?,?,?,?,?,?,?,?)");
         stGetDocument = connection.prepareStatement("SELECT * FROM SPATIA.DOCUMENT WHERE idDoc=?");
+        stCountDocuments = connection.prepareStatement("SELECT COUNT(*) FROM SPATIA.DOCUMENT");
     }
 
     public boolean addDocument(int idDoc, String title, String journal, String libraryNotes, String authors, String abstractText, String keywords, String classification, String citations){
@@ -97,5 +99,28 @@ public class DocumentOperations {
             JOptionPane.showMessageDialog(null, e.toString(), "Error getting Document with id: " + idDoc, JOptionPane.ERROR_MESSAGE);
         }
         return null;
+    }
+
+    public int countDocuments(){
+        try {
+            ResultSet rs = stCountDocuments.executeQuery();
+
+            int count = 0;
+
+            while(rs.next()){
+                count = rs.getInt(1);
+            }
+            rs.close();
+
+            if(count<=0){
+                JOptionPane.showMessageDialog(null, "There are no documents");
+            }
+
+            return count;
+        } catch(SQLException e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString(), "Error getting documents", JOptionPane.ERROR_MESSAGE);
+        }
+        return 0;
     }
 }

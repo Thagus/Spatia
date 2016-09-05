@@ -1,8 +1,7 @@
 package model;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.sql.*;
-import java.util.HashMap;
 
 /**
  * Created by Thagus on 03/09/16.
@@ -59,9 +58,5 @@ public class TermOperations {
             JOptionPane.showMessageDialog(null, e.toString(), "Error adding Term", JOptionPane.ERROR_MESSAGE);
         }
         return false;
-    }
-
-    public void reaclculateTFIDFs(){
-
     }
 }

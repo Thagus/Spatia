@@ -1,6 +1,6 @@
 package model;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -17,6 +17,7 @@ public class ModelDatabase {
     public TermOperations opTerm;
     public DocumentOperations opDocuments;
     public IDFOperations opIDF;
+    public ModelOperations opModel;
 
     private ModelDatabase() {
         try {
@@ -55,6 +56,7 @@ public class ModelDatabase {
 
     private void createOperations(){
         try {
+            opModel = new ModelOperations(con, this);
             opTerm = new TermOperations(con);
             opDocuments = new DocumentOperations(con);
             opIDF = new IDFOperations(con);
