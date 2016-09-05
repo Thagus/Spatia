@@ -1,5 +1,7 @@
 package dataObjects;
 
+import utilities.Tokenizer;
+
 import javax.swing.*;
 import java.util.HashMap;
 
@@ -137,16 +139,11 @@ public class Document implements Comparable<Document>{
         else
             text = title;
 
-        String lowercase = text.toLowerCase();
-
-        //Remove numbers
-        lowercase = lowercase.replaceAll("\\d","");
-        //Split at spaces or punctuation
-        String[] spplited = lowercase.split("(\\s+)|\\p{Punct}");
+        String[] splited = Tokenizer.tokenizeString(text);
 
         HashMap<String, Integer> wordCountLocal = new HashMap<>();
 
-        for(String word : spplited){
+        for(String word : splited){
             if(word.length()<=2)    //Filter void(0) words, and those with length 1 or 2
                 continue;
 
