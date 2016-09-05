@@ -81,10 +81,14 @@ public class DocumentOperations {
 
             while(rs.next()){
                 check = true;
-
-
-
-
+                document.appendTitle(rs.getString("title"));
+                document.setJournal(rs.getString("journal"));
+                document.setLibraryNotes(rs.getString("libraryNotes"));
+                document.appendAuthor(rs.getString("authors"));
+                document.appendAbstract(rs.getString("abstractText"));
+                document.appendKeywords(rs.getString("keywords"));
+                document.appendClassification(rs.getString("classification"));
+                document.appendCitations(rs.getString("citations"));
             }
             rs.close();
 
