@@ -6,7 +6,7 @@ import java.util.HashMap;
 /**
  * Created by Thagus on 03/09/16.
  */
-public class Document {
+public class Document implements Comparable<Document>{
     private int idDoc;
     private String title;
     private String journal;
@@ -16,6 +16,8 @@ public class Document {
     private String keywords;
     private String classification;
     private String citations;
+
+    private double similarity;
 
     public Document(int idDoc){
         this.idDoc = idDoc;
@@ -27,6 +29,7 @@ public class Document {
     public void appendTitle(String string){
         title += " " + string.trim();
         title = title.trim();
+        similarity = 0;
     }
 
     public void appendAuthor(String author){
@@ -87,6 +90,10 @@ public class Document {
         }
     }
 
+    public void setSimilarity(double similarity) {
+        this.similarity = similarity;
+    }
+
     public int getIdDoc() { return idDoc; }
 
     public String getTitle() {
@@ -119,9 +126,17 @@ public class Document {
         return citations;
     }
 
+    public double getSimilarity() {
+        return similarity;
+    }
 
     public HashMap<String, Integer> countWords(HashMap<String, Integer> documentWordOccurrence){
-        String text = title + " " + abstractText;
+        String text;
+        if(abstractText!=null)
+            text = title + " " + abstractText;
+        else
+            text = title;
+
         String lowercase = text.toLowerCase();
 
         //Remove numbers
@@ -153,5 +168,15 @@ public class Document {
         }
 
         return wordCountLocal;
+    }
+
+    @Override
+    public int compareTo(Document o) {
+        if(this.similarity == o.similarity)
+            return 0;
+        else if (this.similarity<o.similarity)
+            return -1;
+        else
+            return 1;
     }
 }
