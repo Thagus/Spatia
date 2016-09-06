@@ -2,26 +2,17 @@ package view;
 
 import controller.ControllerImportDocument;
 import controller.ControllerTermSearch;
-import dataObjects.Document;
 import dataObjects.DocumentTerm;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import model.ModelDatabase;
-import utilities.Tokenizer;
-import javax.swing.JOptionPane;
-import java.sql.Date;
 
 /**
  * Created by Thagus on 02/09/16.
