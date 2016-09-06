@@ -1,7 +1,6 @@
 package model;
 
 import dataObjects.Term;
-
 import javax.swing.JOptionPane;
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,17 +10,21 @@ import java.util.ArrayList;
  */
 public class TermOperations {
     private PreparedStatement stAddTerm;
-    private PreparedStatement stSetTFIDF;
     private PreparedStatement stGetTerms;
     private PreparedStatement stGetTermCount;
 
     protected TermOperations(Connection connection) throws SQLException{
         stAddTerm = connection.prepareStatement("INSERT INTO SPATIA.TERMS(idDoc,term,tf) VALUES(?,?,?)");
-        stSetTFIDF = connection.prepareStatement("UPDATE SPATIA.TERMS SET tfidf=? WHERE idDoc=?");
         stGetTerms = connection.prepareStatement("SELECT * FROM SPATIA.TERMS WHERE term=?");
         stGetTermCount = connection.prepareStatement("SELECT COUNT(*) FROM SPATIA.TERMS WHERE term=?");
     }
 
+    /**
+     * Add a term to the database
+     * @param idDoc The id of the document containing the term
+     * @param term The term to be added
+     * @param tf The Term Frequency (TF) of the term in the document
+     */
     public void addTerm(int idDoc, String term, int tf){
         try{
             stAddTerm.clearParameters();
@@ -46,27 +49,11 @@ public class TermOperations {
         }
     }
 
-    public boolean setTFIDF(int idDoc, double tfidf){
-        try {
-            stSetTFIDF.clearParameters();
-            stSetTFIDF.setDouble(1, tfidf);
-            stSetTFIDF.setInt(2, idDoc);
-
-            stSetTFIDF.executeUpdate();
-        } catch(SQLException e){
-            //The insertion fails due to foreign key constraint failure
-            if(e.getErrorCode()==23506){
-                JOptionPane.showMessageDialog(null, "There is no document with id: " + idDoc);
-                return false;
-            }
-
-            //Unhandled error
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString(), "Error adding Term", JOptionPane.ERROR_MESSAGE);
-        }
-        return false;
-    }
-
+    /**
+     * Get the Terms that contain a term
+     * @param term The term to search
+     * @return An ArrayList of Terms containing the term
+     */
     public ArrayList<Term> getDocumentsContainingTerm(String term){
         try {
             stGetTerms.clearParameters();
@@ -94,7 +81,11 @@ public class TermOperations {
         return null;
     }
 
-    //Get the amount of documents that contain the term
+    /**
+     * Get the amount of documents that contain a term
+     * @param term The term to search
+     * @return the number of documents that contain the term
+     */
     public int getTermCount(String term){
         try {
             stGetTermCount.clearParameters();

@@ -1,7 +1,6 @@
 package model;
 
 import dataObjects.Document;
-
 import javax.swing.JOptionPane;
 import java.sql.*;
 
@@ -14,11 +13,26 @@ public class DocumentOperations {
     private PreparedStatement stCountDocuments;
 
     protected DocumentOperations(Connection connection) throws SQLException {
+        //Create prepared statements
         stAddDocument = connection.prepareStatement("INSERT INTO SPATIA.DOCUMENT(idDoc,title,journal,libraryNotes,authors,abstractText,keywords,classification,citations) VALUES(?,?,?,?,?,?,?,?,?)");
         stGetDocument = connection.prepareStatement("SELECT * FROM SPATIA.DOCUMENT WHERE idDoc=?");
         stCountDocuments = connection.prepareStatement("SELECT COUNT(*) FROM SPATIA.DOCUMENT");
     }
 
+    /**
+     * Adds a document tuple to the database
+     *
+     * @param idDoc the id of the document
+     * @param title the title of teh document
+     * @param journal the journal where the document belongs
+     * @param libraryNotes the library notes of the document
+     * @param authors the authors of teh document
+     * @param abstractText the abstract of the document
+     * @param keywords the keywords provided by the document
+     * @param classification the classification of the document
+     * @param citations the citations in the document
+     * @return true if the insertion was successful, false otherwise
+     */
     public boolean addDocument(int idDoc, String title, String journal, String libraryNotes, String authors, String abstractText, String keywords, String classification, String citations){
         try{
             stAddDocument.clearParameters();
@@ -69,6 +83,12 @@ public class DocumentOperations {
         return false;
     }
 
+    /**
+     * Gets a document by id
+     *
+     * @param idDoc the id of the document we want to retrieve
+     * @return the Document object that stores the document info
+     */
     public Document getDocument(int idDoc){
         try {
             stGetDocument.clearParameters();
@@ -105,6 +125,10 @@ public class DocumentOperations {
         return null;
     }
 
+    /**
+     * Counts the total number of documents in teh database
+     * @return the numbe of documents
+     */
     public int countDocuments(){
         try {
             ResultSet rs = stCountDocuments.executeQuery();

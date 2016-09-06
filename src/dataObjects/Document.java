@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 /**
  * Created by Thagus on 03/09/16.
+ * Purpose: Store the document data
  */
 public class Document implements Comparable<Document>{
     private int idDoc;
@@ -26,14 +27,22 @@ public class Document implements Comparable<Document>{
         title = "";
     }
 
+    /**
+     * Add a string to the title
+     * @param string The string that will be added to the title
+     */
     public void appendTitle(String string){
         title += " " + string.trim();
         title = title.trim();
         similarity = 0;
     }
 
+    /**
+     * Add an author to the authors string
+     * @param author
+     */
     public void appendAuthor(String author){
-        if(author == null)
+        if(author == null)  //Handle null values
             return;
         if(authors==null){
             authors = author.trim();
@@ -42,6 +51,10 @@ public class Document implements Comparable<Document>{
         }
     }
 
+    /**
+     * Set the journal attribute
+     * @param journal The attribute' data
+     */
     public void setJournal(String journal){
         if(this.journal == null) {
             this.journal = journal.trim();
@@ -51,6 +64,10 @@ public class Document implements Comparable<Document>{
         }
     }
 
+    /**
+     * Set the library notes attribute
+     * @param libraryNotes The value of the attribute
+     */
     public void setLibraryNotes(String libraryNotes){
         if(this.libraryNotes == null)
             this.libraryNotes = libraryNotes;
@@ -59,8 +76,12 @@ public class Document implements Comparable<Document>{
         }
     }
 
+    /**
+     * Add a line to the abstract of the document
+     * @param text The line to be added to the abstract
+     */
     public void appendAbstract(String text){
-        if(text==null)
+        if(text==null)      //Handle null values
             return;
         if(abstractText ==null){
             abstractText = text.trim();
@@ -69,8 +90,12 @@ public class Document implements Comparable<Document>{
         }
     }
 
+    /**
+     * Append a line of keywords
+     * @param keywords The line of keywords to be added
+     */
     public void appendKeywords(String keywords) {
-        if(keywords==null)
+        if(keywords==null)      //Handle null values
             return;
         if(this.keywords == null){
             this.keywords = keywords.trim();
@@ -79,8 +104,12 @@ public class Document implements Comparable<Document>{
         }
     }
 
+    /**
+     * Append classifications to teh attribute
+     * @param classification the classifications to be added
+     */
     public void appendClassification(String classification) {
-        if(classification==null)
+        if(classification==null)    //Handle null values
             return;
         if(this.classification == null){
             this.classification = classification.trim();
@@ -89,8 +118,12 @@ public class Document implements Comparable<Document>{
         }
     }
 
+    /**
+     * Add a line of citations to the attribute
+     * @param citations The line that will be added
+     */
     public void appendCitations(String citations) {
-        if(citations==null)
+        if(citations==null)     //Handle null values
             return;
         if(this.citations == null){
             this.citations = citations.trim();
@@ -100,6 +133,9 @@ public class Document implements Comparable<Document>{
         }
     }
 
+    /****************
+     *  Getters     *
+     ****************/
     public void setSimilarity(double similarity) {
         this.similarity = similarity;
     }
@@ -140,6 +176,11 @@ public class Document implements Comparable<Document>{
         return similarity;
     }
 
+    /**
+     * Count the terms contained in the document, and add those terms to a global list of terms
+     * @param documentWordOccurrence The global HashMap of terms
+     * @return The HashMap containing the terms and their TF
+     */
     public HashMap<String, Integer> countWords(HashMap<String, Integer> documentWordOccurrence){
         String text;
         if(abstractText!=null)
@@ -175,6 +216,11 @@ public class Document implements Comparable<Document>{
         return wordCountLocal;
     }
 
+    /**
+     * Compare two Documents
+     * @param o The document to compare to
+     * @return 0 if they are equal, -1 if this document is smaller, 1 if its bigger in similarity
+     */
     @Override
     public int compareTo(Document o) {
         if(this.similarity == o.similarity)

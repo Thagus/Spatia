@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 /**
  * Created by Thagus on 02/09/16.
+ * Purpose: A singleton class for creating a connection to the database or creating the database if non existent
  */
 public class ModelDatabase {
     private static ModelDatabase uniqueInstance;
@@ -26,6 +27,7 @@ public class ModelDatabase {
             con = DriverManager.getConnection("jdbc:h2:./database/spatia", "spatia", "hi");
             st = con.createStatement();
 
+            //Create the schema and tables if they don't already exists
             //clearDB();
             createSchema();
             createTables();
@@ -40,6 +42,10 @@ public class ModelDatabase {
         }
     }
 
+    /**
+     * Singleton instancing
+     * @return The single instance of the class
+     */
     public static synchronized ModelDatabase instance(){
         if (uniqueInstance==null) {
             try {
@@ -54,6 +60,9 @@ public class ModelDatabase {
         }
     }
 
+    /**
+     * Create the operations objects to handle requests
+     */
     private void createOperations(){
         try {
             opModel = new ModelOperations(con, this);
@@ -65,15 +74,21 @@ public class ModelDatabase {
         }
     }
 
+    /**
+     * Create database schema
+     */
     private void createSchema(){
         try {
             st.execute("CREATE SCHEMA SPATIA");
         } catch (SQLException e) {
-            System.out.println("Error creating schema:");
-            e.printStackTrace();
+            //System.out.println("Error creating schema:");
+            //e.printStackTrace();
         }
     }
 
+    /**
+     * Create database tables
+     */
     private void createTables(){
         //Create Documents table
         try {
@@ -90,8 +105,8 @@ public class ModelDatabase {
                     "PRIMARY KEY (idDoc)" +
                     ")");
         } catch (SQLException e) {
-            System.out.println("Error creating DOCUMENT table:");
-            e.printStackTrace();
+            //System.out.println("Error creating DOCUMENT table:");
+            //e.printStackTrace();
         }
 
         //Create Terms table
@@ -105,8 +120,8 @@ public class ModelDatabase {
                     "PRIMARY KEY (idDoc,term)" +
                     ")");
         } catch (SQLException e) {
-            System.out.println("Error creating TERMS table:");
-            e.printStackTrace();
+            //System.out.println("Error creating TERMS table:");
+            //e.printStackTrace();
         }
 
         //Create IDF table
@@ -118,23 +133,30 @@ public class ModelDatabase {
                     "PRIMARY KEY (term)" +
                     ")");
         } catch (SQLException e) {
-            System.out.println("Error creating IDF table:");
-            e.printStackTrace();
+            //System.out.println("Error creating IDF table:");
+            //e.printStackTrace();
         }
     }
 
+    /**
+     * Delete the database tables
+     */
     public void clearDB(){
         try {
             st.execute("DROP TABLE SPATIA.DOCUMENT");
             st.execute("DROP TABLE SPATIA.TERMS");
             st.execute("DROP TABLE SPATIA.IDF");
         } catch (SQLException e) {
-            System.out.println("Error cleaning DB:");
-            e.printStackTrace();
+            //System.out.println("Error cleaning DB:");
+            //e.printStackTrace();
         }
     }
 
-    public void close(){
-
+    /**
+     * Close the connection to the database
+     */
+    public void close() throws SQLException {
+        st.close();
+        con.close();
     }
 }

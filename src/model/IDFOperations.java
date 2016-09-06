@@ -11,15 +11,23 @@ import java.sql.SQLException;
  */
 public class IDFOperations {
     private PreparedStatement stAddTermIDF;
-    private PreparedStatement stUpdateIDF;
     private PreparedStatement stGetTermIDF;
+    private PreparedStatement stGetNumDocs;
+    private PreparedStatement stUpdateIDF;
 
     protected IDFOperations(Connection connection) throws SQLException{
         stAddTermIDF = connection.prepareStatement("INSERT INTO SPATIA.IDF(term,numDocs,idf) VALUES(?,?,?)");
-        stUpdateIDF = connection.prepareStatement("UPDATE SPATIA.IDF SET idf=? WHERE term=?");
         stGetTermIDF = connection.prepareStatement("SELECT idf FROM SPATIA.IDF WHERE term=?");
+        stGetNumDocs = connection.prepareStatement("SELECT numDocs FROM SPATIA.IDF WHERE term=?");
+        stUpdateIDF = connection.prepareStatement("UPDATE SPATIA.IDF SET numDocs=?, idf=? WHERE term=?");
     }
 
+    /**
+     * Add a Term to the database
+     * @param term The term to be added
+     * @param numDocs The number of documents containing the term
+     * @param idf The IDF value of the term
+     */
     public void addTermIDF(String term, int numDocs, double idf){
         try {
             stAddTermIDF.clearParameters();
@@ -40,28 +48,55 @@ public class IDFOperations {
         }
     }
 
-    public void updateIDF(String term, double idf){
-        try {
-            stGetTermIDF.clearParameters();
-            stGetTermIDF.setDouble(1, idf);
-            stGetTermIDF.setString(2, term);
+    /**
+     * Update the numDocs and IDF of a term
+     * @param term The term that will be updated
+     * @param numDocs The new numDocs value
+     * @param idf The new IDF value
+     */
+    public void updateIDF(String term, int numDocs, double idf){
+        try{
+            stUpdateIDF.clearParameters();
+            stUpdateIDF.setInt(1, numDocs);
+            stUpdateIDF.setDouble(2, idf);
+            stUpdateIDF.setString(3, term);
 
-            stGetTermIDF.executeUpdate();
-        }catch (SQLException e){
-            //Unhandled error
+            stUpdateIDF.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString(), "Error adding term to IDF", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public void updateNumDocs(String term, int numDocs){
-        //Get current numDocs, if null assume 0
+    /**
+     * Get the numDocs of a term
+     * @param term The term
+     * @return The numDOcs of teh term
+     */
+    public int getNumDocs(String term){
+        try {
+            stGetNumDocs.clearParameters();
+            stGetNumDocs.setString(1, term);
 
-        //Add the current amount and the new amount
+            ResultSet rs = stGetNumDocs.executeQuery();
 
-        //Recalculate idf, and call updateIDF
+            while(rs.next()){
+                return rs.getInt(1);
+            }
+
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString(), "Error adding term to IDF", JOptionPane.ERROR_MESSAGE);
+        }
+        return -1;
     }
 
+    /**
+     * Get the IDF of a term
+     * @param term The term
+     * @return The IDF of the term
+     */
     public double getTermIDF(String term){
         try {
             stGetTermIDF.clearParameters();

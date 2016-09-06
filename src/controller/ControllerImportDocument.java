@@ -7,8 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.ModelDatabase;
-
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,6 +25,11 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
         this.window = window;
         this.db = ModelDatabase.instance();
     }
+
+    /**
+     * Handle the Import document option from the menu by opening a FileChooser,
+     * and passing the selected file to the readFile method
+     */
     @Override
     public void handle(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -36,6 +40,13 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
         }
     }
 
+    /**
+     * Reads the input file following the CACM collection document structure
+     * and creates Document objects to store the data related to each document from teh collection
+     * Finally calls the feedDatabase method with the constructed array of Documents
+     *
+     * @param file The file that will be read
+     */
     private void readFile(File file){
         //Read file and feed database
         try (Stream<String> stream = Files.lines(file.toPath())) {
@@ -104,11 +115,13 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
                     }
                 }
             });
+            //A message to alert the user about the number of read documents
             Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Read " + documents.size() + " documents");
             countInfo.setTitle("Successful reading!");
             countInfo.setHeaderText(null);
             countInfo.showAndWait();
 
+            //Call to feed database with new documents
             feedDatabase(documents);
         } catch (IOException e) {
             System.out.println("Error reading file:");
@@ -116,6 +129,14 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
         }
     }
 
+    /**
+     * Counts the words on each document in order to calculate the TF of each term in the document
+     * Adds the documents and its terms to the database
+     * Requests the calculation of IDF
+     * Requests the calculation of TFIDF
+     *
+     * @param documents The array of documents read
+     */
     private void feedDatabase(ArrayList<Document> documents){
         HashMap<String, Integer> documentWordOccurrence = new HashMap<>();
         HashMap<String, Integer> wordCountLocal;
@@ -126,38 +147,51 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
         for(Document doc : documents){
             boolean insertCheck = db.opDocuments.addDocument(doc.getIdDoc(), doc.getTitle(), doc.getJournal(), doc.getLibraryNotes(), doc.getAuthors(), doc.getAbstractText(), doc.getKeywords(), doc.getClassification(), doc.getCitations());
 
+            //The document was correctly added if there is no duplicate key
             if(insertCheck) {
-                documentCount++;
-                wordCountLocal = doc.countWords(documentWordOccurrence);
-                for(Map.Entry<String, Integer> termEntry : wordCountLocal.entrySet()){
-                    //Write tf
+                documentCount++;    //Increase successful document insert count
+                wordCountLocal = doc.countWords(documentWordOccurrence);    //Request the count of words for the inserted document
+                for(Map.Entry<String, Integer> termEntry : wordCountLocal.entrySet()){      //For each term obtained from the document (Key String is the term, Value Integer is the TF)
+                    //Write the term, with the document id and the TF
                     db.opTerm.addTerm(doc.getIdDoc(), termEntry.getKey(), termEntry.getValue());
                 }
             }
-
         }
+
+        int numTotalDocs = db.opDocuments.countDocuments();
 
         //Calculate IDF
-        for(Map.Entry<String, Integer> entry : documentWordOccurrence.entrySet()){
-            db.opIDF.addTermIDF(entry.getKey(), entry.getValue(), Math.log10((double)documentCount/(double)entry.getValue()));
+        for(Map.Entry<String, Integer> entry : documentWordOccurrence.entrySet()){      //For each term, request the calculation of the IDF, considering numTotalDocs
+            db.opModel.calculateIDF(entry.getKey(), numTotalDocs, entry.getValue());
         }
 
-        //Calculate TFIDF
+        //Request the calculation of every term TFIDF
         db.opModel.calculateTFIDFs();
 
+        //Message to alert the user of the total amount of successfully added documents
         Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Successfully added " + documentCount + " documents");
         countInfo.setTitle("Successful index!");
         countInfo.setHeaderText(null);
         countInfo.showAndWait();
     }
 
-
+    /**
+     * An utility method to set all elements of a boolean array to false
+     *
+     * @param array The array that will be set to false
+     */
     private void setAllFalse(boolean[] array){
         for(int i=0; i<array.length; i++){
             array[i] = false;
         }
     }
 
+    /**
+     * An utility method to get the index of the first true value from a boolean array
+     *
+     * @param array The input array of booleans
+     * @return The index of the first true boolean in the array
+     */
     private int getTrueValueIndex(boolean[] array){
         for(int i=0; i<array.length; i++){
             if(array[i]){

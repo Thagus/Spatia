@@ -3,9 +3,6 @@ package view;
 import controller.ControllerImportDocument;
 import dataObjects.Document;
 import dataObjects.DocumentTerm;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -14,15 +11,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import model.ModelDatabase;
 import utilities.Tokenizer;
-
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.sql.Date;
 
 /**
@@ -51,6 +46,10 @@ public class View {
         window.show();
     }
 
+    /**
+     * Create the menu bar
+     * @param layout The layout that will contain the menu
+     */
     private void createMenus(VBox layout){
         MenuBar menuBar = new MenuBar();
 
@@ -76,6 +75,13 @@ public class View {
     }
 
     //Spatia v0.00 fuctionality
+
+    /**
+     * Functionality for Spatia v0.00
+     * Create the search bar, search button, results table, and IDF label
+     *
+     * @param layout The layout that will contain the search components
+     */
     private void createTermSearch(VBox layout){
         HBox searchLayout = new HBox();
         searchLayout.setSpacing(10);

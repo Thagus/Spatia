@@ -32,6 +32,13 @@ public class ModelOperations {
         stGetDocumentTerm = connection.prepareStatement("SELECT d.idDoc, d.title, d.journal, t.tf, t.tfidf FROM SPATIA.DOCUMENT d NATURAL JOIN SPATIA.TERMS t WHERE t.term=?");
     }
 
+    /**
+     * A method to calculate tfidf from query and calculate similarity against documents,
+     * in order to get the documents sorted by relevance
+     *
+     * @param query The input query from the user
+     * @return An ArrayList of Documents sorted by their similarity to the query
+     */
     public ArrayList<Document> evaluateQuery(String query){
         String[] splited = Tokenizer.tokenizeString(query);
 
@@ -60,14 +67,6 @@ public class ModelOperations {
             //Get documents that contain terms from query
             ArrayList<Term> docTerms = db.opTerm.getDocumentsContainingTerm(entry.getKey());
             for(Term t : docTerms){
-                /*
-                if(documentTerms.containsKey(t.getIdDoc())){
-                    documentTerms.get(t.getIdDoc()).add(t);
-                } else{
-                    ArrayList<Term> newArr = new ArrayList<>();
-                    newArr.add(t);
-                    documentTerms.put(t.getIdDoc(), newArr);
-                }*/
                 documentTerms.putIfAbsent(t.getIdDoc(), new ArrayList<Term>());  //If there is no entry for IdDoc, put a new entry
                 t.setSimilarity(t.getTfidf()*tfidfQuery);                       //Calculate term similarity to query term
                 documentTerms.get(t.getIdDoc()).add(t);                          //Put the current Term in their corresponding ArrayList in the HashMap
@@ -90,6 +89,13 @@ public class ModelOperations {
         return searchResult;
     }
 
+    /**
+     *  Search for the documents that contain a term and obtain the document along side the TF and IDF from
+     *  the term in that document as DocumentTerm objects
+     *
+     * @param term The term that will be searched for
+     * @return An ObservableList containing the DocumentTerms objects of the Documents containing the term and the TF and IDF from that term in the document
+     */
     public ObservableList<DocumentTerm> termSearch(String term){
         ObservableList<DocumentTerm> searchResult = FXCollections.observableArrayList();
 
@@ -117,7 +123,9 @@ public class ModelOperations {
         return searchResult;
     }
 
-
+    /**
+     * Execute the query to calculate all the TFIDFs from the TERMS table in the database
+     */
     public void calculateTFIDFs(){
         try{
             stCalculateTFIDF.executeUpdate();
@@ -125,6 +133,28 @@ public class ModelOperations {
             //Unhandled error
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString(), "Error adding term to IDF", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Calculate the IDF for the given term
+     *
+     * @param term The term that we want to calculate the IDF
+     * @param numTotalDocs The total number of documents in the database
+     * @param newNumDocs The number of occurrences of the term in tha newly added documents
+     */
+    public void calculateIDF(String term, int numTotalDocs, int newNumDocs){
+        //Get the current numDocs of the term, in case that the term exists
+        int currNumDocs = db.opIDF.getNumDocs(term);
+
+        if(currNumDocs==-1){    //The term hasn't been indexed, therefore there aren't documents containing the term
+            double idf = Math.log10((double)numTotalDocs/(double)newNumDocs);
+            db.opIDF.addTermIDF(term, newNumDocs, idf);
+        }
+        else{                   //The term has been indexed, therefore we have a currNumDocs
+            int numDocs = currNumDocs + newNumDocs;
+            double idf = Math.log10((double)numTotalDocs/(double)numDocs);
+            db.opIDF.updateIDF(term, numDocs, idf);     //Update the value
         }
     }
 }
