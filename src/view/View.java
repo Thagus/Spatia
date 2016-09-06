@@ -1,8 +1,10 @@
 package view;
 
 import controller.ControllerImportDocument;
+import controller.ControllerTermSearch;
 import dataObjects.Document;
 import dataObjects.DocumentTerm;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -10,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
@@ -128,14 +131,14 @@ public class View {
         journalCol.setCellValueFactory(new PropertyValueFactory<>("journal"));
         journalCol.setMinWidth(150);
 
-        TableColumn<DocumentTerm, Date> tfCol = new TableColumn<>("TF");
+        TableColumn<DocumentTerm, Integer> tfCol = new TableColumn<>("TF");
         tfCol.setCellValueFactory(new PropertyValueFactory<>("tf"));
         tfCol.setMinWidth(45);
         tfCol.setPrefWidth(45);
         tfCol.setStyle("-fx-alignment: CENTER;");
         tfCol.setSortType(TableColumn.SortType.DESCENDING);
 
-        TableColumn<DocumentTerm, Date> tfidfCol = new TableColumn<>("TFIDF");
+        TableColumn<DocumentTerm, Double> tfidfCol = new TableColumn<>("TFIDF");
         tfidfCol.setCellValueFactory(new PropertyValueFactory<>("tfidf"));
         tfidfCol.setMinWidth(125);
         tfidfCol.setStyle("-fx-alignment: CENTER;");
@@ -146,84 +149,20 @@ public class View {
         /***********************************************************
          *       Set on action                                     *
          ***********************************************************/
-        //Handle Enter on searchBox to start search
+        ControllerTermSearch controllerTermSearch = new ControllerTermSearch();
+
+        //Handle Enter on searchBox to start search, through ControllerTermSearch
         searchBox.setOnKeyPressed(event -> {
             if(event.getCode().equals(KeyCode.ENTER)){
-                //Tokenize string, and get first word
-                String[] terms = Tokenizer.tokenizeString(searchBox.getText());
-                String term = "";
-
-                for(String t : terms){
-                    if(t.length()>=3){  //Filter terms that have less than 2 characters
-                        term = t;
-                        break;
-                    }
-                }
-
-                if(term.length()>2){
-                    tableTerms.setItems( ModelDatabase.instance().opModel.termSearch(term));
-                    tableTerms.getSortOrder().setAll(tfCol);
-                    tableTerms.sort();
-                    tfidfLabel.setText("IDF: " + ModelDatabase.instance().opIDF.getTermIDF(term));
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "The given term is too short!", "Error!", JOptionPane.ERROR_MESSAGE);
-                }
+                controllerTermSearch.handleSearch(tableTerms, tfidfLabel, tfCol, searchBox);
             }
         });
 
-        //Handle button press to start search
-        searchButton.setOnAction(event -> {
-            //Tokenize string, and get first word
-            String[] terms = Tokenizer.tokenizeString(searchBox.getText());
-            String term = "";
+        //Handle button press to start search, through ControllerTermSearch
+        searchButton.setOnAction(event -> controllerTermSearch.handleSearch(tableTerms, tfidfLabel, tfCol, searchBox));
 
-            for(String t : terms){
-                if(t.length()>=3){  //Filter terms
-                    term = t;
-                    break;
-                }
-            }
-
-            if(term.length()>2){
-                tableTerms.setItems( ModelDatabase.instance().opModel.termSearch(term));
-                tableTerms.getSortOrder().setAll(tfCol);
-                tableTerms.sort();
-                tfidfLabel.setText("IDF: " + ModelDatabase.instance().opIDF.getTermIDF(term));
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "The given term is too short!", "Error!", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-
-        //Handle click on a row to open Document view
-        tableTerms.setOnMouseClicked(event -> {
-            //Single click on row with primary button
-            if(event.getClickCount() == 1 && event.getButton()== MouseButton.PRIMARY){
-                Node node = ((Node) event.getTarget()).getParent();
-                TableRow row;
-                if (node instanceof TableRow) {
-                    row = (TableRow) node;
-
-                    //Extract DocumentTerm
-                    DocumentTerm documentTerm = (DocumentTerm) row.getItem();
-                    //Get Document
-                    Document document = ModelDatabase.instance().opDocuments.getDocument(documentTerm.getIdDoc());
-                    //Create document view
-                    new DocumentView(document);
-                } else if (node.getParent() instanceof TableRow){
-                    //clicking on text part
-                    row = (TableRow) node.getParent();
-
-                    //Extract DocumentTerm
-                    DocumentTerm documentTerm = (DocumentTerm) row.getItem();
-                    //Get Document
-                    Document document = ModelDatabase.instance().opDocuments.getDocument(documentTerm.getIdDoc());
-                    //Create document view
-                    new DocumentView(document);
-                }
-            }
-        });
+        //Handle click on a row to open Document view, through ControllerSearchTerm
+        tableTerms.setOnMouseClicked(controllerTermSearch::handleTableClick);
 
         /***********************************************************
          *       Add to layouts                                    *
