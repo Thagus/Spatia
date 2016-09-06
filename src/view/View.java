@@ -34,10 +34,11 @@ public class View {
     public void start(Stage window) {
         window.setTitle("Spatia v0.00");
 
-        BorderPane layout = new BorderPane();
-        layout.setPadding(new Insets(10, 7, 5, 7));
+        VBox layout = new VBox();
+        layout.setSpacing(5);
+        //layout.setPadding(new Insets(10, 7, 5, 7));
 
-        Scene scene = new Scene(layout, 1280, 720);
+        Scene scene = new Scene(layout, 1200, 720);
 
         //Create controllers
         controllerImportDocument = new ControllerImportDocument(window);
@@ -50,7 +51,7 @@ public class View {
         window.show();
     }
 
-    private void createMenus(BorderPane layout){
+    private void createMenus(VBox layout){
         MenuBar menuBar = new MenuBar();
 
         //File menu
@@ -62,7 +63,7 @@ public class View {
 
 
         menuBar.getMenus().addAll(menuFile);
-        layout.setTop(menuBar);
+        layout.getChildren().add(menuBar);
 
     }
 
@@ -74,11 +75,11 @@ public class View {
 
     }
 
-    //Spatia v0.00
-    private void createTermSearch(BorderPane layout){
+    //Spatia v0.00 fuctionality
+    private void createTermSearch(VBox layout){
         HBox topMenu = new HBox();
         topMenu.setSpacing(10);
-        BorderPane.setMargin(topMenu, new Insets(10, 5, 10, 5));
+        VBox.setMargin(topMenu, new Insets(10, 5, 10, 5));
 
 
         //BorderStrokeStyle boderStyle = new BorderStrokeStyle(StrokeType.INSIDE, StrokeLineJoin.MITER, StrokeLineCap.BUTT, 10, 0, null);
@@ -98,6 +99,7 @@ public class View {
 
         Separator separator = new Separator();
         separator.setPadding(new Insets(0, 10, 0, 10));
+        separator.setVisible(false);
 
         Label tfidfLabel = new Label();
         tfidfLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -106,6 +108,8 @@ public class View {
 
         TableView<DocumentTerm> tableTerms = new TableView<>();
         tableTerms.setEditable(false);
+        VBox.setMargin(tableTerms, new Insets(0, 5, 5, 5));
+        VBox.setVgrow(tableTerms, Priority.ALWAYS);
 
         TableColumn<DocumentTerm, Integer> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("idDoc"));
@@ -115,7 +119,7 @@ public class View {
 
         TableColumn<DocumentTerm, String> titleCol = new TableColumn<>("Title");
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-        titleCol.setMinWidth(400);
+        titleCol.setMinWidth(500);
 
         TableColumn<DocumentTerm, String> journalCol = new TableColumn<>("Journal");
         journalCol.setCellValueFactory(new PropertyValueFactory<>("journal"));
@@ -186,24 +190,6 @@ public class View {
             }
         });
 
-        /*tableTerms.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-                    Node node = ((Node) event.getTarget()).getParent();
-                    TableRow row;
-                    if (node instanceof TableRow) {
-                        row = (TableRow) node;
-                    } else {
-                        // clicking on text part
-                        row = (TableRow) node.getParent();
-                    }
-                    DocumentTerm documentTerm = (DocumentTerm) row.getItem();
-                    System.out.println(documentTerm.getTitle());
-                }
-            }
-        });*/
-
         tableTerms.setOnMouseClicked(event -> {
             //Single click on row with primary button
             if(event.getClickCount() == 1 && event.getButton()== MouseButton.PRIMARY){
@@ -232,11 +218,9 @@ public class View {
             }
         });
 
-
         //Add to layouts
         topMenu.getChildren().addAll(searchBox, searchButton, separator, tfidfLabel);
 
-        layout.setTop(topMenu);
-        layout.setCenter(tableTerms);
+        layout.getChildren().addAll(topMenu, tableTerms);
     }
 }
