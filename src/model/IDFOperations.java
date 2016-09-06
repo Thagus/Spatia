@@ -22,7 +22,6 @@ public class IDFOperations {
 
     public void addTermIDF(String term, int numDocs, double idf){
         try {
-            System.out.println(term + " - " + idf);
             stAddTermIDF.clearParameters();
             stAddTermIDF.setString(1, term);
             stAddTermIDF.setInt(2, numDocs);

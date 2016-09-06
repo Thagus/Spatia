@@ -81,7 +81,7 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
                         case 1:     //Case for .B - Journal name and edition
                             documents.get(documents.size()-1).setJournal(line);
                             break;
-                        case 2:     //Case for .N - library info?
+                        case 2:     //Case for .N - library notes
                             documents.get(documents.size()-1).setLibraryNotes(line);
                             break;
                         case 3:     //Case for .A - Authors

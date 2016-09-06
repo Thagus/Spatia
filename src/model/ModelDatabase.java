@@ -27,8 +27,8 @@ public class ModelDatabase {
             st = con.createStatement();
 
             //clearDB();
-            //createSchema();
-            //createTables();
+            createSchema();
+            createTables();
 
             createOperations();
         } catch (ClassNotFoundException e) {
