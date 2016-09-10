@@ -1,10 +1,9 @@
 package view;
 
 import controller.ControllerImportDocument;
-import controller.ControllerTermSearch;
-import dataObjects.DocumentTerm;
+import controller.ControllerSearch;
+import dataObjects.Document;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,9 +31,10 @@ public class View {
         //Create controllers
         controllerImportDocument = new ControllerImportDocument(window);
 
-        //Create containers v0.00
+        //Create menu bar
         createMenus(layout);
-        createTermSearch(layout);
+        //Create search
+        createSearch(layout);
 
         window.setScene(scene);
         window.show();
@@ -61,23 +61,7 @@ public class View {
 
     }
 
-    private void createSearchBox(){
-
-    }
-
-    private void createSearchResultsContainer(){
-
-    }
-
-    //Spatia v0.00 fuctionality
-
-    /**
-     * Functionality for Spatia v0.00
-     * Create the search bar, search button, results table, and IDF label
-     *
-     * @param layout The layout that will contain the search components
-     */
-    private void createTermSearch(VBox layout){
+    private void createSearch(VBox layout){
         HBox searchLayout = new HBox();
         searchLayout.setSpacing(10);
         VBox.setMargin(searchLayout, new Insets(10, 5, 10, 5));
@@ -90,7 +74,7 @@ public class View {
         searchBox.setMinSize(720, 40);
         searchBox.setMaxSize(720, 45);
 
-        Button searchButton = new Button("Search term");
+        Button searchButton = new Button("Search");
         searchButton.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         searchButton.setMinSize(10, 45);
 
@@ -98,70 +82,61 @@ public class View {
         separator.setPadding(new Insets(0, 10, 0, 10));
         separator.setVisible(false);
 
-        Label tfidfLabel = new Label();
-        tfidfLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        tfidfLabel.setAlignment(Pos.CENTER_RIGHT);
-
 
         //TableView for displaying document results
-        TableView<DocumentTerm> tableTerms = new TableView<>();
-        tableTerms.setEditable(false);
-        VBox.setMargin(tableTerms, new Insets(0, 5, 5, 5));
-        VBox.setVgrow(tableTerms, Priority.ALWAYS);         //Resize table to fit window
+        TableView<Document> tableDocuments = new TableView<>();
+        tableDocuments.setEditable(false);
+        VBox.setMargin(tableDocuments, new Insets(0, 5, 5, 5));
+        VBox.setVgrow(tableDocuments, Priority.ALWAYS);         //Resize table to fit window
 
-        TableColumn<DocumentTerm, Integer> idCol = new TableColumn<>("ID");
+        TableColumn<Document, Integer> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("idDoc"));
         idCol.setMinWidth(45);
         idCol.setPrefWidth(45);
         idCol.setStyle("-fx-alignment: CENTER;");       //Center values from column
 
-        TableColumn<DocumentTerm, String> titleCol = new TableColumn<>("Title");
+        TableColumn<Document, String> titleCol = new TableColumn<>("Title");
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         titleCol.setMinWidth(500);
 
-        TableColumn<DocumentTerm, String> journalCol = new TableColumn<>("Journal");
+        TableColumn<Document, String> journalCol = new TableColumn<>("Journal");
         journalCol.setCellValueFactory(new PropertyValueFactory<>("journal"));
         journalCol.setMinWidth(150);
 
-        TableColumn<DocumentTerm, Integer> tfCol = new TableColumn<>("TF");
-        tfCol.setCellValueFactory(new PropertyValueFactory<>("tf"));
-        tfCol.setMinWidth(45);
+        TableColumn<Document, Integer> tfCol = new TableColumn<>("Similarity");
+        tfCol.setCellValueFactory(new PropertyValueFactory<>("similarity"));
+        tfCol.setMinWidth(125);
         tfCol.setPrefWidth(45);
         tfCol.setStyle("-fx-alignment: CENTER;");
         tfCol.setSortType(TableColumn.SortType.DESCENDING);
 
-        TableColumn<DocumentTerm, Double> tfidfCol = new TableColumn<>("TFIDF");
-        tfidfCol.setCellValueFactory(new PropertyValueFactory<>("tfidf"));
-        tfidfCol.setMinWidth(125);
-        tfidfCol.setStyle("-fx-alignment: CENTER;");
-
-        tableTerms.getColumns().addAll(idCol, titleCol, journalCol, tfCol, tfidfCol);
+        tableDocuments.getColumns().addAll(idCol, titleCol, journalCol, tfCol);
 
 
         /***********************************************************
          *       Set on action                                     *
          ***********************************************************/
-        ControllerTermSearch controllerTermSearch = new ControllerTermSearch();
+        ControllerSearch controllerSearch = new ControllerSearch();
 
         //Handle Enter on searchBox to start search, through ControllerTermSearch
         searchBox.setOnKeyPressed(event -> {
             if(event.getCode().equals(KeyCode.ENTER)){
-                controllerTermSearch.handleSearch(tableTerms, tfidfLabel, tfCol, searchBox);
+                controllerSearch.handleSearch(tableDocuments, searchBox);
             }
         });
 
         //Handle button press to start search, through ControllerTermSearch
-        searchButton.setOnAction(event -> controllerTermSearch.handleSearch(tableTerms, tfidfLabel, tfCol, searchBox));
+        searchButton.setOnAction(event -> controllerSearch.handleSearch(tableDocuments, searchBox));
 
         //Handle click on a row to open Document view, through ControllerSearchTerm
-        tableTerms.setOnMouseClicked(controllerTermSearch::handleTableClick);
+        tableDocuments.setOnMouseClicked(controllerSearch::handleTableClick);
 
         /***********************************************************
          *       Add to layouts                                    *
          ***********************************************************/
         //Add elements to search bar layout
-        searchLayout.getChildren().addAll(searchBox, searchButton, separator, tfidfLabel);
+        searchLayout.getChildren().addAll(searchBox, searchButton);
         //Add elements to global layout
-        layout.getChildren().addAll(searchLayout, tableTerms);
+        layout.getChildren().addAll(searchLayout, tableDocuments);
     }
 }

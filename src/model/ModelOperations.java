@@ -1,16 +1,14 @@
 package model;
 
 import dataObjects.Document;
-import dataObjects.DocumentTerm;
 import dataObjects.Term;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import utilities.Tokenizer;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,12 +22,10 @@ public class ModelOperations {
     private ModelDatabase db;
 
     private PreparedStatement stCalculateTFIDF;
-    private PreparedStatement stGetDocumentTerm;
 
     protected ModelOperations(Connection connection, ModelDatabase db) throws SQLException{
         this.db = db;
         stCalculateTFIDF = connection.prepareStatement("UPDATE SPATIA.TERMS a SET a.tfidf=(SELECT b.idf*a.tf FROM SPATIA.IDF b WHERE a.term=b.term)");
-        stGetDocumentTerm = connection.prepareStatement("SELECT d.idDoc, d.title, d.journal, t.tf, t.tfidf FROM SPATIA.DOCUMENT d NATURAL JOIN SPATIA.TERMS t WHERE t.term=?");
     }
 
     /**
@@ -39,18 +35,14 @@ public class ModelOperations {
      * @param query The input query from the user
      * @return An ArrayList of Documents sorted by their similarity to the query
      */
-    public ArrayList<Document> evaluateQuery(String query){
-        String[] splited = Tokenizer.tokenizeString(query);
+    public ObservableList<Document> evaluateQuery(String query){
+        ArrayList<String> splited = Tokenizer.tokenizeString(query);
 
-        HashMap<String, Integer> wordCount = new HashMap<>();
-        HashMap<String, Double> wordTFIDF = new HashMap<>();
-        HashMap<Integer, ArrayList<Term>> documentTerms = new HashMap<>();
-        ArrayList<Document> searchResult = new ArrayList<>();
+        HashMap<String, Integer> wordCount = new HashMap<>();               //Counter for word occurrence in the query
+        HashMap<Integer, ArrayList<Term>> documentTerms = new HashMap<>();  //Holds the document id of those who have terms of the query, and an array of those terms with their similarity
+        ObservableList<Document> searchResult = FXCollections.observableArrayList();
 
         for(String word : splited){
-            if(word.length()<=2)    //Filter void(0) words, and those with length 1 or 2
-                continue;
-
             //Local count
             Integer count = wordCount.get(word);
             if(count==null){
@@ -62,7 +54,6 @@ public class ModelOperations {
         //Calculate tfidf for query
         for(Map.Entry<String, Integer> entry : wordCount.entrySet()){
             double tfidfQuery = entry.getValue()*db.opIDF.getTermIDF(entry.getKey());
-            wordTFIDF.put(entry.getKey(), tfidfQuery);
 
             //Get documents that contain terms from query
             ArrayList<Term> docTerms = db.opTerm.getDocumentsContainingTerm(entry.getKey());
@@ -76,50 +67,23 @@ public class ModelOperations {
         //Calculate similarity for documents
         for(Map.Entry<Integer, ArrayList<Term>> entry : documentTerms.entrySet()){
             //Get document object by idDoc
-
+            Document document = db.opDocuments.getDocument(entry.getKey());
             //Calculate similarity by getting the current and adding the new one
-
+            double similarity = 0;
             //Put it on the ArrayList
+            for(Term term : entry.getValue()){
+                similarity += term.getSimilarity();
+            }
+
+            document.setSimilarity(similarity);
+
+            searchResult.add(document);
         }
 
         //Sort the ArrayList
-        Collections.sort(searchResult);
+        Collections.sort(searchResult, Collections.reverseOrder());
 
         //Return
-        return searchResult;
-    }
-
-    /**
-     *  Search for the documents that contain a term and obtain the document along side the TF and IDF from
-     *  the term in that document as DocumentTerm objects
-     *
-     * @param term The term that will be searched for
-     * @return An ObservableList containing the DocumentTerms objects of the Documents containing the term and the TF and IDF from that term in the document
-     */
-    public ObservableList<DocumentTerm> termSearch(String term){
-        ObservableList<DocumentTerm> searchResult = FXCollections.observableArrayList();
-
-        //Natural join between Term and idf and document, filter by term
-        try {
-            stGetDocumentTerm.clearParameters();
-            stGetDocumentTerm.setString(1, term);
-
-            ResultSet rs = stGetDocumentTerm.executeQuery();
-            boolean check = false;
-
-            while (rs.next()){
-                check = true;
-                searchResult.add(new DocumentTerm(rs.getInt("idDoc"), rs.getString("title"), rs.getString("journal"), rs.getInt("tf"), rs.getDouble("tfidf")));
-            }
-
-            if(!check){
-                JOptionPane.showMessageDialog(null,"There are no documents that join the term: \"" + term + "\"", "Alert!", JOptionPane.ERROR_MESSAGE);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString(), "Error getting document and term", JOptionPane.ERROR_MESSAGE);
-        }
         return searchResult;
     }
 
