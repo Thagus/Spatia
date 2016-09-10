@@ -61,6 +61,10 @@ public class View {
 
     }
 
+    /**
+     * Create the search box, search button, and table for search results
+     * @param layout main layout to place the created containers
+     */
     private void createSearch(VBox layout){
         HBox searchLayout = new HBox();
         searchLayout.setSpacing(10);
@@ -103,14 +107,11 @@ public class View {
         journalCol.setCellValueFactory(new PropertyValueFactory<>("journal"));
         journalCol.setMinWidth(150);
 
-        TableColumn<Document, Integer> tfCol = new TableColumn<>("Similarity");
-        tfCol.setCellValueFactory(new PropertyValueFactory<>("similarity"));
-        tfCol.setMinWidth(125);
-        tfCol.setPrefWidth(45);
-        tfCol.setStyle("-fx-alignment: CENTER;");
-        tfCol.setSortType(TableColumn.SortType.DESCENDING);
+        TableColumn<Document, Integer> simCol = new TableColumn<>("Similarity");
+        simCol.setCellValueFactory(new PropertyValueFactory<>("similarity"));
+        simCol.setMinWidth(125);
 
-        tableDocuments.getColumns().addAll(idCol, titleCol, journalCol, tfCol);
+        tableDocuments.getColumns().addAll(idCol, titleCol, journalCol, simCol);
 
 
         /***********************************************************

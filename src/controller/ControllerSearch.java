@@ -14,6 +14,11 @@ import view.DocumentView;
  * Created by Thagus on 10/09/16.
  */
 public class ControllerSearch {
+    /**
+     * Handle the search from View
+     * @param tableDocuments the table to update with the search results
+     * @param searchBox The textField containing the search text
+     */
     public void handleSearch(TableView<Document> tableDocuments, TextField searchBox){
         tableDocuments.setItems(ModelDatabase.instance().opModel.evaluateQuery(searchBox.getText()));
     }
