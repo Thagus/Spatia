@@ -1,8 +1,8 @@
 package dataObjects;
 
 import utilities.Tokenizer;
-
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -133,12 +133,13 @@ public class Document implements Comparable<Document>{
         }
     }
 
-    /****************
-     *  Getters     *
-     ****************/
     public void setSimilarity(double similarity) {
         this.similarity = similarity;
     }
+
+    /****************
+     *  Getters     *
+     ****************/
 
     public int getIdDoc() { return idDoc; }
 
@@ -188,14 +189,11 @@ public class Document implements Comparable<Document>{
         else
             text = title;
 
-        String[] splited = Tokenizer.tokenizeString(text);
+        ArrayList<String> splited = Tokenizer.tokenizeString(text);
 
         HashMap<String, Integer> wordCountLocal = new HashMap<>();
 
         for(String word : splited){
-            if(word.length()<=2)    //Filter void(0) words, and those with length 1 or 2
-                continue;
-
             //Local count
             Integer count = wordCountLocal.get(word);
             if(count==null){
