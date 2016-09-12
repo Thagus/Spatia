@@ -4,9 +4,11 @@ import dataObjects.Document;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.MenuItem;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import model.ModelDatabase;
 
 import javax.swing.*;
 import java.io.File;
@@ -29,6 +31,10 @@ public class ControllerTests implements EventHandler<ActionEvent>{
         this.window = window;
     }
 
+    /**
+     * Handles a menu item click from teh view
+     * @param event
+     */
     @Override
     public void handle(ActionEvent event) {
         MenuItem node = (MenuItem) event.getSource();
@@ -48,6 +54,10 @@ public class ControllerTests implements EventHandler<ActionEvent>{
         }
     }
 
+    /**
+     * Imports the tests files (query and qrels)
+     * @param folder The folder containing the files
+     */
     public void importTests(File folder){
         String folderPath = folder.getAbsolutePath();
         //Query documents paths
@@ -106,14 +116,59 @@ public class ControllerTests implements EventHandler<ActionEvent>{
         }
     }
 
+    /**
+     * Obstans the queries to execute and start the tests
+     */
     public void beginTests(){
         //Load queries
+        queries = db.getQueries();
 
+        ModelDatabase mainDatabase = ModelDatabase.instance();
         //Execute them
+        for(QueryObject query : queries){
+            ArrayList<Integer> retrieved = query.getDocumentRetrieved();
+            mainDatabase.opModel.evaluateQuery(query.getQuery()).forEach(i ->
+                    //For each retrieved document, extract its id and store it within the query
+                    retrieved.add(i.getIdDoc())
+            );
 
-        //Evaluate
-
-        //Create charts
+            //Evaluate results and create charts
+            evaluateResults(query);
+        }
     }
 
+    /**
+     * Evaluates the results of a query and creates the corresponding charts
+     * @param query The query to be evaluated
+     */
+    private void evaluateResults(QueryObject query){
+        //Obtain the relevant document ids from the queryID
+        ArrayList<Integer> relevantDocuments = query.getRelevantDocuments();
+        XYChart.Series<Number, Number> precisionSeries = new XYChart.Series<>();
+        precisionSeries.setName("Precision");
+        XYChart.Series<Number, Number> recallSeries = new XYChart.Series<>();
+        recallSeries.setName("Recall");
+
+        int totalRecall = relevantDocuments.size();      //The total number of relevant documents for the query
+        int currentRelevant = 0;//The relevant documents counted so far
+        int totalCounted = 0;   //The total documents counted so far
+
+        //Calculate precision and recall at each point of the retrieved list
+        for(Integer documentID : query.getDocumentRetrieved()){
+            totalCounted++;
+
+            if(relevantDocuments.contains(documentID)){
+                currentRelevant++;
+            }
+
+            float precision = (currentRelevant * 100.0f) / totalCounted;
+            float recall = (currentRelevant * 100.0f) / totalRecall;
+
+            //Add values to the chart
+            precisionSeries.getData().add(new XYChart.Data<>(totalCounted, precision));
+            recallSeries.getData().add(new XYChart.Data<>(totalCounted, recall));
+        }
+
+        query.getLineChart().getData().addAll(recallSeries, precisionSeries);
+    }
 }
