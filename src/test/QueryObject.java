@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by Thagus on 11/09/16.
  */
-public class QueryObject {
+public class QueryObject implements Comparable<QueryObject>{
     private int qid;
     private String query;
     private ArrayList<Integer> relevantDocuments;
@@ -60,5 +60,15 @@ public class QueryObject {
 
     public LineChart<Number, Number> getLineChart() {
         return lineChart;
+    }
+
+    @Override
+    public int compareTo(QueryObject o) {
+        if(this.qid < o.qid)
+            return -1;
+        else if(this.qid > o.qid)
+            return 1;
+        else
+            return 0;
     }
 }
