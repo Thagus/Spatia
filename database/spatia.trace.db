@@ -1,103 +1,4 @@
-2016-09-05 23:45:51 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
-CREATE SCHEMA SPATIA [90078-191]
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
-	at org.h2.message.DbException.get(DbException.java:179)
-	at org.h2.message.DbException.get(DbException.java:155)
-	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
-	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
-	at org.h2.command.Command.executeUpdate(Command.java:258)
-	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
-	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
-	at model.ModelDatabase.createSchema(ModelDatabase.java:86)
-	at model.ModelDatabase.<init>(ModelDatabase.java:32)
-	at model.ModelDatabase.instance(ModelDatabase.java:56)
-	at Main.start(Main.java:24)
-	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
-	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
-	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
-	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
-	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
-	at java.lang.Thread.run(Thread.java:745)
-2016-09-05 23:45:51 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
-CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
-2016-09-05 23:45:51 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
-CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
-2016-09-05 23:45:51 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
-CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
-2016-09-05 23:47:08 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
-CREATE SCHEMA SPATIA [90078-191]
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
-	at org.h2.message.DbException.get(DbException.java:179)
-	at org.h2.message.DbException.get(DbException.java:155)
-	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
-	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
-	at org.h2.command.Command.executeUpdate(Command.java:258)
-	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
-	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
-	at model.ModelDatabase.createSchema(ModelDatabase.java:87)
-	at model.ModelDatabase.<init>(ModelDatabase.java:42)
-	at model.ModelDatabase.instance(ModelDatabase.java:57)
-	at Main.start(Main.java:24)
-	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
-	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
-	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
-	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
-	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
-	at java.lang.Thread.run(Thread.java:745)
-2016-09-05 23:47:08 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
-CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
-2016-09-05 23:47:08 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
-CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
-2016-09-05 23:47:08 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
-CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
-2016-09-05 23:49:16 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
-CREATE SCHEMA SPATIA [90078-191]
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
-	at org.h2.message.DbException.get(DbException.java:179)
-	at org.h2.message.DbException.get(DbException.java:155)
-	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
-	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
-	at org.h2.command.Command.executeUpdate(Command.java:258)
-	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
-	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
-	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
-	at model.ModelDatabase.<init>(ModelDatabase.java:41)
-	at model.ModelDatabase.instance(ModelDatabase.java:52)
-	at Main.start(Main.java:24)
-	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
-	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
-	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
-	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
-	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
-	at java.lang.Thread.run(Thread.java:745)
-2016-09-05 23:49:16 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
-CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
-2016-09-05 23:49:16 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
-CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
-2016-09-05 23:49:16 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
-CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
-2016-09-06 00:03:12 jdbc[3]: exception
+2016-09-08 15:15:24 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
 CREATE SCHEMA SPATIA [90078-191]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
@@ -121,12 +22,2139 @@ CREATE SCHEMA SPATIA [90078-191]
 	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
 	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
 	at java.lang.Thread.run(Thread.java:745)
-2016-09-06 00:03:12 jdbc[3]: exception
+2016-09-08 15:15:24 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
 CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
-2016-09-06 00:03:12 jdbc[3]: exception
+2016-09-08 15:15:24 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
 CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
-2016-09-06 00:03:12 jdbc[3]: exception
+2016-09-08 15:15:24 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
 CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-08 16:55:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at Main.start(Main.java:24)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-08 16:55:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-08 16:55:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-08 16:55:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-08 16:56:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at Main.start(Main.java:24)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-08 16:56:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-08 16:56:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-08 16:56:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-10 09:27:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at Main.start(Main.java:24)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-10 09:27:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-10 09:27:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-10 09:27:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-10 09:29:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at Main.start(Main.java:24)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-10 09:29:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-10 09:29:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-10 09:29:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-10 09:32:09 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at Main.start(Main.java:24)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-10 09:32:09 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-10 09:32:09 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-10 09:32:09 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-10 09:35:36 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at Main.start(Main.java:24)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-10 09:35:36 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-10 09:35:36 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-10 09:35:36 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-10 09:37:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at Main.start(Main.java:24)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-10 09:37:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-10 09:37:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-10 09:37:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-10 10:18:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at Main.start(Main.java:24)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-10 10:18:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-10 10:18:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-10 10:18:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-10 10:20:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at Main.start(Main.java:24)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-10 10:20:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-10 10:20:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-10 10:20:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-10 10:20:48 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at Main.start(Main.java:24)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-10 10:20:48 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-10 10:20:48 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-10 10:20:48 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-10 10:43:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at Main.start(Main.java:24)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-10 10:43:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-10 10:43:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-10 10:43:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-10 23:46:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at Main.start(Main.java:24)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-10 23:46:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-10 23:46:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-10 23:46:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-11 18:34:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at Main.start(Main.java:24)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-11 18:34:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-11 18:34:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-11 18:34:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-11 18:34:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at Main.start(Main.java:24)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-11 18:34:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-11 18:34:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-11 18:34:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-11 19:47:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at Main.start(Main.java:24)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-11 19:47:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-11 19:47:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-11 19:47:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-11 23:50:48 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:131)
+	at test.ControllerTests.handle(ControllerTests.java:57)
+	at test.ControllerTests.handle(ControllerTests.java:25)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-11 23:50:48 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-11 23:50:48 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-11 23:50:48 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-11 23:58:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:131)
+	at test.ControllerTests.handle(ControllerTests.java:57)
+	at test.ControllerTests.handle(ControllerTests.java:25)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-11 23:58:19 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-11 23:58:19 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-11 23:58:19 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 00:01:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:131)
+	at test.ControllerTests.handle(ControllerTests.java:57)
+	at test.ControllerTests.handle(ControllerTests.java:25)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 00:01:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 00:01:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 00:01:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 00:02:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:131)
+	at test.ControllerTests.handle(ControllerTests.java:57)
+	at test.ControllerTests.handle(ControllerTests.java:25)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 00:02:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 00:02:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 00:02:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 00:07:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:131)
+	at test.ControllerTests.handle(ControllerTests.java:57)
+	at test.ControllerTests.handle(ControllerTests.java:25)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 00:07:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 00:07:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 00:07:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 00:15:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:137)
+	at test.ControllerTests.handle(ControllerTests.java:61)
+	at test.ControllerTests.handle(ControllerTests.java:29)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 00:15:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 00:15:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 00:15:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 00:30:07 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:137)
+	at test.ControllerTests.handle(ControllerTests.java:61)
+	at test.ControllerTests.handle(ControllerTests.java:29)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 00:30:07 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 00:30:07 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 00:30:07 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 00:38:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:137)
+	at test.ControllerTests.handle(ControllerTests.java:61)
+	at test.ControllerTests.handle(ControllerTests.java:29)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 00:38:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 00:38:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 00:38:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 00:52:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:137)
+	at test.ControllerTests.handle(ControllerTests.java:61)
+	at test.ControllerTests.handle(ControllerTests.java:29)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 00:52:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 00:52:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 00:52:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 00:54:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:137)
+	at test.ControllerTests.handle(ControllerTests.java:61)
+	at test.ControllerTests.handle(ControllerTests.java:29)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 00:54:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 00:54:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 00:54:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 00:56:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:137)
+	at test.ControllerTests.handle(ControllerTests.java:61)
+	at test.ControllerTests.handle(ControllerTests.java:29)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 00:56:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 00:56:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 00:56:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 00:58:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:137)
+	at test.ControllerTests.handle(ControllerTests.java:61)
+	at test.ControllerTests.handle(ControllerTests.java:29)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 00:58:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 00:58:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 00:58:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 01:02:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:137)
+	at test.ControllerTests.handle(ControllerTests.java:61)
+	at test.ControllerTests.handle(ControllerTests.java:29)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 01:02:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 01:02:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 01:02:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 01:04:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:138)
+	at test.ControllerTests.handle(ControllerTests.java:62)
+	at test.ControllerTests.handle(ControllerTests.java:30)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 01:04:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 01:04:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 01:04:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 01:05:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:138)
+	at test.ControllerTests.handle(ControllerTests.java:62)
+	at test.ControllerTests.handle(ControllerTests.java:30)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 01:05:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 01:05:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 01:05:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 01:07:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:138)
+	at test.ControllerTests.handle(ControllerTests.java:62)
+	at test.ControllerTests.handle(ControllerTests.java:30)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 01:07:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 01:07:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 01:07:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 01:08:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:138)
+	at test.ControllerTests.handle(ControllerTests.java:62)
+	at test.ControllerTests.handle(ControllerTests.java:30)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 01:08:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 01:08:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 01:08:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 01:10:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:138)
+	at test.ControllerTests.handle(ControllerTests.java:62)
+	at test.ControllerTests.handle(ControllerTests.java:30)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 01:10:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 01:10:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 01:10:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 01:10:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:138)
+	at test.ControllerTests.handle(ControllerTests.java:62)
+	at test.ControllerTests.handle(ControllerTests.java:30)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 01:10:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 01:10:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 01:10:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 01:13:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:138)
+	at test.ControllerTests.handle(ControllerTests.java:62)
+	at test.ControllerTests.handle(ControllerTests.java:30)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 01:13:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 01:13:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 01:13:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 01:23:51 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:138)
+	at test.ControllerTests.handle(ControllerTests.java:62)
+	at test.ControllerTests.handle(ControllerTests.java:30)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 01:23:51 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 01:23:51 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 01:23:51 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 01:25:47 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:138)
+	at test.ControllerTests.handle(ControllerTests.java:62)
+	at test.ControllerTests.handle(ControllerTests.java:30)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 01:25:47 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 01:25:47 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 01:25:47 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 01:37:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:138)
+	at test.ControllerTests.handle(ControllerTests.java:62)
+	at test.ControllerTests.handle(ControllerTests.java:30)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 01:37:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-191]
+2016-09-12 01:37:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-191]
+2016-09-12 01:37:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-191]
+2016-09-12 01:47:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Schema "SPATIA" already exists; SQL statement:
+CREATE SCHEMA SPATIA [90078-192]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.ddl.CreateSchema.update(CreateSchema.java:48)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:98)
+	at org.h2.command.Command.executeUpdate(Command.java:258)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:184)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at model.ModelDatabase.createSchema(ModelDatabase.java:82)
+	at model.ModelDatabase.<init>(ModelDatabase.java:32)
+	at model.ModelDatabase.instance(ModelDatabase.java:52)
+	at test.ControllerTests.beginTests(ControllerTests.java:138)
+	at test.ControllerTests.handle(ControllerTests.java:62)
+	at test.ControllerTests.handle(ControllerTests.java:30)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.control.MenuItem.fire(MenuItem.java:462)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.doSelect(ContextMenuContent.java:1405)
+	at com.sun.javafx.scene.control.skin.ContextMenuContent$MenuItemContainer.lambda$createChildren$343(ContextMenuContent.java:1358)
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757)
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:380)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:294)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:416)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:415)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555)
+	at com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+2016-09-12 01:47:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "DOCUMENT" already exists; SQL statement:
+CREATE TABLE SPATIA.DOCUMENT(idDoc INTEGER NOT NULL,title VARCHAR NOT NULL,journal VARCHAR NOT NULL,libraryNotes VARCHAR NOT NULL,authors VARCHAR,abstractText VARCHAR,keyWords VARCHAR,classification VARCHAR,citations VARCHAR,PRIMARY KEY (idDoc)) [42101-192]
+2016-09-12 01:47:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TERMS" already exists; SQL statement:
+CREATE TABLE SPATIA.TERMS(idDoc INTEGER NOT NULL,term VARCHAR NOT NULL,tf INTEGER NOT NULL,tfidf DOUBLE,FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE,PRIMARY KEY (idDoc,term)) [42101-192]
+2016-09-12 01:47:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "IDF" already exists; SQL statement:
+CREATE TABLE SPATIA.IDF(term VARCHAR NOT NULL,numDocs INTEGER NOT NULL,idf DOUBLE NOT NULL,PRIMARY KEY (term)) [42101-192]
