@@ -69,7 +69,7 @@ public class TermOperations {
             }
 
             if(!check){
-                JOptionPane.showMessageDialog(null, "There are no documents containing term: " + term, "Alert!", JOptionPane.ERROR_MESSAGE);
+                System.out.println("There are no documents containing term: " + term);
             }
 
             return docTerms;
@@ -101,7 +101,7 @@ public class TermOperations {
             }
 
             if(!check){
-                JOptionPane.showMessageDialog(null, "There is no document containing term: " + term, "Error!", JOptionPane.ERROR_MESSAGE);
+                System.out.println("There is no document containing term: " + term);
             }
 
             return count;

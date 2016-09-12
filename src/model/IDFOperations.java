@@ -80,7 +80,7 @@ public class IDFOperations {
 
             ResultSet rs = stGetNumDocs.executeQuery();
 
-            while(rs.next()){
+            if(rs.next()){
                 return rs.getInt(1);
             }
 
@@ -112,7 +112,7 @@ public class IDFOperations {
             }
 
             if(!check){
-                JOptionPane.showMessageDialog(null, "There is no IDF for term: " + term, "Error!", JOptionPane.ERROR_MESSAGE);
+                System.out.println("There is no IDF for term: " + term);
             }
 
             return idf;
