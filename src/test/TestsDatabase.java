@@ -102,7 +102,7 @@ public class TestsDatabase {
         }
     }
 
-    public ArrayList<QueryObject> setStGetQueries(){
+    public ArrayList<QueryObject> getQueries(){
         try{
             ResultSet rs = stGetQueries.executeQuery();
 
@@ -111,7 +111,7 @@ public class TestsDatabase {
 
             while(rs.next()){
                 check = true;
-                queries.add(new QueryObject(rs.getInt("qid"), rs.getString("query")));
+                queries.add(new QueryObject(rs.getInt("qid"), rs.getString("query"), getRelevant(rs.getInt("qid"))));
             }
 
             if(!check){
@@ -126,7 +126,7 @@ public class TestsDatabase {
         return null;
     }
 
-    public ArrayList<Integer> getRelevant(int qid) {
+    private ArrayList<Integer> getRelevant(int qid) {
         try{
             stGetRelevant.clearParameters();
             stGetRelevant.setInt(1, qid);
