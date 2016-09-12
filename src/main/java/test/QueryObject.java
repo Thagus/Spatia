@@ -1,15 +1,9 @@
 package test;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 
@@ -45,32 +39,6 @@ public class QueryObject implements Comparable<QueryObject>{
         lineChart = new LineChart<Number, Number>(xAxis,yAxis);
         lineChart.setCreateSymbols(false);
         lineChart.setCursor(Cursor.CROSSHAIR);
-
-        final double SCALE_DELTA = 1.1;
-
-        lineChart.setOnScroll(new EventHandler<ScrollEvent>() {
-            public void handle(ScrollEvent event) {
-                event.consume();
-
-                if (event.getDeltaY() == 0) {
-                    return;
-                }
-
-                double scaleFactor = (event.getDeltaY() > 0) ? SCALE_DELTA : 1 / SCALE_DELTA;
-
-                lineChart.setScaleX(lineChart.getScaleX() * scaleFactor);
-                lineChart.setScaleY(lineChart.getScaleY() * scaleFactor);
-            }
-        });
-
-        lineChart.setOnMousePressed(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                if (event.getClickCount() == 2) {
-                    lineChart.setScaleX(1.0);
-                    lineChart.setScaleY(1.0);
-                }
-            }
-        });
     }
 
     public int getQid() {
