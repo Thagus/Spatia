@@ -20,7 +20,7 @@ public class View {
     private ControllerImportDocument controllerImportDocument;
 
     public void start(Stage window) {
-        window.setTitle("Spatia v0.00");
+        window.setTitle("Spatia v0.01");
 
         VBox layout = new VBox();
         layout.setSpacing(5);
