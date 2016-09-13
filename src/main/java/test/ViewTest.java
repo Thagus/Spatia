@@ -3,7 +3,6 @@ package test;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -88,13 +87,31 @@ public class ViewTest {
         queryText.setText(query.getQuery());
         queryText.setWrappingWidth(400);
 
-        Label totalRelevant = new Label("Relevant documents: " + query.getRelevantDocuments().size());
+        Label totalRelevant = new Label("Relevant documents for query: " + query.getRelevantDocuments().size());
+        Label retrievedDocuments = new Label("Retrieved documents: " + query.getDocumentRetrieved().size());
         Label recallLabel = new Label("Final recall: " + query.getRecall() + "%");
         Label precisionLabel = new Label("Total precision: " + query.getPrecision() + "%");
 
         Label chartLabel = new Label("Chart: ");
 
-        box.getChildren().addAll(queryLabel, queryText, totalRelevant, recallLabel, precisionLabel, chartLabel, query.getLineChart());
+        box.getChildren().addAll(queryLabel, queryText, totalRelevant, retrievedDocuments, recallLabel, precisionLabel, chartLabel, query.getLineChart());
+
+
+        rightPane.setCenter(box);
+    }
+
+    public void setViewAverage(float averagePrecision, float averageRecall){
+        VBox box = new VBox();
+        box.setSpacing(10);
+
+        Label mainLabel = new Label();
+        mainLabel.setText("Averages");
+
+        Label recallLabel = new Label("Average recall: " + averageRecall + "%");
+        Label precisionLabel = new Label("Average precision: " + averagePrecision + "%");
+
+        box.getChildren().addAll(mainLabel, recallLabel, precisionLabel);
+
 
         rightPane.setCenter(box);
     }
