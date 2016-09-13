@@ -1,11 +1,8 @@
 package test;
 
-import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 
 import java.util.ArrayList;
 
@@ -39,6 +36,9 @@ public class QueryObject implements Comparable<QueryObject>{
         lineChart = new LineChart<Number, Number>(xAxis,yAxis);
         lineChart.setCreateSymbols(false);
         lineChart.setCursor(Cursor.CROSSHAIR);
+
+        lineChart.getYAxis().setAnimated(true);
+        lineChart.getXAxis().setAnimated(true);
     }
 
     public int getQid() {
