@@ -64,7 +64,7 @@ public class IDFOperations {
             stUpdateIDF.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString(), "Error adding term to IDF", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.toString(), "Error updating IDF", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -87,7 +87,7 @@ public class IDFOperations {
             rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString(), "Error adding term to IDF", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.toString(), "Error getting NumDocs", JOptionPane.ERROR_MESSAGE);
         }
         return -1;
     }

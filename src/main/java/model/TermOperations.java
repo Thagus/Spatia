@@ -76,7 +76,7 @@ public class TermOperations {
         } catch(SQLException e){
             //Unhandled error
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString(), "Error getting term count for: " + term, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.toString(), "Error getting documents for: " + term, JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
