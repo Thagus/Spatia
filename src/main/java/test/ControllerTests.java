@@ -6,9 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import model.ModelDatabase;
@@ -20,7 +18,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -31,6 +28,8 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
     private final Stage window;
     private final TestsDatabase db;
     private HashMap<String, QueryObject> tagQuery;
+
+    private float averageRecall, averagePrecision;
 
     private ViewTest view;
 
@@ -130,12 +129,18 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
     public void beginTests(){
         //Load queries
         ArrayList<QueryObject> queries = db.getQueries();
+        //Get the main database instance
+        ModelDatabase mainDatabase = ModelDatabase.instance();
         //Sort them according the id (ascendant)
         Collections.sort(queries);
 
+        int totalQueries = queries.size();
+        int totalDocuments = mainDatabase.opDocuments.countDocuments();
+        averagePrecision = 0;
+        averageRecall = 0;
+
         tagQuery = new HashMap<>();
 
-        ModelDatabase mainDatabase = ModelDatabase.instance();
         //Execute them
         for(QueryObject query : queries){
             ArrayList<Integer> retrieved = query.getDocumentRetrieved();
@@ -145,21 +150,23 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
             );
 
             //Evaluate results and create charts
-            evaluateResults(query);
-            break;
+            evaluateResults(query, totalDocuments);
+
+            //Update averages
+            averageRecall += query.getRecall()/totalQueries;
+            averagePrecision += query.getPrecision()/totalQueries;
         }
 
-
-
         //Update view
-        updateView(queries);
+        updateTreeView(queries);
     }
 
     /**
      * Evaluates the results of a query and creates the corresponding charts
      * @param query The query to be evaluated
+     * @param totalDocuments The total number of documents in the collection
      */
-    private void evaluateResults(QueryObject query){
+    private void evaluateResults(QueryObject query, int totalDocuments){
         //Obtain the relevant document ids from the queryID
         ArrayList<Integer> relevantDocuments = query.getRelevantDocuments();
         XYChart.Series<Number, Number> precisionSeries = new XYChart.Series<>();
@@ -189,17 +196,27 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
                 precisionSeries.getData().add(new XYChart.Data<>(totalCounted, precision));
                 recallSeries.getData().add(new XYChart.Data<>(totalCounted, recall));
             }
-        }
 
-        query.setRecall(recall);
-        query.setPrecision(precision);
+            query.setRecall(recall);
+            query.setPrecision(precision);
+        }
+        else{
+            query.setRecall(100f);
+            query.setPrecision((float)(Math.exp(-(double)query.getDocumentRetrieved().size()/(double)totalDocuments) - Math.exp(-1)) * 100f);
+            System.out.println(query.getPrecision());
+        }
 
         query.getLineChart().getData().addAll(recallSeries, precisionSeries);
     }
 
-    private void updateView(ArrayList<QueryObject> queries){
+    /**
+     * Updates the values of the TreeView
+     * and adds the queries to a HashMap
+     * @param queries An array containing all the queries
+     */
+    private void updateTreeView(ArrayList<QueryObject> queries){
         //Update lateral tree view, with format "Query #", where # is the number of query from the array
-        TreeItem<String> rootItem = new TreeItem<>();
+        TreeItem<String> rootItem = new TreeItem<>("Tests");
         rootItem.setExpanded(true);
         System.out.println("--------------------------------");
 
@@ -211,21 +228,27 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
             TreeItem<String> item = new TreeItem<>(tag);
             rootItem.getChildren().add(item);
-            break;
         }
 
         view.setRootTreeView(rootItem);
     }
 
     /**
-     *
+     * Handle the selection of items from the TreeView
      * @param observable
-     * @param oldValue
-     * @param newValue
+     * @param oldValue Previous selected value
+     * @param newValue Selected value
      */
     @Override
     public void changed(ObservableValue<? extends TreeItem<String>> observable, TreeItem<String> oldValue, TreeItem<String> newValue) {
-        if(newValue!=null)
-            view.setViewedChart(tagQuery.get(newValue.getValue()));
+        if(newValue!=null) {
+            if(newValue.getValue().equals("Tests")){
+                //View average
+                view.setViewAverage(averagePrecision, averageRecall);
+            }
+            else{
+                view.setViewedChart(tagQuery.get(newValue.getValue()));
+            }
+        }
     }
 }
