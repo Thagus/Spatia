@@ -1,21 +1,16 @@
 package utilities;
 
-import javafx.util.Pair;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 import utilities.SpellChecker.Dictionary;
 import utilities.SpellChecker.SpellChecker;
 import utilities.Stemmer.PorterStemmer;
 
-import javax.swing.*;
-import java.io.File;
+import javax.swing.JOptionPane;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,9 +23,6 @@ public class TermExtractor {
     private static HashSet<String> stopWords;
 
     public static void initialize(){
-        //Obtain database instance
-        //UtilitiesDatabase db = UtilitiesDatabase.instance();
-
         //Load stop words
         try {
             stopWords = new HashSet<>();
@@ -161,13 +153,5 @@ public class TermExtractor {
             }
         }
         return stemmedWords;
-    }
-
-    public static void main(String[] args){
-        String text = "comp uter program running on Windows 8.1";
-
-        initialize();
-
-        extractTerms(text);
     }
 }
