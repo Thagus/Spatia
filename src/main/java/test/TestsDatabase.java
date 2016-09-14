@@ -184,7 +184,7 @@ public class TestsDatabase {
         try {
             st.execute("CREATE TABLE SPATIATESTS.RELEVANT(" +
                     "qid INTEGER NOT NULL," +
-                    "did VARCHAR NOT NULL," +
+                    "did INTEGER NOT NULL," +
                     "FOREIGN KEY(qid) REFERENCES QUERIES(qid) ON DELETE CASCADE," +
                     "PRIMARY KEY (qid,did)" +
                     ")");
