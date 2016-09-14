@@ -104,7 +104,10 @@ public class TermExtractor {
 
             //The word doesn't exist, then it might be a word splitted by space, try combining with the next word
             if(corrected==null){
-                corrected = SpellChecker.correct(words.get(i) + words.get(i+1));
+                if(i<words.size()-1)
+                    corrected = SpellChecker.correct(words.get(i) + words.get(i+1));
+                else
+                    corrected = null;
 
                 //We could correct the combination
                 if(corrected!=null){

@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import utilities.TermExtractor;
 
 import java.sql.SQLException;
 
@@ -22,6 +23,9 @@ public class MainTest extends Application{
     public void start(Stage primaryStage) throws Exception {
         this.window = primaryStage;
         db = TestsDatabase.instance();
+
+        //Initialize term extractor dictionary and stopwords
+        TermExtractor.initialize();
 
         //Consume the close request in order to handle it properly
         window.setOnCloseRequest(e -> {
