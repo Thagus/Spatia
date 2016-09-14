@@ -36,20 +36,9 @@ public class ModelOperations {
      * @return An ArrayList of Documents sorted by their similarity to the query
      */
     public ObservableList<Document> evaluateQuery(String query){
-        ArrayList<String> splited = Tokenizer.tokenizeString(query);
-
-        HashMap<String, Integer> wordCount = new HashMap<>();               //Counter for word occurrence in the query
-        HashMap<Integer, ArrayList<Term>> documentTerms = new HashMap<>();  //Holds the document id of those who have terms of the query, and an array of those terms with their similarity
+        HashMap<String, Integer> wordCount = Tokenizer.tokenizeString(query);           //Counter for word occurrence in the query
+        HashMap<Integer, ArrayList<Term>> documentTerms = new HashMap<>();              //Holds the document id of those who have terms of the query, and an array of those terms with their similarity
         ObservableList<Document> searchResult = FXCollections.observableArrayList();
-
-        for(String word : splited){
-            //Local count
-            Integer count = wordCount.get(word);
-            if(count==null){
-                count = 0;
-            }
-            wordCount.put(word, count+1);
-        }
 
         //Calculate tfidf for query
         for(Map.Entry<String, Integer> entry : wordCount.entrySet()){

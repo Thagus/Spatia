@@ -4,6 +4,7 @@ import utilities.Tokenizer;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Thagus on 03/09/16.
@@ -183,32 +184,25 @@ public class Document implements Comparable<Document>{
      * @return The HashMap containing the terms and their TF
      */
     public HashMap<String, Integer> countWords(HashMap<String, Integer> documentWordOccurrence){
-        String text;
+        String text = title;
         if(abstractText!=null)
-            text = title + " " + abstractText;
-        else
-            text = title;
+            text += " " + abstractText;
+        if(authors!=null)
+            text += " " + authors;
+        if(keywords!=null)
+            text += " " + keywords;
 
-        ArrayList<String> splited = Tokenizer.tokenizeString(text);
+        HashMap<String, Integer> wordCountLocal = Tokenizer.tokenizeString(text);
 
-        HashMap<String, Integer> wordCountLocal = new HashMap<>();
+        //For each element on the wordCountLocal, add +1 to the documentWordOccurrence
+        for(Map.Entry<String, Integer> entry : wordCountLocal.entrySet()){
+            String word = entry.getKey();
 
-        for(String word : splited){
-            //Local count
-            Integer count = wordCountLocal.get(word);
-            if(count==null){
-                count = 0;
-
-                //When first counting the word, add it to the global document word count
-                //Global document word count
-                Integer countGl = documentWordOccurrence.get(word);
-
-                if(countGl==null){
-                    countGl = 0;
-                }
-                documentWordOccurrence.put(word, countGl+1);
+            Integer countGl = documentWordOccurrence.get(word);
+            if(countGl==null){
+                countGl = 0;
             }
-            wordCountLocal.put(word, count+1);
+            documentWordOccurrence.put(word, countGl+1);
         }
 
         return wordCountLocal;
