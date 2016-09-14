@@ -22,6 +22,9 @@ public class TermExtractor {
 
     private static HashSet<String> stopWords;
 
+    /**
+     * Coordinates the initialization of the stopwords set and the dictionary for the spell checker
+     */
     public static void initialize(){
         //Load stop words
         try {
@@ -40,9 +43,12 @@ public class TermExtractor {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString(), "Error loading dictionary from corpus", JOptionPane.ERROR_MESSAGE);
         }
-
     }
 
+    /**
+     * Read the stopwords file in order to feed the HashSet
+     * @throws IOException
+     */
     private static void readStopWords() throws IOException {
         LineIterator lineIterator = IOUtils.lineIterator(TermExtractor.class.getResourceAsStream("/stopwords.txt"), null);
 
@@ -58,6 +64,11 @@ public class TermExtractor {
         }
     }
 
+    /**
+     * Extracts the stemmed and corrected terms from a String
+     * @param text The string from where obtain the terms
+     * @return A HashMap containing as key the term and value its occurrence
+     */
     public static HashMap<String, Integer> extractTerms(String text){
         HashMap<String, Integer> termResults = new HashMap<>();  //Will contain as key every term in the text, and value the frequency of the term
         ArrayList<String> words = new ArrayList<>();
@@ -66,7 +77,7 @@ public class TermExtractor {
         Matcher matcher = reg.matcher(text.toLowerCase());
 
         while (matcher.find()){
-            words.add(matcher.group());
+            words.add(matcher.group()); //Add the matched strings to the words array
         }
 
         //Correct spelling of the words
@@ -76,18 +87,22 @@ public class TermExtractor {
 
         //Count words and add them to a HashMap
         for(String word : words){
-            //System.out.println(word);
-            Integer count = termResults.get(word);
-
+            Integer count = termResults.get(word);  //Check if the term is already on the HashMap and obtain its value
+            //If it's not on the HashSet, initialize the count
             if(count==null){
                 count = 0;
             }
-            termResults.put(word, count+1);
+            termResults.put(word, count+1);     //Add +1 for each term occurrence
         }
 
+        //Return the termResults HashMap
         return termResults;
     }
 
+    /**
+     * Uses the SpellChecker to correct the words it receives, and tries to obtain as much valid terms as possible
+     * @param words The array of words to correct
+     */
     private static void spellCheck(ArrayList<String> words){
         String previousString = "";
         //Check single words, if no results come for that word, check with its neighbors
@@ -101,7 +116,7 @@ public class TermExtractor {
                 else
                     corrected = null;
 
-                //We could correct the combination
+                //We were able to correct the combination
                 if(corrected!=null){
                     previousString = words.get(i) + words.get(i+1); //The previous word is now the combined words
                     words.set(i, corrected);   //Add it to the array
@@ -132,15 +147,21 @@ public class TermExtractor {
         ArrayList<String> combinedCorrections = new ArrayList<>();
         for(int i=0; i<words.size()-1; i++){
             String corrected = SpellChecker.correct(words.get(i) + words.get(i+1));
-
+            //If the pair word produces a correction, add it to the list
             if(corrected!=null){
                 combinedCorrections.add(corrected);
             }
         }
 
+        //Add the combined corrections to the original words array
         words.addAll(combinedCorrections);
     }
 
+    /**
+     * A method to obtain stemmed words without stop words
+     * @param words The original array containing words to stem
+     * @return The new array containing stemmed words
+     */
     private static ArrayList<String> stemmingAndStopWordsRemoval(ArrayList<String> words){
         ArrayList<String> stemmedWords = new ArrayList<>();
         for(String word : words){

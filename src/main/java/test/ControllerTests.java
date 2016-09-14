@@ -11,7 +11,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import model.ModelDatabase;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -41,7 +41,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
     /**
      * Handles a menu item click from the view
-     * @param event
+     * @param event The fired event
      */
     @Override
     public void handle(ActionEvent event) {
@@ -143,7 +143,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
         //Execute them
         for(QueryObject query : queries){
-            ArrayList<Integer> retrieved = query.getDocumentRetrieved();
+            ArrayList<Integer> retrieved = query.getDocumentRetrieved();    //Obtain the reference to the ArrayList of the query
             mainDatabase.opModel.evaluateQuery(query.getQuery()).forEach(i ->
                     //For each retrieved document, extract its id and store it within the query
                     retrieved.add(i.getIdDoc())
@@ -203,7 +203,6 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         else{
             query.setRecall(100f);
             query.setPrecision((float)(Math.exp(-(double)query.getDocumentRetrieved().size()/(double)totalDocuments) - Math.exp(-1)) * 100f);
-            System.out.println(query.getPrecision());
         }
 
         query.getLineChart().getData().addAll(recallSeries, precisionSeries);
