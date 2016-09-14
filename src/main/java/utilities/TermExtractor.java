@@ -10,10 +10,10 @@ import java.util.regex.Pattern;
 /**
  * Created by Thagus on 05/09/16.
  */
-public class Tokenizer {
+public class TermExtractor {
     private static Pattern reg = Pattern.compile("[a-z]+");
 
-    public static HashMap<String, Integer> tokenizeString(String text){
+    public static HashMap<String, Integer> extractTerms(String text){
         HashMap<String, Integer> wordResult = new HashMap<>();  //Will contain as key every term in the text, and value the frequency of the term
 
         //Get only character strings from the text in lowercase

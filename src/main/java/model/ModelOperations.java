@@ -4,7 +4,7 @@ import dataObjects.Document;
 import dataObjects.Term;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import utilities.Tokenizer;
+import utilities.TermExtractor;
 
 import javax.swing.JOptionPane;
 import java.sql.Connection;
@@ -36,7 +36,7 @@ public class ModelOperations {
      * @return An ArrayList of Documents sorted by their similarity to the query
      */
     public ObservableList<Document> evaluateQuery(String query){
-        HashMap<String, Integer> wordCount = Tokenizer.tokenizeString(query);           //Counter for word occurrence in the query
+        HashMap<String, Integer> wordCount = TermExtractor.extractTerms(query);           //Counter for word occurrence in the query
         HashMap<Integer, ArrayList<Term>> documentTerms = new HashMap<>();              //Holds the document id of those who have terms of the query, and an array of those terms with their similarity
         ObservableList<Document> searchResult = FXCollections.observableArrayList();
 

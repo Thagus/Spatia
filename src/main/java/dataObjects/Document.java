@@ -1,8 +1,7 @@
 package dataObjects;
 
-import utilities.Tokenizer;
+import utilities.TermExtractor;
 import javax.swing.JOptionPane;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -192,7 +191,7 @@ public class Document implements Comparable<Document>{
         if(keywords!=null)
             text += " " + keywords;
 
-        HashMap<String, Integer> wordCountLocal = Tokenizer.tokenizeString(text);
+        HashMap<String, Integer> wordCountLocal = TermExtractor.extractTerms(text);
 
         //For each element on the wordCountLocal, add +1 to the documentWordOccurrence
         for(Map.Entry<String, Integer> entry : wordCountLocal.entrySet()){
