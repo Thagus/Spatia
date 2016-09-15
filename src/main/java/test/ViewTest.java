@@ -2,6 +2,7 @@ package test;
 
 import controller.ControllerSceneSwitcher;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -129,8 +130,9 @@ public class ViewTest {
      * Display the global averages on the rightPane
      * @param averagePrecision The average precision
      * @param averageRecall The average recall
+     * @param lineChart A chart containing the averages recalls and precisions
      */
-    public void setViewAverage(float averagePrecision, float averageRecall){
+    public void setViewAverage(float averagePrecision, float averageRecall, LineChart<Number, Number> lineChart){
         VBox box = new VBox();
         box.setSpacing(10);
 
@@ -140,7 +142,9 @@ public class ViewTest {
         Label recallLabel = new Label("Average recall: " + averageRecall + "%");
         Label precisionLabel = new Label("Average precision: " + averagePrecision + "%");
 
-        box.getChildren().addAll(mainLabel, recallLabel, precisionLabel);
+        Label chartLabel = new Label("Chart: ");
+
+        box.getChildren().addAll(mainLabel, recallLabel, precisionLabel, chartLabel, lineChart);
 
 
         rightPane.setCenter(box);
