@@ -1,5 +1,6 @@
 package test;
 
+import controller.ControllerSceneSwitcher;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -12,6 +13,7 @@ import javafx.stage.Stage;
  */
 public class ViewTest {
     private ControllerTests controllerTests;
+    private ControllerSceneSwitcher controllerSceneSwitcher;
 
     private TreeView<String> treeView;
     private BorderPane rightPane;
@@ -20,24 +22,18 @@ public class ViewTest {
      * Start the application
      * @param window The window where the application will run
      */
-    public void start(Stage window){
-        window.setTitle("Spatia tests");
-
+    public Scene createScene(Stage window, ControllerSceneSwitcher controllerSceneSwitcher){
         //Create the main layout
         VBox layout = new VBox();
         layout.setSpacing(5);
 
         //Create the controller
+        this.controllerSceneSwitcher = controllerSceneSwitcher;
         controllerTests = new ControllerTests(window, this);
-
-        //Create the scene based on the VBox layout
-        Scene scene = new Scene(layout, 1200, 720);
 
         createMenus(layout);
         createSplitPane(layout);
-
-        window.setScene(scene);
-        window.show();
+        return new Scene(layout, 1200, 720);
     }
 
     /**
@@ -67,7 +63,15 @@ public class ViewTest {
         menuFile.getItems().addAll(importTests, separator, beginTests);
 
 
-        menuBar.getMenus().addAll(menuFile);
+        //Open search menu
+        Menu menuSearch = new Menu("_Search");
+        MenuItem openSearch = new MenuItem("Open search");
+        openSearch.setUserData("openSearch");
+        openSearch.setOnAction(controllerSceneSwitcher);
+        menuSearch.getItems().add(openSearch);
+
+
+        menuBar.getMenus().addAll(menuFile, menuSearch);
         layout.getChildren().add(menuBar);
     }
 

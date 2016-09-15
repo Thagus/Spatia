@@ -1,8 +1,11 @@
+import controller.ControllerSceneSwitcher;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import model.ModelDatabase;
+import test.ViewTest;
 import utilities.TermExtractor;
 import view.View;
 
@@ -34,7 +37,17 @@ public class Main extends Application{
         });
 
         View view = new View();
-        view.start(window);
+        ViewTest viewTest = new ViewTest();
+
+        ControllerSceneSwitcher sceneSwitcher = new ControllerSceneSwitcher(window);
+
+        Scene searchScene = view.createScene(window, sceneSwitcher);
+        Scene testScene = viewTest.createScene(window, sceneSwitcher);
+
+        sceneSwitcher.setSearchScene(searchScene);
+        sceneSwitcher.setTestScene(testScene);
+
+        sceneSwitcher.start();
     }
 
     /**

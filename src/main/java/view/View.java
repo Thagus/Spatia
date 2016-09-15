@@ -1,6 +1,7 @@
 package view;
 
 import controller.ControllerImportDocument;
+import controller.ControllerSceneSwitcher;
 import controller.ControllerSearch;
 import dataObjects.Document;
 import javafx.geometry.Insets;
@@ -18,26 +19,30 @@ import javafx.stage.Stage;
  */
 public class View {
     private ControllerImportDocument controllerImportDocument;
+    private ControllerSearch controllerSearch;
+    private ControllerSceneSwitcher controllerSceneSwitcher;
 
-    public void start(Stage window) {
-        window.setTitle("Spatia v0.01");
-
+    /**
+     * Creates the scene for the search
+     * @param window The window where the scene will run
+     * @param controllerSceneSwitcher The controller that handles scene switching
+     */
+    public Scene createScene(Stage window, ControllerSceneSwitcher controllerSceneSwitcher) {
         VBox layout = new VBox();
         layout.setSpacing(5);
         //layout.setPadding(new Insets(10, 7, 5, 7));
 
-        Scene scene = new Scene(layout, 1200, 720);
-
         //Create controllers
+        this.controllerSceneSwitcher = controllerSceneSwitcher;
         controllerImportDocument = new ControllerImportDocument(window);
+        controllerSearch = new ControllerSearch();
 
         //Create menu bar
         createMenus(layout);
         //Create search
         createSearch(layout);
 
-        window.setScene(scene);
-        window.show();
+        return new Scene(layout, 1200, 720);
     }
 
     /**
@@ -56,7 +61,14 @@ public class View {
         menuFile.getItems().add(importDoc);
 
 
-        menuBar.getMenus().addAll(menuFile);
+        //Tests menu
+        Menu testsMenu = new Menu("_Tests");
+        MenuItem openTests = new MenuItem("Open tests");
+        openTests.setUserData("openTests");
+        openTests.setOnAction(controllerSceneSwitcher);
+        testsMenu.getItems().add(openTests);
+
+        menuBar.getMenus().addAll(menuFile, testsMenu);
         layout.getChildren().add(menuBar);
 
     }
@@ -117,8 +129,6 @@ public class View {
         /***********************************************************
          *       Set on action                                     *
          ***********************************************************/
-        ControllerSearch controllerSearch = new ControllerSearch();
-
         //Handle Enter on searchBox to start search, through ControllerTermSearch
         searchBox.setOnKeyPressed(event -> {
             if(event.getCode().equals(KeyCode.ENTER)){
