@@ -16,13 +16,21 @@ public class ViewTest {
     private TreeView<String> treeView;
     private BorderPane rightPane;
 
+    /**
+     * Start the application
+     * @param window The window where the application will run
+     */
     public void start(Stage window){
         window.setTitle("Spatia tests");
+
+        //Create the main layout
         VBox layout = new VBox();
         layout.setSpacing(5);
 
+        //Create the controller
         controllerTests = new ControllerTests(window, this);
 
+        //Create the scene based on the VBox layout
         Scene scene = new Scene(layout, 1200, 720);
 
         createMenus(layout);
@@ -32,6 +40,10 @@ public class ViewTest {
         window.show();
     }
 
+    /**
+     * Create the menus of the application
+     * @param layout The main layout where to add the menus
+     */
     private void createMenus(VBox layout){
         MenuBar menuBar = new MenuBar();
 
@@ -59,8 +71,13 @@ public class ViewTest {
         layout.getChildren().add(menuBar);
     }
 
+    /**
+     * Create a split pane and its components
+     * @param layout The layout where to add the split pane
+     */
     private void createSplitPane(VBox layout){
         SplitPane splitPane = new SplitPane();
+        //Make the SplitPane the size of the window
         splitPane.prefWidthProperty().bind(layout.widthProperty());
         splitPane.prefHeightProperty().bind(layout.heightProperty());
 
@@ -76,6 +93,10 @@ public class ViewTest {
         layout.getChildren().add(splitPane);
     }
 
+    /**
+     * Display the query chart and data on the rightPane
+     * @param query The query that will be displayed
+     */
     public void setViewedChart(QueryObject query){
         VBox box = new VBox();
         box.setSpacing(10);
@@ -100,6 +121,11 @@ public class ViewTest {
         rightPane.setCenter(box);
     }
 
+    /**
+     * Display the global averages on the rightPane
+     * @param averagePrecision The average precision
+     * @param averageRecall The average recall
+     */
     public void setViewAverage(float averagePrecision, float averageRecall){
         VBox box = new VBox();
         box.setSpacing(10);
@@ -116,6 +142,10 @@ public class ViewTest {
         rightPane.setCenter(box);
     }
 
+    /**
+     * Set the root item of the left side TreeView
+     * @param root The root item
+     */
     public void setRootTreeView(TreeItem<String> root){
         treeView.setRoot(root);
     }

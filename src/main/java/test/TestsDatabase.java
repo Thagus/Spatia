@@ -15,6 +15,9 @@ public class TestsDatabase {
 
     private PreparedStatement stGetRelevant, stGetQueries, stAddQuery, stAddRelevant;
 
+    /**
+     * Constructor to create connection to the database, handle the creation of the tables, and create the prepared statements
+     */
     private TestsDatabase(){
         try {
             Class.forName("org.h2.Driver");
@@ -41,6 +44,10 @@ public class TestsDatabase {
         }
     }
 
+    /**
+     * Instance the singleton datbase
+     * @return The unique instance from the database
+     */
     public static TestsDatabase instance() {
         if (uniqueInstance==null) {
             try {
@@ -55,10 +62,10 @@ public class TestsDatabase {
         }
     }
 
-
-
     /**
-     * Create the operations to handle requests
+     * Add a new query to the datbase
+     * @param qid The query id
+     * @param query The query text
      */
     public void addQuery(int qid, String query){
         try{
@@ -79,6 +86,11 @@ public class TestsDatabase {
         }
     }
 
+    /**
+     * Add a relevant document id to a query
+     * @param qid The query id
+     * @param did The relevant document id
+     */
     public void addRelevant(int qid, int did){
         try{
             stAddRelevant.clearParameters();
@@ -102,6 +114,10 @@ public class TestsDatabase {
         }
     }
 
+    /**
+     * Get all the queries from the databse
+     * @return An ArrayList containing the QueryObjects that correspond to the queries in database
+     */
     public ArrayList<QueryObject> getQueries(){
         try{
             ResultSet rs = stGetQueries.executeQuery();
@@ -126,6 +142,11 @@ public class TestsDatabase {
         return null;
     }
 
+    /**
+     * Get the relevant documents to a query
+     * @param qid The id of the query
+     * @return An ArrayList containing the ids of the relevant documents
+     */
     private ArrayList<Integer> getRelevant(int qid) {
         try{
             stGetRelevant.clearParameters();
@@ -152,7 +173,6 @@ public class TestsDatabase {
         }
         return null;
     }
-
 
     /**
      * Create database schema
