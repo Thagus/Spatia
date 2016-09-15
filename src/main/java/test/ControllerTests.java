@@ -266,6 +266,9 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         query.getLineChart().getData().addAll(recallSeries, precisionSeries);
     }
 
+    /**
+     * A method to create a chart of the recll and precision averages
+     */
     private void createAverageChart() {
         System.out.println(minResultsLength);
 
@@ -285,6 +288,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         XYChart.Series<Number, Number> recallSeries = new XYChart.Series<>();
         recallSeries.setName("Recall");
 
+        //Only count until the minimumResult length, to obtain a coherent chart
         for(int i=1; i<=minResultsLength; i++){
             //Obtain the values array
             ArrayList<Float> recalls = recallMap.get(i);
