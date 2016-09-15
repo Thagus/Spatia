@@ -112,7 +112,7 @@ public class IDFOperations {
             }
 
             if(!check){
-                System.out.println("There is no IDF for term: " + term);
+                //System.out.println("There is no IDF for term: " + term);
             }
 
             return idf;
