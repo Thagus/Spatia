@@ -144,7 +144,7 @@ public class TermExtractor {
         }
 
         //Consider all words that combined with its following neighbor produce a valid word
-        ArrayList<String> combinedCorrections = new ArrayList<>();
+        /*ArrayList<String> combinedCorrections = new ArrayList<>();
         for(int i=0; i<words.size()-1; i++){
             String corrected = SpellChecker.correct(words.get(i) + words.get(i+1));
             //If the pair word produces a correction, add it to the list
@@ -154,7 +154,7 @@ public class TermExtractor {
         }
 
         //Add the combined corrections to the original words array
-        words.addAll(combinedCorrections);
+        words.addAll(combinedCorrections);*/
     }
 
     /**
