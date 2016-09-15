@@ -288,6 +288,10 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         XYChart.Series<Number, Number> recallSeries = new XYChart.Series<>();
         recallSeries.setName("Recall");
 
+
+        float x=-1, y=-1;
+        boolean check = false;
+
         //Only count until the minimumResult length, to obtain a coherent chart
         for(int i=1; i<=minResultsLength; i++){
             //Obtain the values array
@@ -303,12 +307,24 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
                     .average()
                     .orElse(0);
 
+            //Find intersection point
+            if(x==-1)
+                x=averageRecall;
+            if(y==-1)
+                y=averagePrecision;
+
+            if(!check && averageRecall>=averagePrecision){
+                System.out.println("Doc: " + i + ", Recall: " + averageRecall + ", Precision: " + averagePrecision);
+                check=true;
+            }
+
+
             //Add values to the chart
             precisionSeries.getData().add(new XYChart.Data<>(i, averagePrecision));
             recallSeries.getData().add(new XYChart.Data<>(i, averageRecall));
         }
 
-        lineChart.getData().addAll(precisionSeries, recallSeries);
+        lineChart.getData().addAll(recallSeries, precisionSeries);
     }
 
     /**
