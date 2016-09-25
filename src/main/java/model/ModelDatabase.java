@@ -65,7 +65,7 @@ public class ModelDatabase {
      */
     private void createOperations(){
         try {
-            opModel = new ModelOperations(con, this);
+            opModel = new ModelOperations(con);
             opInvertedIndex = new InvertedIndexOperations(con);
             opDocuments = new DocumentOperations(con);
             opTerm = new TermOperations(con);
