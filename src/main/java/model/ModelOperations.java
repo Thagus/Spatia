@@ -59,6 +59,7 @@ public class ModelOperations {
      */
     public void setWeightMethod(Weight weightMethod){
         this.weight = weightMethod;
+        calculateWeights();
     }
 
     /**
