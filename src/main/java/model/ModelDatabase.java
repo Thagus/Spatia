@@ -23,7 +23,7 @@ public class ModelDatabase {
     private ModelDatabase() {
         try {
             Class.forName("org.h2.Driver");
-            //String addr = System.getProperty("user.home") + "\\.spatia\\spatia";
+
             con = DriverManager.getConnection("jdbc:h2:./database/spatia", "spatia", "hi");
             st = con.createStatement();
 
@@ -31,8 +31,6 @@ public class ModelDatabase {
             //clearDB();
             createSchema();
             createTables();
-
-            createOperations();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString(), "Error, database driver not found", JOptionPane.ERROR_MESSAGE);
@@ -48,12 +46,8 @@ public class ModelDatabase {
      */
     public static synchronized ModelDatabase instance(){
         if (uniqueInstance==null) {
-            try {
-                uniqueInstance = new ModelDatabase();
-            }
-            catch(Exception e) {
-                e.printStackTrace();
-            }
+            uniqueInstance = new ModelDatabase();   //Create connction to the database
+            uniqueInstance.createOperations();      //Create operations
             return uniqueInstance;
         }  else {
             return uniqueInstance;
@@ -65,10 +59,10 @@ public class ModelDatabase {
      */
     private void createOperations(){
         try {
-            opModel = new ModelOperations(con);
             opInvertedIndex = new InvertedIndexOperations(con);
             opDocuments = new DocumentOperations(con);
             opTerm = new TermOperations(con);
+            opModel = new ModelOperations(con);
         } catch (SQLException e) {
             e.printStackTrace();
         }
