@@ -20,10 +20,23 @@ public class ModelOperations {
     private Weight weight;
     private Similarity similarity;
 
+    private HashMap<String, Weight> weightHashMap;
+    private HashMap<String, Similarity> similarityHashMap;
+
     protected ModelOperations(Connection connection) throws SQLException{
+        similarityHashMap = new HashMap<>();
+        weightHashMap = new HashMap<>();
+
+        //Create similarity objects
+        similarityHashMap.put("Dot product", new DotProduct(connection));
+
+        //Create weight objects
+        weightHashMap.put("IDF", new IDF(connection));
+
+
         //Initialize with IDF and DotProduct
-        weight = new IDF(connection);
-        similarity = new DotProduct(connection);
+        setSimilarityMethod("Dot product");
+        setWeightMethod("IDF");
     }
 
     /**
@@ -54,19 +67,31 @@ public class ModelOperations {
     }
 
     /**
-     * Set the weight method
-     * @param weightMethod the weight method to be used
+     *  Getters
      */
-    public void setWeightMethod(Weight weightMethod){
-        this.weight = weightMethod;
+
+    public String getSimilarityName(){
+        return similarity.getSimilarityMethodName();
+    }
+
+    public String getWeightName(){
+        return weight.getWeightMethodName();
+    }
+
+    /**
+     * Set the weight method
+     * @param weightMethod the weight method name to be used
+     */
+    public void setWeightMethod(String weightMethod){
+        this.weight = weightHashMap.get(weightMethod);
         calculateWeights();
     }
 
     /**
      * Set the similarity method
-     * @param similarityMethod The similarity method to be used
+     * @param similarityMethod The similarity method name to be used
      */
-    public void setSimilarityMethod(Similarity similarityMethod){
-        this.similarity = similarityMethod;
+    public void setSimilarityMethod(String similarityMethod){
+        this.similarity = similarityHashMap.get(similarityMethod);
     }
 }
