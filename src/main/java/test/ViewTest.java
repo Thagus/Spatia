@@ -128,24 +128,18 @@ public class ViewTest {
 
     /**
      * Display the global averages on the rightPane
-     * @param averagePrecision The average precision
-     * @param averageRecall The average recall
      * @param lineChart A chart containing the averages recalls and precisions
      */
-    public void setViewAverage(float averagePrecision, float averageRecall, LineChart<Number, Number> lineChart){
+    public void setViewAverage(LineChart<Number, Number> lineChart){
         VBox box = new VBox();
         box.setSpacing(10);
 
         Label mainLabel = new Label();
         mainLabel.setText("Averages");
 
-        Label recallLabel = new Label("Average recall: " + averageRecall + "%");
-        Label precisionLabel = new Label("Average precision: " + averagePrecision + "%");
-
         Label chartLabel = new Label("Chart: ");
 
-        box.getChildren().addAll(mainLabel, recallLabel, precisionLabel, chartLabel, lineChart);
-
+        box.getChildren().addAll(mainLabel, chartLabel, lineChart);
 
         rightPane.setCenter(box);
     }

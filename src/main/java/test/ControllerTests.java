@@ -34,7 +34,6 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
     private final TestsDatabase db;
     private HashMap<String, QueryObject> tagQuery;
 
-    private float averageRecall, averagePrecision;
     private HashMap<String, HashMap<Integer, ArrayList<Float>>> precisionMap;
     private LineChart<Number, Number> lineChart;
 
@@ -180,12 +179,6 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         lineChart.getYAxis().setAnimated(true);
         lineChart.getXAxis().setAnimated(true);
 
-        //Count the number of queries that have a result set
-        int totalQueries = db.countQueries();
-
-        averagePrecision = 0;
-        averageRecall = 0;
-
         tagQuery = new HashMap<>();
 
         //Execute them
@@ -198,11 +191,6 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
             //Evaluate results and create charts
             evaluateResults(query, "IDF - DotProduct");
-
-
-            //Update averages
-            averageRecall += query.getRecall()/totalQueries;
-            averagePrecision += query.getPrecision()/totalQueries;
         }
 
 
@@ -392,7 +380,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         if(newValue!=null) {
             if(newValue.getValue().equals("Tests")){
                 //View average
-                view.setViewAverage(averagePrecision, averageRecall, lineChart);
+                view.setViewAverage(lineChart);
             }
             else{
                 view.setViewedChart(tagQuery.get(newValue.getValue()));
