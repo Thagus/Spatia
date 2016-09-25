@@ -36,7 +36,7 @@ public class TermExtractor {
 
     /**
      * Read the stopwords file in order to feed the HashSet
-     * @throws IOException
+     * @throws IOException in case that the file cant be opened or found
      */
     private static void readStopWords() throws IOException {
         LineIterator lineIterator = IOUtils.lineIterator(TermExtractor.class.getResourceAsStream("/stopwords.txt"), null);
@@ -69,8 +69,6 @@ public class TermExtractor {
             words.add(matcher.group()); //Add the matched strings to the words array
         }
 
-        //Correct spelling of the words
-        //spellCheck(words);
         //Stem and remove stop words from the array
         words = stemmingAndStopWordsRemoval(words);
 
