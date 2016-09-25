@@ -1,4 +1,4 @@
-package utilities.Stemmer;
+package utilities;
 
 /**
  * PorterStemmer. The original paper is in

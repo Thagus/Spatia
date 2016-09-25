@@ -2,9 +2,6 @@ package utilities;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
-import utilities.SpellChecker.Dictionary;
-import utilities.SpellChecker.SpellChecker;
-import utilities.Stemmer.PorterStemmer;
 
 import javax.swing.JOptionPane;
 import java.io.IOException;
@@ -35,14 +32,6 @@ public class TermExtractor {
             JOptionPane.showMessageDialog(null, e.toString(), "Error loading stopwords.txt", JOptionPane.ERROR_MESSAGE);
         }
 
-        //Initialize dictionary entries from database
-        try {
-            System.out.println("Creating dictionary....");
-            Dictionary.createDictionary("/corpus.txt");
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString(), "Error loading dictionary from corpus", JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     /**
@@ -81,7 +70,7 @@ public class TermExtractor {
         }
 
         //Correct spelling of the words
-        spellCheck(words);
+        //spellCheck(words);
         //Stem and remove stop words from the array
         words = stemmingAndStopWordsRemoval(words);
 
@@ -97,64 +86,6 @@ public class TermExtractor {
 
         //Return the termResults HashMap
         return termResults;
-    }
-
-    /**
-     * Uses the SpellChecker to correct the words it receives, and tries to obtain as much valid terms as possible
-     * @param words The array of words to correct
-     */
-    private static void spellCheck(ArrayList<String> words){
-        String previousString = "";
-        //Check single words, if no results come for that word, check with its neighbors
-        for(int i=0; i<words.size(); i++){
-            String corrected = SpellChecker.correct(words.get(i));
-
-            //The word doesn't exist, then it might be a word splitted by space, try combining with the next word
-            if(corrected==null){
-                if(i<words.size()-1)
-                    corrected = SpellChecker.correct(words.get(i) + words.get(i+1));
-                else
-                    corrected = null;
-
-                //We were able to correct the combination
-                if(corrected!=null){
-                    previousString = words.get(i) + words.get(i+1); //The previous word is now the combined words
-                    words.set(i, corrected);   //Add it to the array
-                    words.remove(i+1);                  //Remove the next entry, because we combined with it
-                    //The index remains the same, as we will pass through the next word whichever it is
-                }
-                else {
-                    //Try combining with previous word
-                    corrected = SpellChecker.correct(previousString + words.get(i));
-
-                    //If we got a positive correction from this combination, place this word and remove the old one (and update i to skip repeated value)
-                    if(corrected!=null){
-                        previousString = previousString + words.get(i);//The previous word is the combination of the corrected words
-                        words.set(i, corrected);   //Add the corrected-combined word to the array
-                        words.remove(i-1);  //Remove the string we combined with
-                        i--;    //Update index to not skip the net word of the array
-                    }
-                    //Else, the word couldn't be corrected, leave it as it is
-                }
-            }
-            else{   //The word was successfully corrected
-                previousString = words.get(i);  //Save the current string for further use if necessary
-                words.set(i, corrected);
-            }
-        }
-
-        //Consider all words that combined with its following neighbor produce a valid word
-        /*ArrayList<String> combinedCorrections = new ArrayList<>();
-        for(int i=0; i<words.size()-1; i++){
-            String corrected = SpellChecker.correct(words.get(i) + words.get(i+1));
-            //If the pair word produces a correction, add it to the list
-            if(corrected!=null){
-                combinedCorrections.add(corrected);
-            }
-        }
-
-        //Add the combined corrections to the original words array
-        words.addAll(combinedCorrections);*/
     }
 
     /**
