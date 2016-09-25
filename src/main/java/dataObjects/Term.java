@@ -7,15 +7,13 @@ public class Term {
     private int idDoc;
     private String term;
     private int tf;
-    private double tfidf;
 
     private double similarity;
 
-    public Term(int idDoc, String term, int tf, double tfidf) {
+    public Term(int idDoc, String term, int tf) {
         this.idDoc = idDoc;
         this.term = term;
         this.tf = tf;
-        this.tfidf = tfidf;
     }
 
     public int getIdDoc() {
@@ -28,10 +26,6 @@ public class Term {
 
     public int getTf() {
         return tf;
-    }
-
-    public double getTfidf() {
-        return tfidf;
     }
 
     public double getSimilarity() {
