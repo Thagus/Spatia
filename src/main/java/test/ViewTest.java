@@ -45,7 +45,7 @@ public class ViewTest {
         MenuBar menuBar = new MenuBar();
 
         //File menu
-        Menu menuFile = new Menu("_File");
+        Menu menuFile = new Menu("_Tests");
 
         //Import document
         MenuItem importTests = new MenuItem("Select tests folder...");
