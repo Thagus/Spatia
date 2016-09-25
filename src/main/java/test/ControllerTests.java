@@ -2,6 +2,7 @@ package test;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -35,7 +36,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
     private HashMap<String, QueryObject> tagQuery;
 
     private float averageRecall, averagePrecision;
-    private HashMap<Integer, ArrayList<Float>> precisionMap, recallMap;
+    private HashMap<Integer, ArrayList<Float>> precisionMap;
     private LineChart<Number, Number> lineChart;
 
     private ViewTest view;
@@ -156,9 +157,11 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         //Sort them according the id (ascendant)
         Collections.sort(queries);
 
-        //Instantiate arrays to contain series
-        recallMap = new HashMap<>();
+        //Instantiate arrays to contain average series
         precisionMap = new HashMap<>();
+        for(int i=1; i<=100; i++){
+            precisionMap.put(i, new ArrayList<>());
+        }
 
         //Count the number of queries that have a result set
         int totalQueries = db.countQueries();
@@ -184,6 +187,8 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
             averageRecall += query.getRecall()/totalQueries;
             averagePrecision += query.getPrecision()/totalQueries;
         }
+
+        createAverageChart("IDF - DotProduct");
 
         //Update view
         updateTreeView(queries);
@@ -239,8 +244,64 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         query.setPrecision(precision);
 
         query.getLineChart().getData().addAll(series);
+        feedAverages(series);
     }
 
+    /**
+     * A method to calculate all the recall (from 1 to 100%) values in a series that doesn't contain all recall points
+     *
+     * @param series the series containing all the known points
+     */
+    private void feedAverages(XYChart.Series<Number, Number> series){
+        ObservableList<XYChart.Data<Number, Number>> data = series.getData();
+        int dataIndex =0;
+        for(int recall=1; recall<=100; recall++){
+            ArrayList<Float> precisions = precisionMap.get(recall);
+
+            //If we wont get an IndexOutOfBounds exception and
+            // the recall for the current dataIndex is greater to the recall being evaluated, increase dataIndex
+            if(dataIndex+1 < data.size() && data.get(dataIndex).getXValue().floatValue()>recall){
+                dataIndex++;
+            }
+
+            precisions.add(data.get(dataIndex).getYValue().floatValue());
+        }
+    }
+
+    /**
+     * A method to create a chart of the precision average for every recall (from 1 to 100%)
+     */
+    private void createAverageChart(String seriesName) {
+        //Create chart and axis
+        final NumberAxis xAxis = new NumberAxis(0, 110, 10);
+        final NumberAxis yAxis = new NumberAxis(0, 110, 10);
+        xAxis.setLabel("Recall %");
+        lineChart = new LineChart<>(xAxis,yAxis);
+        lineChart.setCreateSymbols(false);
+        lineChart.setCursor(Cursor.CROSSHAIR);
+        lineChart.getYAxis().setAnimated(true);
+        lineChart.getXAxis().setAnimated(true);
+
+        //Create series
+        XYChart.Series<Number, Number> series = new XYChart.Series<>();
+        series.setName(seriesName);
+
+        //From 1% to 100% recall
+        for(int recall=1; recall<=100; recall++){
+            //Obtain the values array
+            ArrayList<Float> precisions = precisionMap.get(recall);
+
+            float averagePrecision = (float) precisions.stream()
+                    .mapToDouble(v -> v)
+                    .average()
+                    .orElse(0);
+
+            //Add values to the chart
+            series.getData().add(new XYChart.Data<>(recall, averagePrecision));
+        }
+
+        lineChart.getData().addAll(series);
+    }
 
     /**
      * Updates the values of the TreeView
