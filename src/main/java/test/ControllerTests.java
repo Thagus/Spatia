@@ -215,7 +215,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         int currentRelevant = 0;//The relevant documents counted so far
         int totalCounted = 0;   //The total documents counted so far
 
-        float precision = 0, recall = 0;
+        float precision, recall;
 
         float lastRecall = -1;
 
@@ -244,10 +244,6 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
             System.out.println("Query " + query.getQid() + " has no relevant documents");
             return;     //Just in case there is a query with no relevant documents
         }
-
-        //Set global recall and precision of the query
-        query.setRecall(recall);
-        query.setPrecision(precision);
 
         query.getLineChart().getData().add(series);
 

@@ -114,13 +114,10 @@ public class ViewTest {
         queryText.setWrappingWidth(400);
 
         Label totalRelevant = new Label("Relevant documents for query: " + query.getRelevantDocuments().size());
-        Label retrievedDocuments = new Label("Retrieved documents: " + query.getDocumentRetrieved().size());
-        Label recallLabel = new Label("Final recall: " + query.getRecall() + "%");
-        Label precisionLabel = new Label("Total precision: " + query.getPrecision() + "%");
 
         Label chartLabel = new Label("Chart: ");
 
-        box.getChildren().addAll(queryLabel, queryText, totalRelevant, retrievedDocuments, recallLabel, precisionLabel, chartLabel, query.getLineChart());
+        box.getChildren().addAll(queryLabel, queryText, totalRelevant, chartLabel, query.getLineChart());
 
 
         rightPane.setCenter(box);
