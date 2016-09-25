@@ -14,7 +14,7 @@ public class IDF extends Weight{
     private PreparedStatement calculateIDF;
 
     public IDF(Connection connection) throws SQLException {
-        weightMethodName = "IDF";
+        super("IDF");
 
         calculateIDF = connection.prepareStatement("MERGE INTO SPATIA.TERM(term,weight) " +
                 "SELECT i.term, log(?/count(*)) as idf FROM SPATIA.INVERTEDINDEX i GROUP BY i.term");
