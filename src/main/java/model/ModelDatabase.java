@@ -15,9 +15,9 @@ public class ModelDatabase {
     private Statement st;
     private Connection con;
 
-    public TermOperations opTerm;
+    public InvertedIndexOperations opInvertedIndex;
     public DocumentOperations opDocuments;
-    public IDFOperations opIDF;
+    public TermOperations opTerm;
     public ModelOperations opModel;
 
     private ModelDatabase() {
@@ -66,9 +66,9 @@ public class ModelDatabase {
     private void createOperations(){
         try {
             opModel = new ModelOperations(con, this);
-            opTerm = new TermOperations(con);
+            opInvertedIndex = new InvertedIndexOperations(con);
             opDocuments = new DocumentOperations(con);
-            opIDF = new IDFOperations(con);
+            opTerm = new TermOperations(con);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -111,11 +111,10 @@ public class ModelDatabase {
 
         //Create Terms table
         try {
-            st.execute("CREATE TABLE SPATIA.TERMS(" +
+            st.execute("CREATE TABLE SPATIA.INVERTEDINDEX(" +
                     "idDoc INTEGER NOT NULL," +
                     "term VARCHAR NOT NULL," +
                     "tf INTEGER NOT NULL," +
-                    "tfidf DOUBLE," +    //Can be null when first creating the term
                     "FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE," +
                     "PRIMARY KEY (idDoc,term)" +
                     ")");
@@ -126,14 +125,26 @@ public class ModelDatabase {
 
         //Create IDF table
         try {
-            st.execute("CREATE TABLE SPATIA.IDF(" +
+            st.execute("CREATE TABLE SPATIA.TERM(" +
                     "term VARCHAR NOT NULL," +
-                    "numDocs INTEGER NOT NULL," +
-                    "idf DOUBLE NOT NULL," +
+                    "weight DOUBLE NOT NULL," +
+                    //"FOREIGN KEY(term) REFERENCES INVERTEDINDEX(term)," +
                     "PRIMARY KEY (term)" +
                     ")");
         } catch (SQLException e) {
             //System.out.println("Error creating IDF table:");
+            //e.printStackTrace();
+        }
+
+        //Create Query table in memory
+        try {
+            st.execute("CREATE MEMORY TEMPORARY TABLE QUERY(" +
+                    "term VARCHAR NOT NULL," +
+                    "tf INTEGER NOT NULL," +
+                    "PRIMARY KEY (term,TF)" +
+                    ") NOT PERSISTENT");
+        } catch (SQLException e) {
+            //System.out.println("Error creating Query table:");
             //e.printStackTrace();
         }
     }
