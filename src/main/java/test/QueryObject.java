@@ -41,10 +41,10 @@ public class QueryObject implements Comparable<QueryObject>{
         this.documentRetrieved = new ArrayList<>();
 
         //Creating chart and axis
-        final NumberAxis xAxis = new NumberAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Recovered documents");
-        lineChart = new LineChart<Number, Number>(xAxis,yAxis);
+        final NumberAxis yAxis = new NumberAxis(0, 110, 10);
+        final NumberAxis xAxis = new NumberAxis(0, 110, 10);
+        xAxis.setLabel("Recall %");
+        lineChart = new LineChart<>(xAxis,yAxis);
         lineChart.setCreateSymbols(false);
         lineChart.setCursor(Cursor.CROSSHAIR);
 
