@@ -27,8 +27,6 @@ public class Main extends Application{
         this.window = primaryStage;
         db = ModelDatabase.instance();
 
-
-
         //Consume the close request in order to handle it properly
         window.setOnCloseRequest(e -> {
             e.consume();
@@ -36,6 +34,7 @@ public class Main extends Application{
         });
 
         View view = new View();
+
         ViewTest viewTest = new ViewTest();
 
         //Create the switching controller
@@ -46,6 +45,7 @@ public class Main extends Application{
 
         sceneSwitcher.setSearchScene(searchScene);
         sceneSwitcher.setTestScene(testScene);
+
 
 
         //Initialize term extractor dictionary and stopwords

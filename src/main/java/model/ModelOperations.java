@@ -84,6 +84,7 @@ public class ModelOperations {
      */
     public void setWeightMethod(String weightMethod){
         this.weight = weightHashMap.get(weightMethod);
+        System.out.println("Calculating weights...");
         calculateWeights();
     }
 
