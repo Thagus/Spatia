@@ -26,6 +26,7 @@ public class ControllerMethodToggle implements ChangeListener<Toggle> {
                     break;
                 //Similarity methods
                 case "Dot product":
+                case "Cosine":
                     modOps.setSimilarityMethod(userData);
                     break;
                 default:

@@ -75,8 +75,11 @@ public class View {
         dotProduct.setUserData("Dot product");
         dotProduct.setToggleGroup(similarityToggleGroup);
         dotProduct.setSelected(true);
+        RadioMenuItem cosine = new RadioMenuItem("Cosine of the angle");
+        cosine.setUserData("Cosine");
+        cosine.setToggleGroup(similarityToggleGroup);
 
-        similarityMenu.getItems().addAll(dotProduct);
+        similarityMenu.getItems().addAll(dotProduct, cosine);
 
         //Weight submenu
         Menu weightMenu = new Menu("_Weight");
@@ -105,7 +108,6 @@ public class View {
 
         menuBar.getMenus().addAll(menuFile, methodsMenu, testsMenu);
         layout.getChildren().add(menuBar);
-
     }
 
     /**
