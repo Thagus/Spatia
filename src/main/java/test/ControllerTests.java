@@ -8,6 +8,7 @@ import javafx.scene.Cursor;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.stage.DirectoryChooser;
@@ -127,6 +128,21 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //A message to alert the user about the number of read documents
+        Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Read " + queriesRead.size() + " queries");
+        countInfo.setTitle("Successful reading!");
+        countInfo.setHeaderText(null);
+        countInfo.showAndWait();
+
+        //Delete queries with no relevant documents
+        db.deleteEmptyQueries();
+
+        //A message to alert the user about the number of read documents
+        countInfo = new Alert(Alert.AlertType.INFORMATION, "Cleared empty queries!, remained " + db.countQueries() + " queries");
+        countInfo.setTitle("Successful cleaning!");
+        countInfo.setHeaderText(null);
+        countInfo.showAndWait();
     }
 
     /**
@@ -144,7 +160,9 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         recallMap = new HashMap<>();
         precisionMap = new HashMap<>();
 
-        int totalQueries = queries.size();
+        //Count the number of queries that have a result set
+        int totalQueries = db.countQueries();
+
         int totalDocuments = mainDatabase.opDocuments.countDocuments();
         averagePrecision = 0;
         averageRecall = 0;
@@ -161,7 +179,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
             );
 
             //Evaluate results and create charts
-            evaluateResults(query, totalDocuments);
+            evaluateResults(query);
 
             //Update averages
             averageRecall += query.getRecall()/totalQueries;
@@ -177,9 +195,8 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
     /**
      * Evaluates the results of a query and creates the corresponding charts
      * @param query The query to be evaluated
-     * @param totalDocuments The total number of documents in the collection
      */
-    private void evaluateResults(QueryObject query, int totalDocuments){
+    private void evaluateResults(QueryObject query){
         //Obtain the relevant document ids from the queryID
         ArrayList<Integer> relevantDocuments = query.getRelevantDocuments();
         XYChart.Series<Number, Number> precisionSeries = new XYChart.Series<>();
@@ -226,32 +243,8 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
             }
         }
         else{
-            recall = 100.0f;
-
-            for (Integer documentID : query.getDocumentRetrieved()) {
-                totalCounted++;
-
-                precision = (float)(Math.exp(-((double)totalCounted*10f/(double)totalDocuments))*100.0f);
-
-                //Add values to the chart
-                precisionSeries.getData().add(new XYChart.Data<>(totalCounted, precision));
-                recallSeries.getData().add(new XYChart.Data<>(totalCounted, recall));
-
-                //Add values to the arrays for averaging
-                ArrayList<Float> recalls = recallMap.get(totalCounted);  //Check if the term is already on the HashMap and obtain its value
-                if(recalls==null){
-                    recalls = new ArrayList<>();
-                }
-                recalls.add(recall);
-                recallMap.put(totalCounted, recalls);
-
-                ArrayList<Float> precisions = precisionMap.get(totalCounted);  //Check if the term is already on the HashMap and obtain its value
-                if(precisions==null){
-                    precisions = new ArrayList<>();
-                }
-                precisions.add(precision);
-                precisionMap.put(totalCounted, precisions);
-            }
+            System.out.println("Query " + query.getQid() + " has no relevant documents");
+            return;     //Just in case there is a query with no relevant documents
         }
 
         //Update minResultsLength if the totalCount is a new minimum
@@ -270,7 +263,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
      * A method to create a chart of the recll and precision averages
      */
     private void createAverageChart() {
-        System.out.println(minResultsLength);
+        System.out.println("Min result length: " + minResultsLength);
 
         //Create chart and axis
         final NumberAxis xAxis = new NumberAxis();
@@ -314,7 +307,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
                 y=averagePrecision;
 
             if(!check && averageRecall>=averagePrecision){
-                System.out.println("Doc: " + i + ", Recall: " + averageRecall + ", Precision: " + averagePrecision);
+                System.out.println("Intersection at.- Doc: " + i + ", Recall: " + averageRecall + ", Precision: " + averagePrecision);
                 check=true;
             }
 

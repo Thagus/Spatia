@@ -14,6 +14,7 @@ public class TestsDatabase {
     private Connection con;
 
     private PreparedStatement stGetRelevant, stGetQueries, stAddQuery, stAddRelevant;
+    private PreparedStatement stCountQueries, stClearEmptyQueries;
 
     /**
      * Constructor to create connection to the database, handle the creation of the tables, and create the prepared statements
@@ -34,6 +35,11 @@ public class TestsDatabase {
             stGetQueries = con.prepareStatement("SELECT * FROM SPATIATESTS.QUERIES");
             stAddQuery = con.prepareStatement("INSERT INTO SPATIATESTS.QUERIES(qid,query) VALUES(?,?)");
             stAddRelevant = con.prepareStatement("INSERT INTO SPATIATESTS.RELEVANT(qid,did) VALUES(?,?)");
+            stClearEmptyQueries = con.prepareStatement("DELETE FROM SPATIATESTS.QUERIES WHERE qid not in" +
+                    "(" +
+                    "SELECT DISTINCT r.qid FROM SPATIATESTS.RELEVANT r"+
+                    ")");
+            stCountQueries = con.prepareStatement("SELECT COUNT(*) FROM SPATIATESTS.QUERIES");
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -172,6 +178,26 @@ public class TestsDatabase {
             JOptionPane.showMessageDialog(null, e.toString(), "Error getting relevant documents for query id " + qid, JOptionPane.ERROR_MESSAGE);
         }
         return null;
+    }
+
+    public void deleteEmptyQueries(){
+        try {
+            stClearEmptyQueries.executeUpdate();
+        } catch (SQLException e) {
+            //e.printStackTrace();
+        }
+    }
+
+    public int countQueries(){
+        try {
+            ResultSet rs = stCountQueries.executeQuery();
+            while (rs.next()){
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            //e.printStackTrace();
+        }
+        return -1;
     }
 
     /**
