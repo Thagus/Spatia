@@ -21,6 +21,7 @@ public class ModelOperations {
     private Similarity similarity;
 
     protected ModelOperations(Connection connection) throws SQLException{
+        //Initialize with IDF and DotProduct
         weight = new IDF(connection);
         similarity = new DotProduct(connection);
     }
@@ -52,4 +53,19 @@ public class ModelOperations {
         weight.calculateWeights();
     }
 
+    /**
+     * Set the weight method
+     * @param weightMethod the weight method to be used
+     */
+    public void setWeightMethod(Weight weightMethod){
+        this.weight = weightMethod;
+    }
+
+    /**
+     * Set the similarity method
+     * @param similarityMethod The similarity method to be used
+     */
+    public void setSimilarityMethod(Similarity similarityMethod){
+        this.similarity = similarityMethod;
+    }
 }
