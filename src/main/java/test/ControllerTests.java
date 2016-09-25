@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -36,7 +37,6 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
     private float averageRecall, averagePrecision;
     private HashMap<Integer, ArrayList<Float>> precisionMap, recallMap;
     private LineChart<Number, Number> lineChart;
-    private int minResultsLength;
 
     private ViewTest view;
 
@@ -166,7 +166,6 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         int totalDocuments = mainDatabase.opDocuments.countDocuments();
         averagePrecision = 0;
         averageRecall = 0;
-        minResultsLength = totalDocuments;  //The initial minimum number of retrieved documents is the entire collection
 
         tagQuery = new HashMap<>();
 
@@ -179,14 +178,12 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
             );
 
             //Evaluate results and create charts
-            evaluateResults(query);
+            evaluateResults(query, "IDF - DotProduct");
 
             //Update averages
             averageRecall += query.getRecall()/totalQueries;
             averagePrecision += query.getPrecision()/totalQueries;
         }
-
-        createAverageChart();
 
         //Update view
         updateTreeView(queries);
@@ -196,19 +193,20 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
      * Evaluates the results of a query and creates the corresponding charts
      * @param query The query to be evaluated
      */
-    private void evaluateResults(QueryObject query){
+    private void evaluateResults(QueryObject query, String seriesName){
         //Obtain the relevant document ids from the queryID
         ArrayList<Integer> relevantDocuments = query.getRelevantDocuments();
-        XYChart.Series<Number, Number> precisionSeries = new XYChart.Series<>();
-        precisionSeries.setName("Precision");
-        XYChart.Series<Number, Number> recallSeries = new XYChart.Series<>();
-        recallSeries.setName("Recall");
+
+        XYChart.Series<Number, Number> series = new XYChart.Series<>();
+        series.setName(seriesName);
 
         int totalRecall = relevantDocuments.size();      //The total number of relevant documents for the query
         int currentRelevant = 0;//The relevant documents counted so far
         int totalCounted = 0;   //The total documents counted so far
 
         float precision = 0, recall = 0;
+
+        float lastRecall = -1;
 
         if(totalRecall>0) {
             //Calculate precision and recall at each point of the retrieved list
@@ -219,27 +217,16 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
                     currentRelevant++;
                 }
 
-                precision = (currentRelevant * 100.0f) / totalCounted;
                 recall = (currentRelevant * 100.0f) / totalRecall;
 
-                //Add values to the chart
-                precisionSeries.getData().add(new XYChart.Data<>(totalCounted, precision));
-                recallSeries.getData().add(new XYChart.Data<>(totalCounted, recall));
+                if(recall!=lastRecall && recall!=0){
+                    lastRecall = recall;
 
-                //Add values to the arrays for averaging
-                ArrayList<Float> recalls = recallMap.get(totalCounted);  //Check if the term is already on the HashMap and obtain its value
-                if(recalls==null){
-                    recalls = new ArrayList<>();
-                }
-                recalls.add(recall);
-                recallMap.put(totalCounted, recalls);
+                    precision = (currentRelevant * 100.0f) / totalCounted;
 
-                ArrayList<Float> precisions = precisionMap.get(totalCounted);  //Check if the term is already on the HashMap and obtain its value
-                if(precisions==null){
-                    precisions = new ArrayList<>();
+                    //Add values to the chart
+                    series.getData().add(new XYChart.Data<>(recall, precision));
                 }
-                precisions.add(precision);
-                precisionMap.put(totalCounted, precisions);
             }
         }
         else{
@@ -247,78 +234,13 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
             return;     //Just in case there is a query with no relevant documents
         }
 
-        //Update minResultsLength if the totalCount is a new minimum
-        if(totalCounted<minResultsLength){
-            minResultsLength = totalCounted;
-        }
-
         //Set global recall and precision of the query
         query.setRecall(recall);
         query.setPrecision(precision);
 
-        query.getLineChart().getData().addAll(recallSeries, precisionSeries);
+        query.getLineChart().getData().addAll(series);
     }
 
-    /**
-     * A method to create a chart of the recll and precision averages
-     */
-    private void createAverageChart() {
-        System.out.println("Min result length: " + minResultsLength);
-
-        //Create chart and axis
-        final NumberAxis xAxis = new NumberAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Recovered documents");
-        lineChart = new LineChart<Number, Number>(xAxis,yAxis);
-        lineChart.setCreateSymbols(false);
-        lineChart.setCursor(Cursor.CROSSHAIR);
-        lineChart.getYAxis().setAnimated(true);
-        lineChart.getXAxis().setAnimated(true);
-
-        //Create series
-        XYChart.Series<Number, Number> precisionSeries = new XYChart.Series<>();
-        precisionSeries.setName("Precision");
-        XYChart.Series<Number, Number> recallSeries = new XYChart.Series<>();
-        recallSeries.setName("Recall");
-
-
-        float x=-1, y=-1;
-        boolean check = false;
-
-        //Only count until the minimumResult length, to obtain a coherent chart
-        for(int i=1; i<=minResultsLength; i++){
-            //Obtain the values array
-            ArrayList<Float> recalls = recallMap.get(i);
-            ArrayList<Float> precisions = precisionMap.get(i);
-
-            float averageRecall = (float) recalls.stream()
-                    .mapToDouble(v -> v)
-                    .average()
-                    .orElse(0);
-            float averagePrecision = (float) precisions.stream()
-                    .mapToDouble(v -> v)
-                    .average()
-                    .orElse(0);
-
-            //Find intersection point
-            if(x==-1)
-                x=averageRecall;
-            if(y==-1)
-                y=averagePrecision;
-
-            if(!check && averageRecall>=averagePrecision){
-                System.out.println("Intersection at.- Doc: " + i + ", Recall: " + averageRecall + ", Precision: " + averagePrecision);
-                check=true;
-            }
-
-
-            //Add values to the chart
-            precisionSeries.getData().add(new XYChart.Data<>(i, averagePrecision));
-            recallSeries.getData().add(new XYChart.Data<>(i, averageRecall));
-        }
-
-        lineChart.getData().addAll(recallSeries, precisionSeries);
-    }
 
     /**
      * Updates the values of the TreeView
