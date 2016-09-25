@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -36,7 +35,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
     private HashMap<String, QueryObject> tagQuery;
 
     private float averageRecall, averagePrecision;
-    private HashMap<Integer, ArrayList<Float>> precisionMap;
+    private HashMap<String, HashMap<Integer, ArrayList<Float>>> precisionMap;
     private LineChart<Number, Number> lineChart;
 
     private ViewTest view;
@@ -157,16 +156,33 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         //Sort them according the id (ascendant)
         Collections.sort(queries);
 
+        String[] testsNames = {"IDF - DotProduct"};
+
         //Instantiate arrays to contain average series
         precisionMap = new HashMap<>();
-        for(int i=1; i<=100; i++){
-            precisionMap.put(i, new ArrayList<>());
+        for(String name : testsNames) {
+            HashMap<Integer, ArrayList<Float>> precisionSpecificMap = new HashMap<>();
+
+            for (int i = 1; i <= 100; i++) {
+                precisionSpecificMap.put(i, new ArrayList<>());
+            }
+
+            precisionMap.put(name, precisionSpecificMap);
         }
+
+        //Create average chart and axis
+        final NumberAxis xAxis = new NumberAxis(0, 110, 10);
+        final NumberAxis yAxis = new NumberAxis(0, 110, 10);
+        xAxis.setLabel("Recall %");
+        lineChart = new LineChart<>(xAxis,yAxis);
+        lineChart.setCreateSymbols(false);
+        lineChart.setCursor(Cursor.CROSSHAIR);
+        lineChart.getYAxis().setAnimated(true);
+        lineChart.getXAxis().setAnimated(true);
 
         //Count the number of queries that have a result set
         int totalQueries = db.countQueries();
 
-        int totalDocuments = mainDatabase.opDocuments.countDocuments();
         averagePrecision = 0;
         averageRecall = 0;
 
@@ -183,12 +199,14 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
             //Evaluate results and create charts
             evaluateResults(query, "IDF - DotProduct");
 
+
             //Update averages
             averageRecall += query.getRecall()/totalQueries;
             averagePrecision += query.getPrecision()/totalQueries;
         }
 
-        createAverageChart("IDF - DotProduct");
+
+        fillAverageChart("IDF - DotProduct");
 
         //Update view
         updateTreeView(queries);
@@ -243,20 +261,60 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         query.setRecall(recall);
         query.setPrecision(precision);
 
-        query.getLineChart().getData().addAll(series);
-        feedAverages(series);
+        query.getLineChart().getData().add(series);
+
+        feedAverages(series, seriesName);
     }
 
     /**
      * A method to calculate all the recall (from 1 to 100%) values in a series that doesn't contain all recall points
      *
      * @param series the series containing all the known points
+     * @param seriesName the name of the series evaluated
      */
-    private void feedAverages(XYChart.Series<Number, Number> series){
+    private void feedAverages(XYChart.Series<Number, Number> series, String seriesName){
         ObservableList<XYChart.Data<Number, Number>> data = series.getData();
         int dataIndex =0;
+
+        HashMap<Integer, ArrayList<Float>> precisionSpecificMap = precisionMap.get(seriesName);
+
         for(int recall=1; recall<=100; recall++){
-            ArrayList<Float> precisions = precisionMap.get(recall);
+            ArrayList<Float> precisions = precisionSpecificMap.get(recall);
+
+            //If the recall we want is in the current position, add it and increase dataIndex if possible
+            if(data.get(dataIndex).getXValue().floatValue()==recall){
+                precisions.add(data.get(dataIndex).getYValue().floatValue());
+                if(dataIndex+1 < data.size())
+                    dataIndex++;
+            }
+            else{
+                //dataIndex is 0 so there's no previous value, or we reached the last position so there is no next value
+                if(dataIndex==0 || dataIndex+1>=data.size()){
+                    precisions.add(data.get(dataIndex).getYValue().floatValue());
+                }
+                //The point we want is between the current dataIndex and the previous (because the current dataIndex recall is greater than the recall we want),
+                // so we obtain the value based in the current and previous values
+                else if(data.get(dataIndex).getXValue().floatValue()>recall){
+                    precisions.add(xPoint(
+                            data.get(dataIndex-1).getXValue().floatValue(),
+                            data.get(dataIndex-1).getYValue().floatValue(),
+                            data.get(dataIndex).getXValue().floatValue(),
+                            data.get(dataIndex).getYValue().floatValue(),
+                            recall
+                    ));
+                }
+                //The point we want is between the current dataIndex and the next (because the current dataIndex recall is smaller than the recall we want),
+                // so we obtain the value based in the current and next values
+                else if(data.get(dataIndex).getXValue().floatValue()<recall){
+                    precisions.add(xPoint(
+                            data.get(dataIndex).getXValue().floatValue(),
+                            data.get(dataIndex).getYValue().floatValue(),
+                            data.get(dataIndex+1).getXValue().floatValue(),
+                            data.get(dataIndex+1).getYValue().floatValue(),
+                            recall
+                    ));
+                }
+            }
 
             //If we wont get an IndexOutOfBounds exception and
             // the recall for the current dataIndex is greater to the recall being evaluated, increase dataIndex
@@ -268,28 +326,24 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         }
     }
 
+    private float xPoint(float x1, float y1, float x2, float y2, float x){
+        return y1 + ((y2 - y1)/(x2 - x1))*(x - x1);
+    }
+
     /**
      * A method to create a chart of the precision average for every recall (from 1 to 100%)
      */
-    private void createAverageChart(String seriesName) {
-        //Create chart and axis
-        final NumberAxis xAxis = new NumberAxis(0, 110, 10);
-        final NumberAxis yAxis = new NumberAxis(0, 110, 10);
-        xAxis.setLabel("Recall %");
-        lineChart = new LineChart<>(xAxis,yAxis);
-        lineChart.setCreateSymbols(false);
-        lineChart.setCursor(Cursor.CROSSHAIR);
-        lineChart.getYAxis().setAnimated(true);
-        lineChart.getXAxis().setAnimated(true);
-
+    private void fillAverageChart(String seriesName) {
         //Create series
         XYChart.Series<Number, Number> series = new XYChart.Series<>();
         series.setName(seriesName);
 
+        HashMap<Integer, ArrayList<Float>> precisionSpecificMap = precisionMap.get(seriesName);
+
         //From 1% to 100% recall
         for(int recall=1; recall<=100; recall++){
             //Obtain the values array
-            ArrayList<Float> precisions = precisionMap.get(recall);
+            ArrayList<Float> precisions = precisionSpecificMap.get(recall);
 
             float averagePrecision = (float) precisions.stream()
                     .mapToDouble(v -> v)
@@ -300,7 +354,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
             series.getData().add(new XYChart.Data<>(recall, averagePrecision));
         }
 
-        lineChart.getData().addAll(series);
+        lineChart.getData().add(series);
     }
 
     /**
