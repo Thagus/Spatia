@@ -17,13 +17,10 @@ import java.util.HashMap;
  * Created by Thagus on 04/09/16.
  */
 public class ModelOperations {
-    private ModelDatabase db;
     private Weight weight;
     private Similarity similarity;
 
-    protected ModelOperations(Connection connection, ModelDatabase db) throws SQLException{
-        this.db = db;
-
+    protected ModelOperations(Connection connection) throws SQLException{
         weight = new IDF(connection);
         similarity = new DotProduct(connection);
     }
@@ -54,4 +51,5 @@ public class ModelOperations {
     public void calculateWeights() {
         weight.calculateWeights();
     }
+
 }
