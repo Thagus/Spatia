@@ -179,10 +179,9 @@ public class Document implements Comparable<Document>{
 
     /**
      * Count the terms contained in the document, and add those terms to a global list of terms
-     * @param documentWordOccurrence The global HashMap of terms
      * @return The HashMap containing the terms and their TF
      */
-    public HashMap<String, Integer> countWords(HashMap<String, Integer> documentWordOccurrence){
+    public HashMap<String, Integer> countWords(){
         String text = title;
         if(abstractText!=null)
             text += " " + abstractText;
@@ -191,20 +190,7 @@ public class Document implements Comparable<Document>{
         if(keywords!=null)
             text += " " + keywords;
 
-        HashMap<String, Integer> wordCountLocal = TermExtractor.extractTerms(text);
-
-        //For each element on the wordCountLocal, add +1 to the documentWordOccurrence
-        for(Map.Entry<String, Integer> entry : wordCountLocal.entrySet()){
-            String word = entry.getKey();
-
-            Integer countGl = documentWordOccurrence.get(word);
-            if(countGl==null){
-                countGl = 0;
-            }
-            documentWordOccurrence.put(word, countGl+1);
-        }
-
-        return wordCountLocal;
+        return TermExtractor.extractTerms(text);
     }
 
     /**

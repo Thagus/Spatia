@@ -138,7 +138,6 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
      * @param documents The array of documents read
      */
     private void feedDatabase(ArrayList<Document> documents){
-        HashMap<String, Integer> documentWordOccurrence = new HashMap<>();
         HashMap<String, Integer> wordCountLocal;
 
         int documentCount = 0;
@@ -150,23 +149,16 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
             //The document was correctly added if there is no duplicate key
             if(insertCheck) {
                 documentCount++;    //Increase successful document insert count
-                wordCountLocal = doc.countWords(documentWordOccurrence);    //Request the count of words for the inserted document
+                wordCountLocal = doc.countWords();    //Request the count of words for the inserted document
                 for(Map.Entry<String, Integer> termEntry : wordCountLocal.entrySet()){      //For each term obtained from the document (Key String is the term, Value Integer is the TF)
                     //Write the term, with the document id and the TF
-                    db.opTerm.addTerm(doc.getIdDoc(), termEntry.getKey(), termEntry.getValue());
+                    db.opInvertedIndex.addTerm(doc.getIdDoc(), termEntry.getKey(), termEntry.getValue());
                 }
             }
         }
 
-        int numTotalDocs = db.opDocuments.countDocuments();
-
-        //Calculate IDF
-        for(Map.Entry<String, Integer> entry : documentWordOccurrence.entrySet()){      //For each term, request the calculation of the IDF, considering numTotalDocs
-            db.opModel.calculateIDF(entry.getKey(), numTotalDocs, entry.getValue());
-        }
-
-        //Request the calculation of every term TFIDF
-        db.opModel.calculateTFIDFs();
+        //Request the calculation of weights
+        db.opModel.calculateWeights();
 
         //Message to alert the user of the total amount of successfully added documents
         Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Successfully added " + documentCount + " documents");
