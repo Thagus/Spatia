@@ -17,19 +17,15 @@ import java.util.Map;
  */
 public class DotProduct extends Similarity {
     private PreparedStatement calculateDotProduct;
-    private PreparedStatement addQuery, clearQuery;
 
     public DotProduct(Connection connection) throws SQLException {
-        similarityMethodName = "Dot product";
+        super("Dot product", connection);
         calculateDotProduct = connection.prepareStatement("SELECT i.idDoc, SUM(q.tf * t.weight * i.tf * t.weight) as TFIDF\n" +
                 "FROM QUERY q, SPATIA.INVERTEDINDEX i, SPATIA.TERM t\n" +
                 "WHERE q.term = t.term\n" +
                 "AND i.term = t.term\n" +
                 "GROUP BY i.idDoc\n" +
                 "HAVING TFIDF > 0");
-
-        addQuery = connection.prepareStatement("INSERT INTO QUERY(term,tf) VALUES(?,?)");
-        clearQuery = connection.prepareStatement("TRUNCATE TABLE QUERY");
     }
 
     @Override
