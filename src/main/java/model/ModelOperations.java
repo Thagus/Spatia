@@ -2,6 +2,7 @@ package model;
 
 import dataObjects.Document;
 import javafx.collections.ObservableList;
+import model.similarity.Cosine;
 import model.similarity.DotProduct;
 import model.similarity.Similarity;
 import model.weight.IDF;
@@ -29,6 +30,7 @@ public class ModelOperations {
 
         //Create similarity objects
         similarityHashMap.put("Dot product", new DotProduct(connection));
+        similarityHashMap.put("Cosine", new Cosine(connection));
 
         //Create weight objects
         weightHashMap.put("IDF", new IDF(connection));
