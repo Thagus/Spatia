@@ -6,6 +6,7 @@ import model.similarity.Cosine;
 import model.similarity.DotProduct;
 import model.similarity.Similarity;
 import model.weight.IDF;
+import model.weight.NormalizedIDF;
 import model.weight.Weight;
 import utilities.TermExtractor;
 
@@ -13,6 +14,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Created by Thagus on 04/09/16.
@@ -34,6 +36,7 @@ public class ModelOperations {
 
         //Create weight objects
         weightHashMap.put("IDF", new IDF(connection));
+        weightHashMap.put("Normalized IDF", new NormalizedIDF(connection));
 
 
         //Initialize with IDF and DotProduct
@@ -85,9 +88,15 @@ public class ModelOperations {
      * @param weightMethod the weight method name to be used
      */
     public void setWeightMethod(String weightMethod){
-        this.weight = weightHashMap.get(weightMethod);
-        System.out.println("Calculating weights...");
-        calculateWeights();
+        if(this.weight==null || this.weight.getWeightMethodName()!=weightMethod) {
+            this.weight = weightHashMap.get(weightMethod);
+            System.out.println("Calculating weights...");
+            calculateWeights();
+            System.out.println("Weights calculated!");
+        }
+        else{
+            System.out.println("\nTrying to calculate an already calculated weight method!\nSkippong...\n");
+        }
     }
 
     /**
