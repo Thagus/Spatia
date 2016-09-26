@@ -103,7 +103,7 @@ public class ModelOperations {
             System.out.println("Weights calculated!");
         }
         else{
-            System.out.println("\nTrying to calculate an already calculated weight method!\nSkippong...\n");
+            System.out.println("\nTrying to calculate an already calculated weight method!\nSkipping...\n");
         }
     }
 
