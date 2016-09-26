@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -155,18 +156,23 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         //Sort them according the id (ascendant)
         Collections.sort(queries);
 
-        String[] testsNames = {"IDF - DotProduct"};
+        Set<String> weightNames = mainDatabase.opModel.getWeightMethods();
+        Set<String> similarityNames = mainDatabase.opModel.getSimilarityMethods();
+
 
         //Instantiate arrays to contain average series
         precisionMap = new HashMap<>();
-        for(String name : testsNames) {
-            HashMap<Integer, ArrayList<Float>> precisionSpecificMap = new HashMap<>();
+        for(String w : weightNames){
+            for(String s : similarityNames){
+                String name = w + " - " + s;
+                HashMap<Integer, ArrayList<Float>> precisionSpecificMap = new HashMap<>();
 
-            for (int i = 1; i <= 100; i++) {
-                precisionSpecificMap.put(i, new ArrayList<>());
+                for (int i = 1; i <= 100; i++) {
+                    precisionSpecificMap.put(i, new ArrayList<>());
+                }
+
+                precisionMap.put(name, precisionSpecificMap);
             }
-
-            precisionMap.put(name, precisionSpecificMap);
         }
 
         //Create average chart and axis
@@ -181,20 +187,40 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
         tagQuery = new HashMap<>();
 
-        //Execute them
-        for(QueryObject query : queries){
-            ArrayList<Integer> retrieved = query.getDocumentRetrieved();    //Obtain the reference to the ArrayList of the query
-            mainDatabase.opModel.evaluateQuery(query.getQuery()).forEach(i ->
-                    //For each retrieved document, extract its id and store it within the query
-                    retrieved.add(i.getIdDoc())
-            );
 
-            //Evaluate results and create charts
-            evaluateResults(query, "IDF - DotProduct");
+
+        //Begin tests for each similarity and weight combination
+        for(String w : weightNames) {
+            //Set weight method
+            mainDatabase.opModel.setWeightMethod(w);
+            for (String s : similarityNames) {
+                //Set similarity method
+                mainDatabase.opModel.setSimilarityMethod(s);
+                //Define test name
+                String name = w + " - " + s;
+                System.out.println("Starting test: " + name);
+
+
+                //Execute the tests for each query
+                for(QueryObject query : queries){
+                    ArrayList<Integer> retrieved = query.getDocumentRetrieved();    //Obtain the reference to the ArrayList of the query
+
+                    //Reset the retrieved documents
+                    retrieved.clear();
+
+                    //Retrieve result documents from evaluating query
+                    mainDatabase.opModel.evaluateQuery(query.getQuery()).forEach(i ->
+                            //For each retrieved document, extract its id and store it within the query
+                            retrieved.add(i.getIdDoc())
+                    );
+
+                    //Evaluate results and create charts
+                    evaluateResults(query, name);
+                }
+
+                fillAverageChart(name);
+            }
         }
-
-
-        fillAverageChart("IDF - DotProduct");
 
         //Update view
         updateTreeView(queries);
