@@ -75,6 +75,7 @@ public class View {
         dotProduct.setUserData("Dot product");
         dotProduct.setToggleGroup(similarityToggleGroup);
         dotProduct.setSelected(true);
+
         RadioMenuItem cosine = new RadioMenuItem("Cosine of the angle");
         cosine.setUserData("Cosine");
         cosine.setToggleGroup(similarityToggleGroup);
@@ -90,7 +91,11 @@ public class View {
         idf.setToggleGroup(weightToggleGroup);
         idf.setSelected(true);
 
-        weightMenu.getItems().addAll(idf);
+        RadioMenuItem normIDF = new RadioMenuItem("Normalized IDF");
+        normIDF.setUserData("Normalized IDF");
+        normIDF.setToggleGroup(weightToggleGroup);
+
+        weightMenu.getItems().addAll(idf, normIDF);
 
         //Add controller to toggle groups
         similarityToggleGroup.selectedToggleProperty().addListener(controllerMethodToggle);

@@ -22,6 +22,7 @@ public class ControllerMethodToggle implements ChangeListener<Toggle> {
             switch (userData) {
                 //Weight methods
                 case "IDF":
+                case "Normalized IDF":
                     modOps.setWeightMethod(userData);
                     break;
                 //Similarity methods
