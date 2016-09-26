@@ -83,6 +83,14 @@ public class ModelOperations {
         return weight.getWeightMethodName();
     }
 
+    public Set<String> getSimilarityMethods(){
+        return similarityHashMap.keySet();
+    }
+
+    public Set<String> getWeightMethods(){
+        return weightHashMap.keySet();
+    }
+
     /**
      * Set the weight method
      * @param weightMethod the weight method name to be used
