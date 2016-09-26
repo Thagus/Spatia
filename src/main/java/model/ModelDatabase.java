@@ -17,7 +17,6 @@ public class ModelDatabase {
 
     public InvertedIndexOperations opInvertedIndex;
     public DocumentOperations opDocuments;
-    public TermOperations opTerm;
     public ModelOperations opModel;
 
     private ModelDatabase() {
@@ -61,7 +60,6 @@ public class ModelDatabase {
         try {
             opInvertedIndex = new InvertedIndexOperations(con);
             opDocuments = new DocumentOperations(con);
-            opTerm = new TermOperations(con);
             opModel = new ModelOperations(con);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -103,7 +101,7 @@ public class ModelDatabase {
             //e.printStackTrace();
         }
 
-        //Create Terms table
+        //Create InvertedIndex table
         try {
             st.execute("CREATE TABLE SPATIA.INVERTEDINDEX(" +
                     "idDoc INTEGER NOT NULL," +
@@ -117,12 +115,12 @@ public class ModelDatabase {
             //e.printStackTrace();
         }
 
-        //Create IDF table
+        //Create Terms table
         try {
             st.execute("CREATE TABLE SPATIA.TERM(" +
                     "term VARCHAR NOT NULL," +
+                    "idf DOUBLE NOT NULL," +
                     "weight DOUBLE NOT NULL," +
-                    //"FOREIGN KEY(term) REFERENCES INVERTEDINDEX(term)," +
                     "PRIMARY KEY (term)" +
                     ")");
         } catch (SQLException e) {
