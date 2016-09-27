@@ -26,6 +26,7 @@ public abstract class Weight {
     }
 
     public void calculateWeights(){
+        System.out.println("Calculating weights using: " + weightMethodName + "...");
         try{
             //Calculate IDF
             int numberOfDocuments = ModelDatabase.instance().opDocuments.countDocuments();
@@ -42,6 +43,7 @@ public abstract class Weight {
     }
 
     public void calculateQueryWeights(){
+        System.out.println("Calculating query weights using: " + weightMethodName + "...");
         try{
             //Calculate weights
             stCalculateQueryWeight.executeUpdate();
