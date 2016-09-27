@@ -17,6 +17,8 @@ public class QueryObject implements Comparable<QueryObject>{
     private ArrayList<Integer> documentRetrieved;
     private LineChart<Number, Number> lineChart;
 
+    private float precision, recall;
+
     /**
      * Constructor for objects that store fresh data from input file
      * @param qid The query id
@@ -100,5 +102,21 @@ public class QueryObject implements Comparable<QueryObject>{
             return 1;
         else
             return 0;
+    }
+
+    public void setRecall(float recall) {
+        this.recall = recall;
+    }
+
+    public void setPrecision(float precision) {
+        this.precision = precision;
+    }
+
+    public float getPrecision() {
+        return precision;
+    }
+
+    public float getRecall() {
+        return recall;
     }
 }

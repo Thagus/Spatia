@@ -36,6 +36,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
     private HashMap<String, QueryObject> tagQuery;
 
     private HashMap<String, HashMap<Integer, ArrayList<Float>>> precisionMap;
+    private HashMap<String, Float> averages, precisions;
     private LineChart<Number, Number> lineChart;
 
     private ViewTest view;
@@ -163,6 +164,8 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
         //Instantiate arrays to contain average series
         precisionMap = new HashMap<>();
+        precisions = new HashMap<>();
+        averages = new HashMap<>();
         for(String w : weightNames){
             for(String s : similarityNames){
                 String name = w + " - " + s;
@@ -173,6 +176,8 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
                 }
 
                 precisionMap.put(name, precisionSpecificMap);
+                precisions.put(name, 0f);
+                averages.put(name, 0f);
             }
         }
 
@@ -190,6 +195,8 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
         tagQuery = new HashMap<>();
 
+        int numOfQueries = db.countQueries();
+
 
         //Begin tests for each similarity and weight combination
         for(String w : weightNames) {
@@ -201,6 +208,8 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
                 //Define test name
                 String name = w + " - " + s;
                 System.out.println("Starting test: " + name);
+
+                float recall = 0f, precision = 0f;
 
 
                 //Execute the tests for each query
@@ -218,7 +227,14 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
                     //Evaluate results and create charts
                     evaluateResults(query, name);
+
+                    //Evaluate averages
+                    recall += query.getRecall()/numOfQueries;
+                    precision += query.getPrecision()/numOfQueries;
                 }
+
+                precisions.put(name, precision);
+                averages.put(name, recall);
 
                 fillAverageChart(name);
             }
@@ -247,7 +263,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         int currentRelevant = 0;//The relevant documents counted so far
         int totalCounted = 0;   //The total documents counted so far
 
-        float precision, recall;
+        float precision = 0, recall = 0;
 
         float lastRecall = -1;
 
@@ -280,6 +296,8 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
             return;     //Just in case there is a query with no relevant documents
         }
 
+        query.setRecall(recall);
+        query.setPrecision(precision);
         query.getLineChart().getData().add(series);
 
         if(check)
@@ -359,9 +377,13 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         series.setName(seriesName);
 
         HashMap<Integer, ArrayList<Float>> precisionSpecificMap = precisionMap.get(seriesName);
+        float maxRecall = averages.get(seriesName);
+        float maxPrecision = precisions.get(seriesName);
+
+        System.out.println("Test: " + seriesName + ". Max recall: " + maxRecall + ", max precision: " + maxPrecision);
 
         //From 1% to 100% recall
-        for(int recall=1; recall<=100; recall++){
+        for(int recall=1; recall<=maxRecall; recall++){
             //Obtain the values array
             ArrayList<Float> precisions = precisionSpecificMap.get(recall);
 
