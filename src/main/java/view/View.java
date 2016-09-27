@@ -86,13 +86,13 @@ public class View {
         Menu weightMenu = new Menu("_Weight");
         ToggleGroup weightToggleGroup = new ToggleGroup();
 
-        RadioMenuItem idf = new RadioMenuItem("IDF");
-        idf.setUserData("IDF");
+        RadioMenuItem idf = new RadioMenuItem("TF-IDF");
+        idf.setUserData("TF-IDF");
         idf.setToggleGroup(weightToggleGroup);
         idf.setSelected(true);
 
-        RadioMenuItem normIDF = new RadioMenuItem("Normalized IDF");
-        normIDF.setUserData("Normalized IDF");
+        RadioMenuItem normIDF = new RadioMenuItem("Normalized TF-IDF");
+        normIDF.setUserData("Normalized TF-IDF");
         normIDF.setToggleGroup(weightToggleGroup);
 
         weightMenu.getItems().addAll(idf, normIDF);
