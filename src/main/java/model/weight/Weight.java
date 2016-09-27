@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public abstract class Weight {
     private String weightMethodName;
     private PreparedStatement stCalculateIDF;
-    protected PreparedStatement stCalculateWeight;
+    protected PreparedStatement stCalculateWeight, stCalculateQueryWeight;
 
     public Weight(String weightMethodName, Connection connection) throws SQLException {
         this.weightMethodName = weightMethodName;
@@ -38,6 +38,16 @@ public abstract class Weight {
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString(), "Error calculating weights", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void calculateQueryWeights(){
+        try{
+            //Calculate weights
+            stCalculateQueryWeight.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString(), "Error calculating query weights", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

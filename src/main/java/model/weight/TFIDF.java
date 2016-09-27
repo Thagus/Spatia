@@ -10,6 +10,8 @@ public class TFIDF extends Weight{
     public TFIDF(Connection connection) throws SQLException {
         super("TF-IDF", connection);
 
-        stCalculateWeight = connection.prepareStatement("UPDATE SPATIA.INVERTEDINDEX i SET i.weight=tf*(SELECT t.idf FROM SPATIA.TERM t WHERE t.term=i.term)");
+        stCalculateWeight = connection.prepareStatement("UPDATE SPATIA.INVERTEDINDEX i SET i.weight=i.tf*(SELECT t.idf FROM SPATIA.TERM t WHERE t.term=i.term)");
+        //Updates the query terms weight if the value to update is not null, otherwise leave it as a 0
+        stCalculateQueryWeight = connection.prepareStatement("UPDATE QUERY q SET q.weight=q.tf*IFNULL((SELECT t.idf FROM SPATIA.TERM t WHERE t.term=q.term),0)");
     }
 }
