@@ -95,7 +95,15 @@ public class View {
         normIDF.setUserData("Normalized TF-IDF");
         normIDF.setToggleGroup(weightToggleGroup);
 
-        weightMenu.getItems().addAll(idf, normIDF);
+        RadioMenuItem ftd = new RadioMenuItem("Maximum normalized TF");
+        ftd.setUserData("Maximum normalized TF");
+        ftd.setToggleGroup(weightToggleGroup);
+
+        RadioMenuItem stdFTD = new RadioMenuItem("Maximum normalized TF-IDF");
+        stdFTD.setUserData("Maximum normalized TF-IDF");
+        stdFTD.setToggleGroup(weightToggleGroup);
+
+        weightMenu.getItems().addAll(idf, normIDF, ftd, stdFTD);
 
         //Add controller to toggle groups
         similarityToggleGroup.selectedToggleProperty().addListener(controllerMethodToggle);

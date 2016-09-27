@@ -5,9 +5,7 @@ import javafx.collections.ObservableList;
 import model.similarity.Cosine;
 import model.similarity.DotProduct;
 import model.similarity.Similarity;
-import model.weight.TFIDF;
-import model.weight.NormalizedTFIDF;
-import model.weight.Weight;
+import model.weight.*;
 import utilities.TermExtractor;
 
 import java.sql.Connection;
@@ -37,6 +35,8 @@ public class ModelOperations {
         //Create weight objects
         weightHashMap.put("TF-IDF", new TFIDF(connection));
         weightHashMap.put("Normalized TF-IDF", new NormalizedTFIDF(connection));
+        weightHashMap.put("Maximum normalized TF", new MaximumNormalizedTF(connection));
+        weightHashMap.put("Maximum normalized TF-IDF", new MaximumNormalizedTFIDF(connection));
 
 
         //Initialize with TF-IDF and DotProduct
