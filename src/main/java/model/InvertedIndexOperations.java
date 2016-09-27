@@ -1,22 +1,16 @@
 package model;
 
-import dataObjects.Term;
 import javax.swing.JOptionPane;
 import java.sql.*;
-import java.util.ArrayList;
 
 /**
  * Created by Thagus on 03/09/16.
  */
 public class InvertedIndexOperations {
     private PreparedStatement stAddTerm;
-    private PreparedStatement stGetTerms;
-    private PreparedStatement stGetTermCount;
 
     protected InvertedIndexOperations(Connection connection) throws SQLException{
         stAddTerm = connection.prepareStatement("INSERT INTO SPATIA.INVERTEDINDEX(idDoc,term,tf) VALUES(?,?,?)");
-        stGetTerms = connection.prepareStatement("SELECT * FROM SPATIA.INVERTEDINDEX WHERE term=?");
-        stGetTermCount = connection.prepareStatement("SELECT COUNT(*) FROM SPATIA.INVERTEDINDEX WHERE term=?");
     }
 
     /**
@@ -47,69 +41,5 @@ public class InvertedIndexOperations {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString(), "Error adding Term", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    /**
-     * Get the Terms that contain a term
-     * @param term The term to search
-     * @return An ArrayList of Terms containing the term
-     */
-    public ArrayList<Term> getDocumentsContainingTerm(String term){
-        try {
-            stGetTerms.clearParameters();
-            stGetTerms.setString(1, term);
-
-            ResultSet rs = stGetTerms.executeQuery();
-            ArrayList<Term> docTerms = new ArrayList<>();
-            boolean check = false;
-
-            while(rs.next()){
-                check = true;
-                docTerms.add(new Term(rs.getInt("idDoc"), rs.getString("term"), rs.getInt("tf")));
-            }
-
-            if(!check){
-                System.out.println("There are no documents containing term: " + term);
-            }
-
-            return docTerms;
-        } catch(SQLException e){
-            //Unhandled error
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString(), "Error getting documents for: " + term, JOptionPane.ERROR_MESSAGE);
-        }
-        return null;
-    }
-
-    /**
-     * Get the amount of documents that contain a term
-     * @param term The term to search
-     * @return the number of documents that contain the term
-     */
-    public int getTermCount(String term){
-        try {
-            stGetTermCount.clearParameters();
-            stGetTermCount.setString(1, term);
-
-            ResultSet rs = stGetTermCount.executeQuery();
-            int count = 0;
-            boolean check = false;
-
-            while(rs.next()){
-                check = true;
-                count = rs.getInt(1);
-            }
-
-            if(!check){
-                System.out.println("There is no document containing term: " + term);
-            }
-
-            return count;
-        } catch(SQLException e){
-            //Unhandled error
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString(), "Error getting term count for: " + term, JOptionPane.ERROR_MESSAGE);
-        }
-        return 0;
     }
 }
