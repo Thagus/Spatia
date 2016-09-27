@@ -39,8 +39,8 @@ public class QueryObject implements Comparable<QueryObject>{
         this.documentRetrieved = new ArrayList<>();
 
         //Creating chart and axis
-        final NumberAxis yAxis = new NumberAxis(0, 110, 10);
-        final NumberAxis xAxis = new NumberAxis(0, 110, 10);
+        final NumberAxis yAxis = new NumberAxis(0, 100, 10);
+        final NumberAxis xAxis = new NumberAxis(0, 100, 10);
         xAxis.setLabel("Recall %");
         lineChart = new LineChart<>(xAxis,yAxis);
         lineChart.setCreateSymbols(false);
@@ -48,6 +48,7 @@ public class QueryObject implements Comparable<QueryObject>{
 
         lineChart.getYAxis().setAnimated(true);
         lineChart.getXAxis().setAnimated(true);
+        lineChart.setMinHeight(560);
     }
 
     /**

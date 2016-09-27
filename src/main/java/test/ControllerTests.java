@@ -177,17 +177,18 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         }
 
         //Create average chart and axis
-        final NumberAxis xAxis = new NumberAxis(0, 110, 10);
-        final NumberAxis yAxis = new NumberAxis(0, 110, 10);
+        final NumberAxis xAxis = new NumberAxis(0, 100, 10);
+        final NumberAxis yAxis = new NumberAxis(0, 100, 10);
         xAxis.setLabel("Recall %");
         lineChart = new LineChart<>(xAxis,yAxis);
         lineChart.setCreateSymbols(false);
         lineChart.setCursor(Cursor.CROSSHAIR);
         lineChart.getYAxis().setAnimated(true);
         lineChart.getXAxis().setAnimated(true);
+        lineChart.setMinHeight(640);
+
 
         tagQuery = new HashMap<>();
-
 
 
         //Begin tests for each similarity and weight combination
