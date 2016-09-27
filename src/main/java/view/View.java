@@ -32,7 +32,6 @@ public class View {
     public Scene createScene(Stage window, ControllerSceneSwitcher controllerSceneSwitcher) {
         VBox layout = new VBox();
         layout.setSpacing(5);
-        //layout.setPadding(new Insets(10, 7, 5, 7));
 
         //Create controllers
         this.controllerSceneSwitcher = controllerSceneSwitcher;
