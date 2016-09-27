@@ -20,12 +20,11 @@ public class DotProduct extends Similarity {
 
     public DotProduct(Connection connection) throws SQLException {
         super("Dot product", connection);
-        calculateDotProduct = connection.prepareStatement("SELECT i.idDoc, SUM(q.tf * t.weight * i.tf * t.weight) as TFIDF " +
-                "FROM QUERY q, SPATIA.INVERTEDINDEX i, SPATIA.TERM t " +
-                "WHERE q.term = t.term " +
-                "AND i.term = t.term " +
-                "GROUP BY i.idDoc " +
-                "HAVING TFIDF > 0");
+        calculateDotProduct = connection.prepareStatement("SELECT i.idDoc, SUM(q.weight*i.weight) as sim " +
+                                                        "FROM QUERY q, SPATIA.INVERTEDINDEX i " +
+                                                        "WHERE q.term=i.term " +
+                                                        "GROUP BY i.idDoc " +
+                                                        "HAVING sim>0");
     }
 
     @Override
@@ -39,6 +38,9 @@ public class DotProduct extends Similarity {
 
                 addQuery.executeUpdate();
             }
+
+            //Calculate the query weight
+            super.calculateQueryWeight();
 
             //Execute calculation of similarity
             ResultSet rs = calculateDotProduct.executeQuery();
