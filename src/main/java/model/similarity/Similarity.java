@@ -2,6 +2,7 @@ package model.similarity;
 
 import dataObjects.Document;
 import javafx.collections.ObservableList;
+import model.ModelDatabase;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,4 +28,8 @@ public abstract class Similarity {
     }
 
     public abstract ObservableList<Document> calculateSimilarity(HashMap<String, Integer> wordCount);
+
+    public void calculateQueryWeight() {
+        ModelDatabase.instance().opModel.calculateQueryWeights();
+    }
 }
