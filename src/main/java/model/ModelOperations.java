@@ -106,4 +106,8 @@ public class ModelOperations {
     public void setSimilarityMethod(String similarityMethod){
         this.similarity = similarityHashMap.get(similarityMethod);
     }
+
+    public void calculateQueryWeights() {
+        this.weight.calculateQueryWeights();
+    }
 }
