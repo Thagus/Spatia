@@ -107,6 +107,7 @@ public class ModelDatabase {
                     "idDoc INTEGER NOT NULL," +
                     "term VARCHAR NOT NULL," +
                     "tf INTEGER NOT NULL," +
+                    "weight DOUBLE NOT NULL DEFAULT '0'," +
                     "FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE," +
                     "PRIMARY KEY (idDoc,term)" +
                     ")");
@@ -120,11 +121,10 @@ public class ModelDatabase {
             st.execute("CREATE TABLE SPATIA.TERM(" +
                     "term VARCHAR NOT NULL," +
                     "idf DOUBLE NOT NULL," +
-                    "weight DOUBLE NOT NULL," +
                     "PRIMARY KEY (term)" +
                     ")");
         } catch (SQLException e) {
-            //System.out.println("Error creating IDF table:");
+            //System.out.println("Error creating TFIDF table:");
             //e.printStackTrace();
         }
 
@@ -133,6 +133,7 @@ public class ModelDatabase {
             st.execute("CREATE MEMORY TEMPORARY TABLE QUERY(" +
                     "term VARCHAR NOT NULL," +
                     "tf INTEGER NOT NULL," +
+                    "weight DOUBLE NOT NULL DEFAULT '0'," +
                     "PRIMARY KEY (term,TF)" +
                     ") NOT PERSISTENT");
         } catch (SQLException e) {
@@ -148,7 +149,7 @@ public class ModelDatabase {
         try {
             st.execute("DROP TABLE SPATIA.DOCUMENT");
             st.execute("DROP TABLE SPATIA.TERMS");
-            st.execute("DROP TABLE SPATIA.IDF");
+            st.execute("DROP TABLE SPATIA.TFIDF");
         } catch (SQLException e) {
             //System.out.println("Error cleaning DB:");
             //e.printStackTrace();
