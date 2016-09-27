@@ -149,6 +149,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
      * Obstans the queries to execute and start the tests
      */
     public void beginTests(){
+        long startTest = System.nanoTime();
         //Load queries
         ArrayList<QueryObject> queries = db.getQueries();
         //Get the main database instance
@@ -224,6 +225,10 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
         //Update view
         updateTreeView(queries);
+        long endTest = System.nanoTime();
+
+
+        System.out.println("\nTests duration: " + (endTest-startTest)/1000000L + " ms");
     }
 
     /**
@@ -245,6 +250,8 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
         float lastRecall = -1;
 
+        boolean check = false;
+
         if(totalRecall>0) {
             //Calculate precision and recall at each point of the retrieved list
             for (Integer documentID : query.getDocumentRetrieved()) {
@@ -257,6 +264,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
                 recall = (currentRelevant * 100.0f) / totalRecall;
 
                 if(recall!=lastRecall && recall!=0){
+                    check = true;
                     lastRecall = recall;
 
                     precision = (currentRelevant * 100.0f) / totalCounted;
@@ -273,7 +281,8 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
         query.getLineChart().getData().add(series);
 
-        feedAverages(series, seriesName);
+        if(check)
+            feedAverages(series, seriesName);
     }
 
     /**
