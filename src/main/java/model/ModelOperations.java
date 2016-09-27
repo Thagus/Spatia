@@ -2,11 +2,10 @@ package model;
 
 import dataObjects.Document;
 import javafx.collections.ObservableList;
-import model.similarity.Cosine;
 import model.similarity.DotProduct;
 import model.similarity.Similarity;
-import model.weight.IDF;
-import model.weight.NormalizedIDF;
+import model.weight.TFIDF;
+import model.weight.NormalizedTFIDF;
 import model.weight.Weight;
 import utilities.TermExtractor;
 
@@ -32,16 +31,16 @@ public class ModelOperations {
 
         //Create similarity objects
         similarityHashMap.put("Dot product", new DotProduct(connection));
-        similarityHashMap.put("Cosine", new Cosine(connection));
+        //similarityHashMap.put("Cosine", new Cosine(connection));
 
         //Create weight objects
-        weightHashMap.put("IDF", new IDF(connection));
-        weightHashMap.put("Normalized IDF", new NormalizedIDF(connection));
+        weightHashMap.put("TF-IDF", new TFIDF(connection));
+        weightHashMap.put("Normalized TF-IDF", new NormalizedTFIDF(connection));
 
 
-        //Initialize with IDF and DotProduct
+        //Initialize with TF-IDF and DotProduct
         setSimilarityMethod("Dot product");
-        setWeightMethod("IDF");
+        setWeightMethod("TF-IDF");
     }
 
     /**
@@ -71,17 +70,10 @@ public class ModelOperations {
         weight.calculateWeights();
     }
 
+
     /**
      *  Getters
      */
-
-    public String getSimilarityName(){
-        return similarity.getSimilarityMethodName();
-    }
-
-    public String getWeightName(){
-        return weight.getWeightMethodName();
-    }
 
     public Set<String> getSimilarityMethods(){
         return similarityHashMap.keySet();
@@ -98,9 +90,9 @@ public class ModelOperations {
     public void setWeightMethod(String weightMethod){
         if(this.weight==null || this.weight.getWeightMethodName()!=weightMethod) {
             this.weight = weightHashMap.get(weightMethod);
-            System.out.println("Calculating weights...");
+            System.out.print("\nCalculating weights...");
             calculateWeights();
-            System.out.println("Weights calculated!");
+            System.out.print("Weights calculated!\n");
         }
         else{
             System.out.println("\nTrying to calculate an already calculated weight method!\nSkipping...\n");
