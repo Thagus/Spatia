@@ -132,8 +132,7 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
     /**
      * Counts the words on each document in order to calculate the TF of each term in the document
      * Adds the documents and its terms to the database
-     * Requests the calculation of IDF
-     * Requests the calculation of TFIDF
+     * Requests the calculation of weights
      *
      * @param documents The array of documents read
      */
