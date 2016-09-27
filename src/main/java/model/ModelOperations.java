@@ -2,6 +2,7 @@ package model;
 
 import dataObjects.Document;
 import javafx.collections.ObservableList;
+import model.similarity.Cosine;
 import model.similarity.DotProduct;
 import model.similarity.Similarity;
 import model.weight.TFIDF;
@@ -31,7 +32,7 @@ public class ModelOperations {
 
         //Create similarity objects
         similarityHashMap.put("Dot product", new DotProduct(connection));
-        //similarityHashMap.put("Cosine", new Cosine(connection));
+        similarityHashMap.put("Cosine", new Cosine(connection));
 
         //Create weight objects
         weightHashMap.put("TF-IDF", new TFIDF(connection));
@@ -90,7 +91,6 @@ public class ModelOperations {
     public void setWeightMethod(String weightMethod){
         if(this.weight==null || this.weight.getWeightMethodName()!=weightMethod) {
             this.weight = weightHashMap.get(weightMethod);
-            System.out.print("\nCalculating weights...");
             calculateWeights();
             System.out.print("Weights calculated!\n");
         }
