@@ -55,12 +55,13 @@ public class ModelOperations {
         HashMap<String, Integer> wordCount = TermExtractor.extractTerms(query);           //Counter for word occurrence in the query
         ObservableList<Document> searchResult;
 
+        //Request the calculation of similarity for the query, and save the results in the searchResult list
         searchResult = similarity.calculateSimilarity(wordCount);
 
-        //Sort the ArrayList
+        //Sort the results by similarity, from highest to lowest
         Collections.sort(searchResult, Collections.reverseOrder());
 
-        //Return
+        //Return the results
         return searchResult;
     }
 
@@ -85,11 +86,11 @@ public class ModelOperations {
     }
 
     /**
-     * Set the weight method
+     * Set the desired weight method
      * @param weightMethod the weight method name to be used
      */
     public void setWeightMethod(String weightMethod){
-        if(this.weight==null || this.weight.getWeightMethodName()!=weightMethod) {
+        if(this.weight==null || !this.weight.getWeightMethodName().equals(weightMethod)) {
             this.weight = weightHashMap.get(weightMethod);
             calculateWeights();
             System.out.print("Weights calculated!\n");
@@ -100,7 +101,7 @@ public class ModelOperations {
     }
 
     /**
-     * Set the similarity method
+     * Set the desired similarity method
      * @param similarityMethod The similarity method name to be used
      */
     public void setSimilarityMethod(String similarityMethod){
