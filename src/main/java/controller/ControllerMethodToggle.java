@@ -20,19 +20,20 @@ public class ControllerMethodToggle implements ChangeListener<Toggle> {
         if(newValue!=null) {
             String userData = newValue.getUserData().toString();
             switch (userData) {
-                //Weight methods
+                //Weight methods are sent to setWeightMethod method for computation
                 case "TF-IDF":
                 case "Normalized TF-IDF":
                 case "Maximum normalized TF-IDF":
                 case "Maximum normalized TF":
                     modOps.setWeightMethod(userData);
                     break;
-                //Similarity methods
+                //Similarity methods are sent to setSimilarityMethod method
                 case "Dot product":
                 case "Cosine":
                     modOps.setSimilarityMethod(userData);
                     break;
                 default:
+                    System.out.println("Unknown method");
             }
         }
     }
