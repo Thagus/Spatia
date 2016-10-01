@@ -53,7 +53,6 @@ public abstract class Weight {
      * Calculates the term weights for every term in the current query
      */
     public void calculateQueryWeights(){
-        Math.log(10);
         try{
             //Calculate weights
             stCalculateQueryWeight.executeUpdate(); //Executes the query that updates the term weights
