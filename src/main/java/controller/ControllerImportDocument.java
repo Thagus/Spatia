@@ -156,6 +156,8 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
             }
         }
 
+        //Requests the calculation of IDFs
+        db.opModel.calculateIDFs();
         //Request the calculation of weights
         db.opModel.calculateWeights();
 

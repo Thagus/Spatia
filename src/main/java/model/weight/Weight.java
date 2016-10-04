@@ -30,17 +30,27 @@ public abstract class Weight {
     }
 
     /**
-     * Calculates the weights for every term in the documents
+     * Calculates the IDFs for every term in the TERM table
      */
-    public void calculateWeights(){
-        System.out.println("Calculating weights using: " + weightMethodName + "...");
-        try{
+    public void calculateIDFs(){
+        System.out.println("Calculating IDFs");
+        try {
             //Calculate the IDF for every term in the collection
             int numberOfDocuments = ModelDatabase.instance().opDocuments.countDocuments();
             stCalculateIDF.clearParameters();
             stCalculateIDF.setInt(1, numberOfDocuments);
             stCalculateIDF.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     * Calculates the weights for every term in the documents
+     */
+    public void calculateWeights(){
+        System.out.println("Calculating weights using: " + weightMethodName + "...");
+        try{
             //Calculate weights
             stCalculateWeight.executeUpdate();  //Executes the query that updates the term weights from every document
         } catch (SQLException e) {

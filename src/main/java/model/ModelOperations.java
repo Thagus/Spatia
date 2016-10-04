@@ -39,6 +39,8 @@ public class ModelOperations {
         weightHashMap.put("Maximum normalized TF-IDF", new MaximumNormalizedTFIDF(connection));
 
 
+        //Calculate IDFs, just in case
+        calculateIDFs();
         //Initialize with TF-IDF and DotProduct
         setSimilarityMethod("Dot product");
         setWeightMethod("TF-IDF");
@@ -70,6 +72,13 @@ public class ModelOperations {
      */
     public void calculateWeights() {
         weight.calculateWeights();
+    }
+
+    /**
+     * A method to request the calculation of IDFs
+     */
+    public void calculateIDFs(){
+        weight.calculateIDFs();
     }
 
 
