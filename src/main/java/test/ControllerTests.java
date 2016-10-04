@@ -35,9 +35,9 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
     private final TestsDatabase db;
     private HashMap<String, QueryObject> tagQuery;
 
-    private HashMap<String, HashMap<Integer, ArrayList<Float>>> precisionMap;
-    private HashMap<String, Float> averages, precisions;
-    private LineChart<Number, Number> lineChart;
+    private HashMap<String, HashMap<String, HashMap<Integer, ArrayList<Float>>>> precisionMap;
+    private HashMap<String, HashMap<String, Float>> testAverages, testPrecisions;
+    private HashMap<String, LineChart<Number, Number>> lineCharts;
 
     private ViewTest view;
 
@@ -151,47 +151,25 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
      */
     public void beginTests(){
         long startTest = System.nanoTime();
-        //Load queries
-        ArrayList<QueryObject> queries = db.getQueries();
+
         //Get the main database instance
         ModelDatabase mainDatabase = ModelDatabase.instance();
-        //Sort them according the id (ascendant)
-        Collections.sort(queries);
+
 
         Set<String> weightNames = mainDatabase.opModel.getWeightMethods();
         Set<String> similarityNames = mainDatabase.opModel.getSimilarityMethods();
 
 
-        //Instantiate arrays to contain average series
+        //Instantiate hashmaps for averages
         precisionMap = new HashMap<>();
-        precisions = new HashMap<>();
-        averages = new HashMap<>();
-        for(String w : weightNames){
-            for(String s : similarityNames){
-                String name = w + " - " + s;
-                HashMap<Integer, ArrayList<Float>> precisionSpecificMap = new HashMap<>();
+        testAverages = new HashMap<>();
+        testPrecisions = new HashMap<>();
 
-                for (int i = 1; i <= 100; i++) {
-                    precisionSpecificMap.put(i, new ArrayList<>());
-                }
+        //Tree view root
+        TreeItem<String> root = new TreeItem<>("Tests");
+        root.setExpanded(true);
 
-                precisionMap.put(name, precisionSpecificMap);
-                precisions.put(name, 0f);
-                averages.put(name, 0f);
-            }
-        }
-
-        //Create average chart and axis
-        final NumberAxis xAxis = new NumberAxis(0, 100, 10);
-        final NumberAxis yAxis = new NumberAxis(0, 100, 10);
-        xAxis.setLabel("Recall %");
-        lineChart = new LineChart<>(xAxis,yAxis);
-        lineChart.setCreateSymbols(false);
-        lineChart.setCursor(Cursor.CROSSHAIR);
-        lineChart.getYAxis().setAnimated(true);
-        lineChart.getXAxis().setAnimated(true);
-        lineChart.setMinHeight(640);
-
+        lineCharts = new HashMap<>();
 
         tagQuery = new HashMap<>();
 
@@ -202,47 +180,107 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         for(String w : weightNames) {
             //Set weight method
             mainDatabase.opModel.setWeightMethod(w);
-            mainDatabase.opModel.calculateWeights();
-            for (String s : similarityNames) {
-                //Set similarity method
-                mainDatabase.opModel.setSimilarityMethod(s);
-                //Define test name
-                String name = w + " - " + s;
-                System.out.println("Starting test: " + name);
+            mainDatabase.opModel.calculateWeights();    //Calculate weights
 
-                float recall = 0f, precision = 0f;
+            for(int i=1; i<=10; i++){    //Iterate through document limits
+                for(int j=1; j<=10; j++){   //Iterate through term limits
+                    String testName = "Test - " + i + ", " + j;
+                    //Create average chart and axis
+                    NumberAxis xAxis = new NumberAxis(0, 100, 10);
+                    NumberAxis yAxis = new NumberAxis(0, 100, 10);
+                    xAxis.setLabel("Recall %");
+                    LineChart<Number, Number> lineChart = new LineChart<>(xAxis,yAxis);
+                    lineChart.setCreateSymbols(false);
+                    lineChart.setCursor(Cursor.CROSSHAIR);
+                    lineChart.getYAxis().setAnimated(true);
+                    lineChart.getXAxis().setAnimated(true);
+                    lineChart.setMinHeight(640);
+
+                    lineCharts.put(testName, lineChart);
 
 
-                //Execute the tests for each query
-                for(QueryObject query : queries){
-                    ArrayList<Integer> retrieved = query.getDocumentRetrieved();    //Obtain the reference to the ArrayList of the query
+                    //Load queries
+                    ArrayList<QueryObject> queries = db.getQueries();
+                    //Sort them according the id (ascendant)
+                    Collections.sort(queries);
 
-                    //Reset the retrieved documents
-                    retrieved.clear();
+                    for (String s : similarityNames) {
+                        //Set similarity method
+                        mainDatabase.opModel.setSimilarityMethod(s);
+                        //Define test name
+                        String name = w + " - " + s;
 
-                    //Retrieve result documents from evaluating query
-                    mainDatabase.opModel.evaluateQuery(query.getQuery()).forEach(i ->
-                            //For each retrieved document, extract its id and store it within the query
-                            retrieved.add(i.getIdDoc())
-                    );
+                        HashMap<String, HashMap<Integer, ArrayList<Float>>> testNameMap = precisionMap.get(testName);
 
-                    //Evaluate results and create charts
-                    evaluateResults(query, name);
+                        if(testNameMap==null){
+                            testNameMap = new HashMap<>();
+                        }
 
-                    //Evaluate averages
-                    recall += query.getRecall()/numOfQueries;
-                    precision += query.getPrecision()/numOfQueries;
+                        HashMap<Integer, ArrayList<Float>> precisionSpecificMap = new HashMap<>();
+                        for (int p = 1; p<=100; p++) {
+                            precisionSpecificMap.put(p, new ArrayList<>());
+                        }
+
+                        testNameMap.put(name, precisionSpecificMap);
+                        precisionMap.put(testName, testNameMap);
+
+                        HashMap<String, Float> precisions = testPrecisions.get(testName);
+                        if(precisions==null){
+                            precisions = new HashMap<>();
+                        }
+                        precisions.put(name, 0f);
+                        testPrecisions.put(testName, precisions);
+
+
+                        HashMap<String, Float> averages = testAverages.get(testName);
+                        if(averages==null){
+                            averages = new HashMap<>();
+                        }
+                        averages.put(name, 0f);
+                        testAverages.put(testName, averages);
+
+
+                        System.out.println("Starting test: " + name + ". With: " + testName);
+
+                        float recall = 0f, precision = 0f;
+
+
+                        //Execute the tests for each query
+                        for(QueryObject query : queries){
+                            ArrayList<Integer> retrieved = query.getDocumentRetrieved();    //Obtain the reference to the ArrayList of the query
+
+                            //Reset the retrieved documents
+                            retrieved.clear();
+
+                            //Retrieve result documents from evaluating query
+                            mainDatabase.opModel.evaluateQuery(query.getQuery(), j, i).forEach(q ->
+                                    //For each retrieved document, extract its id and store it within the query
+                                    retrieved.add(q.getIdDoc())
+                            );
+
+                            //Evaluate results and create charts
+                            evaluateResults(query, name, testName);
+
+                            //Evaluate averages
+                            recall += query.getRecall()/numOfQueries;
+                            precision += query.getPrecision()/numOfQueries;
+                        }
+
+                        precisions.put(name, precision);
+                        averages.put(name, recall);
+
+                        fillAverageChart(name, testName);
+                    }
+
+                    //Add the tests to the view
+                    updateTreeView(queries, root, testName);
                 }
-
-                precisions.put(name, precision);
-                averages.put(name, recall);
-
-                fillAverageChart(name);
             }
         }
 
         //Update view
-        updateTreeView(queries);
+        view.setRootTreeView(root);
+
         long endTest = System.nanoTime();
 
 
@@ -253,7 +291,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
      * Evaluates the results of a query and creates the corresponding charts
      * @param query The query to be evaluated
      */
-    private void evaluateResults(QueryObject query, String seriesName){
+    private void evaluateResults(QueryObject query, String seriesName, String testName){
         //Obtain the relevant document ids from the queryID
         ArrayList<Integer> relevantDocuments = query.getRelevantDocuments();
 
@@ -302,7 +340,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         query.getLineChart().getData().add(series);
 
         if(check)
-            feedAverages(series, seriesName);
+            feedAverages(series, seriesName, testName);
     }
 
     /**
@@ -311,11 +349,11 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
      * @param series the series containing all the known points
      * @param seriesName the name of the series evaluated
      */
-    private void feedAverages(XYChart.Series<Number, Number> series, String seriesName){
+    private void feedAverages(XYChart.Series<Number, Number> series, String seriesName, String testName){
         ObservableList<XYChart.Data<Number, Number>> data = series.getData();
         int dataIndex =0;
 
-        HashMap<Integer, ArrayList<Float>> precisionSpecificMap = precisionMap.get(seriesName);
+        HashMap<Integer, ArrayList<Float>> precisionSpecificMap = precisionMap.get(testName).get(seriesName);
 
         for(int recall=1; recall<=100; recall++){
             ArrayList<Float> precisions = precisionSpecificMap.get(recall);
@@ -372,16 +410,16 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
     /**
      * A method to create a chart of the precision average for every recall (from 1 to 100%)
      */
-    private void fillAverageChart(String seriesName) {
+    private void fillAverageChart(String seriesName, String testName) {
         //Create series
         XYChart.Series<Number, Number> series = new XYChart.Series<>();
         series.setName(seriesName);
 
-        HashMap<Integer, ArrayList<Float>> precisionSpecificMap = precisionMap.get(seriesName);
-        float maxRecall = averages.get(seriesName);
-        float maxPrecision = precisions.get(seriesName);
+        HashMap<Integer, ArrayList<Float>> precisionSpecificMap = precisionMap.get(testName).get(seriesName);
+        float maxRecall = testAverages.get(testName).get(seriesName);
+        float maxPrecision = testPrecisions.get(testName).get(seriesName);
 
-        System.out.println("Test: " + seriesName + ". Max recall: " + maxRecall + ", max precision: " + maxPrecision);
+        System.out.println("Test: " + seriesName + ". Max recall: " + maxRecall + ", end precision: " + maxPrecision);
 
         //From 1% to 100% recall
         for(int recall=1; recall<=maxRecall; recall++){
@@ -397,7 +435,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
             series.getData().add(new XYChart.Data<>(recall, averagePrecision));
         }
 
-        lineChart.getData().add(series);
+        lineCharts.get(testName).getData().add(series);
     }
 
     /**
@@ -405,14 +443,14 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
      * and adds the queries to a HashMap
      * @param queries An array containing all the queries
      */
-    private void updateTreeView(ArrayList<QueryObject> queries){
+    private void updateTreeView(ArrayList<QueryObject> queries, TreeItem<String> root, String testName){
         //Update lateral tree view, with format "Query #", where # is the number of query from the array
-        TreeItem<String> rootItem = new TreeItem<>("Tests");
+        TreeItem<String> rootItem = new TreeItem<>(testName);
         rootItem.setExpanded(true);
         System.out.println("--------------------------------");
 
         for(QueryObject query : queries){
-            String tag = "Query " + query.getQid();
+            String tag = testName +": Query " + query.getQid();
 
             //Add query to hashmap
             tagQuery.put(tag, query);
@@ -421,7 +459,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
             rootItem.getChildren().add(item);
         }
 
-        view.setRootTreeView(rootItem);
+        root.getChildren().add(rootItem);
     }
 
     /**
@@ -432,10 +470,10 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
      */
     @Override
     public void changed(ObservableValue<? extends TreeItem<String>> observable, TreeItem<String> oldValue, TreeItem<String> newValue) {
-        if(newValue!=null) {
-            if(newValue.getValue().equals("Tests")){
+        if(newValue!=null || !newValue.getValue().equals("Tests")) {
+            if(newValue.getValue().startsWith("Test - ")){
                 //View average
-                view.setViewAverage(lineChart);
+                view.setViewAverage(lineCharts.get(newValue.getValue()));
             }
             else{
                 view.setViewedChart(tagQuery.get(newValue.getValue()));
