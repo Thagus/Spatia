@@ -132,7 +132,7 @@ public class ModelDatabase {
         try {
             st.execute("CREATE MEMORY TEMPORARY TABLE QUERY(" +
                     "term VARCHAR NOT NULL," +
-                    "tf INTEGER NOT NULL," +
+                    "tf INTEGER," +
                     "weight DOUBLE NOT NULL DEFAULT '0'," +
                     "PRIMARY KEY (term,TF)" +
                     ") NOT PERSISTENT");
