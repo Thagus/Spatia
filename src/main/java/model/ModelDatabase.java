@@ -134,7 +134,7 @@ public class ModelDatabase {
                     "term VARCHAR NOT NULL," +
                     "tf INTEGER," +
                     "weight DOUBLE NOT NULL DEFAULT '0'," +
-                    "PRIMARY KEY (term,TF)" +
+                    "PRIMARY KEY (term)" +
                     ") NOT PERSISTENT");
         } catch (SQLException e) {
             //System.out.println("Error creating Query table:");
