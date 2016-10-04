@@ -61,7 +61,7 @@ public class ModelOperations {
         ObservableList<Document> searchResult;
 
         //Request the calculation of similarity for the query, and save the results in the searchResult list
-        searchResult = similarity.calculateSimilarity(wordCount);
+        searchResult = similarity.similarityFeedback(wordCount, 0, 0, 1);   //0,0 for default limits, and the 1 for one iteration
 
         //Sort the results by similarity, from highest to lowest
         Collections.sort(searchResult, Collections.reverseOrder());
