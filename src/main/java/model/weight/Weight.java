@@ -33,7 +33,7 @@ public abstract class Weight {
      * Calculates the IDFs for every term in the TERM table
      */
     public void calculateIDFs(){
-        System.out.println("Calculating IDFs");
+        System.out.println("Calculating IDFs...");
         try {
             //Calculate the IDF for every term in the collection
             int numberOfDocuments = ModelDatabase.instance().opDocuments.countDocuments();
