@@ -18,6 +18,7 @@ public class DotProduct extends Similarity {
                                                         "FROM QUERY q, SPATIA.INVERTEDINDEX i " +
                                                         "WHERE q.term=i.term " +
                                                         "GROUP BY i.idDoc " +
-                                                        "HAVING sim>0");
+                                                        "HAVING sim>0 " +
+                                                        "ORDER BY sim DESC");
     }
 }

@@ -17,6 +17,7 @@ public class Cosine extends Similarity {
                 "FROM QUERY q, SPATIA.INVERTEDINDEX i\n" +
                 "WHERE q.term=i.term\n" +
                 "GROUP BY i.idDoc\n" +
-                "HAVING sim>0");
+                "HAVING sim>0 " +
+                "ORDER BY sim DESC");
     }
 }
