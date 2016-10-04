@@ -26,8 +26,8 @@ public abstract class Similarity {
 
     public Similarity(String similarityMethodName, Connection connection) throws SQLException {
         this.similarityMethodName = similarityMethodName;
-        this.relevantTermsLimit = 10;
-        this.relevantDocumentsLimit = 10;
+        this.relevantTermsLimit = 2;
+        this.relevantDocumentsLimit = 2;
 
         //The SQL query to add a term to the QUERY table
         addQuery = connection.prepareStatement("INSERT INTO QUERY(term,tf) VALUES(?,?)");
@@ -62,46 +62,6 @@ public abstract class Similarity {
      * @param wordCount a hash table containing the terms of the query and their frequencies
      * @return The list of documents that are the result of the similarity method execution
      */
-    public ObservableList<Document> calculateSimilarity(HashMap<String, Integer> wordCount){
-        try{
-            //Insert query terms to memory table
-            for(Map.Entry<String, Integer> entry : wordCount.entrySet()){
-                addQuery.clearParameters();
-                addQuery.setString(1, entry.getKey());
-                addQuery.setInt(2, entry.getValue());
-
-                addQuery.executeUpdate();
-            }
-
-            //Calculate the query weight
-            ModelDatabase.instance().opModel.calculateQueryWeights();
-
-            stCalculateSimilarity.setMaxRows(0);
-            //Execute calculation of similarity
-            ResultSet rs = stCalculateSimilarity.executeQuery();
-
-            //Create Document objects
-            ObservableList<Document> searchResult = FXCollections.observableArrayList();
-            ModelDatabase db = ModelDatabase.instance();
-
-            //Obtain every resulting document
-            while (rs.next()){
-                Document document = db.opDocuments.getDocument(rs.getInt(1));
-                document.setSimilarity(rs.getDouble(2));
-
-                searchResult.add(document);
-            }
-
-            //Clear Query table
-            clearQuery.executeUpdate();
-
-            return  searchResult;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public ObservableList<Document> similarityFeedback(HashMap<String, Integer> wordCount, int termLimit, int documentLimit, int iterations){
         try{
             //Insert query terms to memory table
