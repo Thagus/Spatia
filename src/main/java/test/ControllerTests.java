@@ -202,6 +202,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         for(String w : weightNames) {
             //Set weight method
             mainDatabase.opModel.setWeightMethod(w);
+            mainDatabase.opModel.calculateWeights();
             for (String s : similarityNames) {
                 //Set similarity method
                 mainDatabase.opModel.setSimilarityMethod(s);

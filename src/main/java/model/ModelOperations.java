@@ -39,11 +39,14 @@ public class ModelOperations {
         weightHashMap.put("Maximum normalized TF-IDF", new MaximumNormalizedTFIDF(connection));
 
 
-        //Calculate IDFs, just in case
-        calculateIDFs();
         //Initialize with TF-IDF and DotProduct
         setSimilarityMethod("Dot product");
         setWeightMethod("TF-IDF");
+
+        //Calculate IDFs
+        calculateIDFs();
+        //Calculate weights
+        calculateWeights();
     }
 
     /**
@@ -72,6 +75,7 @@ public class ModelOperations {
      */
     public void calculateWeights() {
         weight.calculateWeights();
+        System.out.print("Weights calculated!\n");
     }
 
     /**
@@ -101,8 +105,6 @@ public class ModelOperations {
     public void setWeightMethod(String weightMethod){
         if(this.weight==null || !this.weight.getWeightMethodName().equals(weightMethod)) {
             this.weight = weightHashMap.get(weightMethod);
-            calculateWeights();
-            System.out.print("Weights calculated!\n");
         }
         else{
             System.out.println("\nTrying to calculate an already calculated weight method!\nSkipping...\n");
