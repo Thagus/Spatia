@@ -34,7 +34,7 @@ public abstract class Similarity {
         //A query to clear the QUERY table, so we don't have more than a query at a time
         clearQuery = connection.prepareStatement("TRUNCATE TABLE QUERY");
         //Get the N most relevant terms of a document
-        getMostRelevantTerms = connection.prepareStatement("SELECT term, weight FROM SPATIA.INVERTEDINDEX WHERE idDoc=? ORDER BY weight LIMIT ?");
+        getMostRelevantTerms = connection.prepareStatement("SELECT term, weight FROM SPATIA.INVERTEDINDEX WHERE idDoc=? ORDER BY weight DESC LIMIT ?");
 
         mergeToQuery = connection.prepareStatement("MERGE INTO QUERY(term,weight) VALUES(?,IFNULL(SELECT weight+? FROM QUERY WHERE term=?,?))");
     }
