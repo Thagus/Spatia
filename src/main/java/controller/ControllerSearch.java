@@ -20,7 +20,7 @@ public class ControllerSearch {
      * @param searchBox The textField containing the search text
      */
     public void handleSearch(TableView<Document> tableDocuments, TextField searchBox){
-        tableDocuments.setItems(ModelDatabase.instance().opModel.evaluateQuery(searchBox.getText(), 0, 0));
+        tableDocuments.setItems(ModelDatabase.instance().opModel.evaluateQuery(searchBox.getText(), 0, 0, 1));
     }
 
     /**
