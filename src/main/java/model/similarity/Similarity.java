@@ -58,9 +58,12 @@ public abstract class Similarity {
     }
 
     /**
-     * Saves the query on the QUERY table and executes the calculation of the similarity (that is implemented on the concrete subclases)
-     * @param wordCount a hash table containing the terms of the query and their frequencies
-     * @return The list of documents that are the result of the similarity method execution
+     * Saves the query on the QUERY table, executes the calculation of the similarity (that is implemented on the subclases), and performs the feedback
+     * @param wordCount a hash table containing the terms of the query with their term frequencies
+     * @param termLimit the number of relevant terms to be considered on the feedback
+     * @param documentLimit the number of relevant document to be considered on the feedback
+     * @param iterations the number of feedback iterations
+     * @return The list of resulting documents for the query
      */
     public ObservableList<Document> similarityFeedback(HashMap<String, Integer> wordCount, int termLimit, int documentLimit, int iterations){
         try{
@@ -76,7 +79,7 @@ public abstract class Similarity {
             //Calculate the query term weights
             ModelDatabase.instance().opModel.calculateQueryWeights();
 
-            //Set row count limit
+            //Limit the amount of considered documents
             if(documentLimit<=0)
                 stCalculateSimilarity.setMaxRows(relevantDocumentsLimit);
             else
@@ -91,6 +94,8 @@ public abstract class Similarity {
                 while (rs.next()){
                     //Obtain most relevant terms of document
                     getMostRelevantTerms.setInt(1, rs.getInt(1));
+
+                    //Set the limit of relevant terms to be considered
                     if(termLimit<=0)
                         getMostRelevantTerms.setInt(2, relevantTermsLimit);
                     else
@@ -121,6 +126,7 @@ public abstract class Similarity {
              * Calculate similarity
              */
 
+            //Retrieve all the results
             stCalculateSimilarity.setMaxRows(0);
             //Execute calculation of similarity
             ResultSet rs = stCalculateSimilarity.executeQuery();
