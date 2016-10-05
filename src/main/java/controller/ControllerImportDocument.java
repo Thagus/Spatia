@@ -156,10 +156,8 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
             }
         }
 
-        //Requests the calculation of IDFs
-        db.opModel.calculateIDFs();
-        //Request the calculation of weights
-        db.opModel.calculateWeights();
+        //Requests the calculation of IDFs and weights
+        db.opModel.recalculateWeights();
 
         //Message to alert the user of the total amount of successfully added documents
         Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Successfully added " + documentCount + " documents");

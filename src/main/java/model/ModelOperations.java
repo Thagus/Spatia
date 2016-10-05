@@ -66,6 +66,15 @@ public class ModelOperations {
     }
 
     /**
+     * Recalculate IDFs and weights
+     */
+    public void recalculateWeights(){
+        weight.calculateIDFs();
+        idfCalculated = true;
+        weight.calculateWeights();
+    }
+
+    /**
      *  Getters
      */
 
