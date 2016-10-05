@@ -41,9 +41,9 @@ public class ModelOperations {
         setWeightMethod("TF-IDF");
 
         //Calculate IDFs
-        calculateIDFs();
+        //calculateIDFs();
         //Calculate weights
-        calculateWeights();
+        //calculateWeights();
     }
 
     /**
