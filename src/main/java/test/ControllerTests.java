@@ -175,8 +175,9 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
         int numOfQueries = db.countQueries();
 
-        for(int i=1; i<=1; i++){    //Iterate through document limits
-            for(int j=1; j<=1; j++){   //Iterate through term limits
+
+        for(int i=1; i<=10; i++){    //Iterate through document limits
+            for(int j=1; j<=10; j++){   //Iterate through term limits
                 String testName = "Test - " + i + ", " + j;
                 //Create average chart and axis
                 NumberAxis xAxis = new NumberAxis(0, 100, 10);
@@ -237,9 +238,6 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
                         }
                         averages.put(name, 0f);
                         testAverages.put(testName, averages);
-
-
-                        System.out.println("Starting test: " + name + ". With: " + testName);
 
                         float recall = 0f, precision = 0f;
 
@@ -417,7 +415,9 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         float maxRecall = testAverages.get(testName).get(seriesName);
         float maxPrecision = testPrecisions.get(testName).get(seriesName);
 
-        System.out.println("Test: " + seriesName + ". Max recall: " + maxRecall + ", end precision: " + maxPrecision);
+        //System.out.println("Test: " + seriesName + " ( " + testName + "). Max recall: " + maxRecall + ", end precision: " + maxPrecision);
+
+        float first3=0, first5=0, first10=0, first15=0, first20=0, first30=0;
 
         //From 1% to 100% recall
         for(int recall=1; recall<=maxRecall; recall++){
@@ -431,7 +431,23 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
             //Add values to the chart
             series.getData().add(new XYChart.Data<>(recall, averagePrecision));
+
+            if(recall<=3)
+                first3+=averagePrecision/3;
+            if(recall<=5)
+                first5+=averagePrecision/5;
+            if(recall<=10)
+                first10+=averagePrecision/10;
+            if(recall<=15)
+                first15+=averagePrecision/15;
+            if(recall<=20)
+                first20+=averagePrecision/20;
+            if(recall<=30)
+                first30+=averagePrecision/30;
         }
+        //Average precision at 3%   5%   10%   15%   20%   30%
+        System.out.println( seriesName + " ( " + testName + ")\t" + first3 + "\t" + first5 + "\t" + first10 + "\t" + first15 + "\t" + first20 + "\t" + first30);
+        System.out.println();
 
         lineCharts.get(testName).getData().add(series);
     }
