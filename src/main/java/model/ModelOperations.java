@@ -34,9 +34,10 @@ public class ModelOperations {
 
         //Create weight objects
         weightHashMap.put("TF-IDF", new TFIDF(connection));
-        weightHashMap.put("Normalized TF-IDF", new NormalizedTFIDF(connection));
-        weightHashMap.put("Maximum normalized TF", new MaximumNormalizedTF(connection));
         weightHashMap.put("Maximum normalized TF-IDF", new MaximumNormalizedTFIDF(connection));
+        //weightHashMap.put("Normalized TF-IDF", new NormalizedTFIDF(connection));
+        //weightHashMap.put("Maximum normalized TF", new MaximumNormalizedTF(connection));
+
 
 
         //Initialize with TF-IDF and DotProduct
@@ -75,7 +76,6 @@ public class ModelOperations {
      */
     public void calculateWeights() {
         weight.calculateWeights();
-        System.out.print("Weights calculated!\n");
     }
 
     /**
