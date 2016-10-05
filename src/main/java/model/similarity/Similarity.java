@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,8 +27,8 @@ public abstract class Similarity {
 
     public Similarity(String similarityMethodName, Connection connection) throws SQLException {
         this.similarityMethodName = similarityMethodName;
-        this.relevantTermsLimit = 2;
-        this.relevantDocumentsLimit = 2;
+        this.relevantTermsLimit = 10;
+        this.relevantDocumentsLimit = 10;
 
         //The SQL query to add a term to the QUERY table
         addQuery = connection.prepareStatement("INSERT INTO QUERY(term,tf) VALUES(?,?)");
@@ -58,7 +59,7 @@ public abstract class Similarity {
     }
 
     /**
-     * Saves the query on the QUERY table, executes the calculation of the similarity (that is implemented on the subclases), and performs the feedback
+     * Saves the query on the QUERY table, executes the calculation of the similarity (that is implemented on the subclases), and performs the feedback using the Dec-Hi method
      * @param wordCount a hash table containing the terms of the query with their term frequencies
      * @param termLimit the number of relevant terms to be considered on the feedback
      * @param documentLimit the number of relevant document to be considered on the feedback
@@ -66,6 +67,12 @@ public abstract class Similarity {
      * @return The list of resulting documents for the query
      */
     public ObservableList<Document> similarityFeedback(HashMap<String, Integer> wordCount, int termLimit, int documentLimit, int iterations){
+        if(termLimit<=0){
+            termLimit = relevantTermsLimit;
+        }
+        if(documentLimit<=0){
+            documentLimit = relevantDocumentsLimit;
+        }
         try{
             //Insert query terms to memory table
             for(Map.Entry<String, Integer> entry : wordCount.entrySet()){
@@ -79,27 +86,26 @@ public abstract class Similarity {
             //Calculate the query term weights
             ModelDatabase.instance().opModel.calculateQueryWeights();
 
-            //Limit the amount of considered documents
-            if(documentLimit<=0)
-                stCalculateSimilarity.setMaxRows(relevantDocumentsLimit);
-            else
-                stCalculateSimilarity.setMaxRows(documentLimit);
-
             //Feedback iterations
             for(int i=0; i<iterations; i++){
                 //Execute calculation of similarity
                 ResultSet rs = stCalculateSimilarity.executeQuery();
 
-                //Obtain every resulting document
-                while (rs.next()){
+                //Obtain and save results
+                ArrayList<Integer> results = new ArrayList<>();
+                while(rs.next()){
+                    results.add(rs.getInt(1));
+                }
+
+                //For the first N documents, get the most relevant terms and add them to the query
+                for(int j=0; j<documentLimit && j<results.size(); j++){
+                    getMostRelevantTerms.clearParameters();
+
                     //Obtain most relevant terms of document
-                    getMostRelevantTerms.setInt(1, rs.getInt(1));
+                    getMostRelevantTerms.setInt(1, results.get(j));
 
                     //Set the limit of relevant terms to be considered
-                    if(termLimit<=0)
-                        getMostRelevantTerms.setInt(2, relevantTermsLimit);
-                    else
-                        getMostRelevantTerms.setInt(2, termLimit);
+                    getMostRelevantTerms.setInt(2, termLimit);
 
                     ResultSet termRS = getMostRelevantTerms.executeQuery();
 
@@ -115,9 +121,41 @@ public abstract class Similarity {
                         mergeToQuery.setString(3, relevantTerm);
                         mergeToQuery.setDouble(4, relevantTermWeight);
 
+                        System.out.println(relevantTerm + " - " + relevantTermWeight);
+
                         //Add the new terms, and update the weights in those that already exist
                         mergeToQuery.executeUpdate();
                     }
+                    System.out.println();
+                }
+
+                //For the least relevant document, get the most relevant terms and subtract them from the query
+
+                getMostRelevantTerms.clearParameters();
+                //Obtain most relevant terms of document
+                getMostRelevantTerms.setInt(1, results.get(results.size()-1));
+
+                //Set the limit of relevant terms to be considered
+                getMostRelevantTerms.setInt(2, termLimit);
+
+                ResultSet termRS = getMostRelevantTerms.executeQuery();
+
+                //Add the most relevant terms to the query
+                while(termRS.next()){
+                    String relevantTerm = termRS.getString(1);
+                    double relevantTermWeight = termRS.getDouble(2);
+
+                    mergeToQuery.clearParameters();
+
+                    mergeToQuery.setString(1, relevantTerm);
+                    mergeToQuery.setDouble(2, -relevantTermWeight);
+                    mergeToQuery.setString(3, relevantTerm);
+                    mergeToQuery.setDouble(4, -relevantTermWeight);
+
+                    System.out.println(relevantTerm + " - " + relevantTermWeight);
+
+                    //Add the new terms, and update the weights in those that already exist
+                    mergeToQuery.executeUpdate();
                 }
             }
 
@@ -125,9 +163,6 @@ public abstract class Similarity {
             /**
              * Calculate similarity
              */
-
-            //Retrieve all the results
-            stCalculateSimilarity.setMaxRows(0);
             //Execute calculation of similarity
             ResultSet rs = stCalculateSimilarity.executeQuery();
 
