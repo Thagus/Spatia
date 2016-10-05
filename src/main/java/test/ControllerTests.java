@@ -175,34 +175,33 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
         int numOfQueries = db.countQueries();
 
+        for(int i=1; i<=10; i++){    //Iterate through document limits
+            for(int j=1; j<=10; j++){   //Iterate through term limits
+                String testName = "Test - " + i + ", " + j;
+                //Create average chart and axis
+                NumberAxis xAxis = new NumberAxis(0, 100, 10);
+                NumberAxis yAxis = new NumberAxis(0, 100, 10);
+                xAxis.setLabel("Recall %");
+                LineChart<Number, Number> lineChart = new LineChart<>(xAxis,yAxis);
+                lineChart.setCreateSymbols(false);
+                lineChart.setCursor(Cursor.CROSSHAIR);
+                lineChart.getYAxis().setAnimated(true);
+                lineChart.getXAxis().setAnimated(true);
+                lineChart.setMinHeight(640);
 
-        //Begin tests for each similarity and weight combination
-        for(String w : weightNames) {
-            //Set weight method
-            mainDatabase.opModel.setWeightMethod(w);
-            mainDatabase.opModel.calculateWeights();    //Calculate weights
+                lineCharts.put(testName, lineChart);
 
-            for(int i=1; i<=10; i++){    //Iterate through document limits
-                for(int j=1; j<=10; j++){   //Iterate through term limits
-                    String testName = "Test - " + i + ", " + j;
-                    //Create average chart and axis
-                    NumberAxis xAxis = new NumberAxis(0, 100, 10);
-                    NumberAxis yAxis = new NumberAxis(0, 100, 10);
-                    xAxis.setLabel("Recall %");
-                    LineChart<Number, Number> lineChart = new LineChart<>(xAxis,yAxis);
-                    lineChart.setCreateSymbols(false);
-                    lineChart.setCursor(Cursor.CROSSHAIR);
-                    lineChart.getYAxis().setAnimated(true);
-                    lineChart.getXAxis().setAnimated(true);
-                    lineChart.setMinHeight(640);
-
-                    lineCharts.put(testName, lineChart);
+                //Load queries
+                ArrayList<QueryObject> queries = db.getQueries();
+                //Sort them according the id (ascendant)
+                Collections.sort(queries);
 
 
-                    //Load queries
-                    ArrayList<QueryObject> queries = db.getQueries();
-                    //Sort them according the id (ascendant)
-                    Collections.sort(queries);
+                //Begin tests for each similarity and weight combination
+                for(String w : weightNames) {
+                    //Set weight method
+                    mainDatabase.opModel.setWeightMethod(w);
+                    mainDatabase.opModel.calculateWeights();    //Calculate weights
 
                     for (String s : similarityNames) {
                         //Set similarity method
@@ -271,10 +270,9 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
                         fillAverageChart(name, testName);
                     }
-
-                    //Add the tests to the view
-                    updateTreeView(queries, root, testName);
                 }
+                //Add the tests to the view
+                updateTreeView(queries, root, testName);
             }
         }
 
