@@ -49,7 +49,7 @@ public abstract class Weight {
      * Calculates the weights for every term in the documents
      */
     public void calculateWeights(){
-        System.out.println("Calculating weights using: " + weightMethodName + "...");
+        //System.out.println("Calculating weights using: " + weightMethodName + "...");
         try{
             //Calculate weights
             stCalculateWeight.executeUpdate();  //Executes the query that updates the term weights from every document

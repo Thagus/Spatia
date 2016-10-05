@@ -121,12 +121,9 @@ public abstract class Similarity {
                         mergeToQuery.setString(3, relevantTerm);
                         mergeToQuery.setDouble(4, relevantTermWeight);
 
-                        System.out.println(relevantTerm + " - " + relevantTermWeight);
-
                         //Add the new terms, and update the weights in those that already exist
                         mergeToQuery.executeUpdate();
                     }
-                    System.out.println();
                 }
 
                 //For the least relevant document, get the most relevant terms and subtract them from the query
@@ -151,8 +148,6 @@ public abstract class Similarity {
                     mergeToQuery.setDouble(2, -relevantTermWeight);
                     mergeToQuery.setString(3, relevantTerm);
                     mergeToQuery.setDouble(4, -relevantTermWeight);
-
-                    System.out.println(relevantTerm + " - " + relevantTermWeight);
 
                     //Add the new terms, and update the weights in those that already exist
                     mergeToQuery.executeUpdate();
