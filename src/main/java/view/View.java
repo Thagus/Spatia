@@ -73,11 +73,11 @@ public class View {
         RadioMenuItem dotProduct = new RadioMenuItem("Dot product");
         dotProduct.setUserData("Dot product");
         dotProduct.setToggleGroup(similarityToggleGroup);
-        dotProduct.setSelected(true);
 
         RadioMenuItem cosine = new RadioMenuItem("Cosine of the angle");
         cosine.setUserData("Cosine");
         cosine.setToggleGroup(similarityToggleGroup);
+        cosine.setSelected(true);
 
         similarityMenu.getItems().addAll(dotProduct, cosine);
 
