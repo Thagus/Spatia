@@ -175,8 +175,8 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
         int numOfQueries = db.countQueries();
 
-        for(int i=1; i<=10; i++){    //Iterate through document limits
-            for(int j=1; j<=10; j++){   //Iterate through term limits
+        for(int i=1; i<=1; i++){    //Iterate through document limits
+            for(int j=1; j<=1; j++){   //Iterate through term limits
                 String testName = "Test - " + i + ", " + j;
                 //Create average chart and axis
                 NumberAxis xAxis = new NumberAxis(0, 100, 10);
@@ -448,7 +448,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         System.out.println("--------------------------------");
 
         for(QueryObject query : queries){
-            String tag = testName +": Query " + query.getQid();
+            String tag = "Query " + query.getQid() + " (" + testName + ")";
 
             //Add query to hashmap
             tagQuery.put(tag, query);
