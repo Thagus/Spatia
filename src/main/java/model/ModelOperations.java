@@ -24,7 +24,11 @@ public class ModelOperations {
     private HashMap<String, Weight> weightHashMap;
     private HashMap<String, Similarity> similarityHashMap;
 
+    private boolean idfCalculated;
+
     protected ModelOperations(Connection connection) throws SQLException{
+        idfCalculated = false;
+
         similarityHashMap = new HashMap<>();
         weightHashMap = new HashMap<>();
 
@@ -34,16 +38,10 @@ public class ModelOperations {
 
         //Create weight objects
         weightHashMap.put("TF-IDF", new TFIDF(connection));
-        weightHashMap.put("Maximum normalized TF-IDF", new MaximumNormalizedTFIDF(connection));
 
         //Initialize with TF-IDF and DotProduct
-        setSimilarityMethod("Dot product");
+        setSimilarityMethod("Cosine");
         setWeightMethod("TF-IDF");
-
-        //Calculate IDFs
-        //calculateIDFs();
-        //Calculate weights
-        //calculateWeights();
     }
 
     /**
@@ -68,21 +66,6 @@ public class ModelOperations {
     }
 
     /**
-     * A method to calculate the weights of the inserted terms
-     */
-    public void calculateWeights() {
-        weight.calculateWeights();
-    }
-
-    /**
-     * A method to request the calculation of IDFs
-     */
-    public void calculateIDFs(){
-        weight.calculateIDFs();
-    }
-
-
-    /**
      *  Getters
      */
 
@@ -101,6 +84,14 @@ public class ModelOperations {
     public void setWeightMethod(String weightMethod){
         if(this.weight==null || !this.weight.getWeightMethodName().equals(weightMethod)) {
             this.weight = weightHashMap.get(weightMethod);
+            if(idfCalculated) {
+                weight.calculateWeights();
+            }
+            else{
+                weight.calculateIDFs();
+                idfCalculated = true;
+                weight.calculateWeights();
+            }
         }
         else{
             System.out.println("\nTrying to calculate an already calculated weight method!\nSkipping...\n");

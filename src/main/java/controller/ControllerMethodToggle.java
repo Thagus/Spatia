@@ -26,7 +26,6 @@ public class ControllerMethodToggle implements ChangeListener<Toggle> {
                 case "Maximum normalized TF-IDF":
                 case "Maximum normalized TF":
                     modOps.setWeightMethod(userData);
-                    modOps.calculateWeights();
                     break;
                 //Similarity methods are sent to setSimilarityMethod method
                 case "Dot product":
