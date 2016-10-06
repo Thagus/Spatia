@@ -70,16 +70,16 @@ public class View {
         Menu similarityMenu = new Menu("_Similarity");
         ToggleGroup similarityToggleGroup = new ToggleGroup();
 
-        RadioMenuItem dotProduct = new RadioMenuItem("Dot product");
+        /*RadioMenuItem dotProduct = new RadioMenuItem("Dot product");
         dotProduct.setUserData("Dot product");
-        dotProduct.setToggleGroup(similarityToggleGroup);
+        dotProduct.setToggleGroup(similarityToggleGroup);*/
 
         RadioMenuItem cosine = new RadioMenuItem("Cosine of the angle");
         cosine.setUserData("Cosine");
         cosine.setToggleGroup(similarityToggleGroup);
         cosine.setSelected(true);
 
-        similarityMenu.getItems().addAll(dotProduct, cosine);
+        similarityMenu.getItems().addAll(/*dotProduct,*/ cosine);
 
         //Weight submenu
         Menu weightMenu = new Menu("_Weight");
@@ -90,7 +90,7 @@ public class View {
         idf.setToggleGroup(weightToggleGroup);
         idf.setSelected(true);
 
-        RadioMenuItem normIDF = new RadioMenuItem("Normalized TF-IDF");
+        /*RadioMenuItem normIDF = new RadioMenuItem("Normalized TF-IDF");
         normIDF.setUserData("Normalized TF-IDF");
         normIDF.setToggleGroup(weightToggleGroup);
 
@@ -100,9 +100,9 @@ public class View {
 
         RadioMenuItem stdFTD = new RadioMenuItem("Maximum normalized TF-IDF");
         stdFTD.setUserData("Maximum normalized TF-IDF");
-        stdFTD.setToggleGroup(weightToggleGroup);
+        stdFTD.setToggleGroup(weightToggleGroup);*/
 
-        weightMenu.getItems().addAll(idf, normIDF, ftd, stdFTD);
+        weightMenu.getItems().addAll(idf/*, normIDF, ftd, stdFTD*/);
 
         //Add controller to toggle groups
         similarityToggleGroup.selectedToggleProperty().addListener(controllerMethodToggle);

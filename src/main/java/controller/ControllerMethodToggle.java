@@ -22,13 +22,13 @@ public class ControllerMethodToggle implements ChangeListener<Toggle> {
             switch (userData) {
                 //Weight methods are sent to setWeightMethod method for computation
                 case "TF-IDF":
-                case "Normalized TF-IDF":
-                case "Maximum normalized TF-IDF":
-                case "Maximum normalized TF":
+                //case "Normalized TF-IDF":
+                //case "Maximum normalized TF-IDF":
+                //case "Maximum normalized TF":
                     modOps.setWeightMethod(userData);
                     break;
                 //Similarity methods are sent to setSimilarityMethod method
-                case "Dot product":
+                //case "Dot product":
                 case "Cosine":
                     modOps.setSimilarityMethod(userData);
                     break;

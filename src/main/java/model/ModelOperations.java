@@ -33,7 +33,7 @@ public class ModelOperations {
         weightHashMap = new HashMap<>();
 
         //Create similarity objects
-        similarityHashMap.put("Dot product", new DotProduct(connection));
+        //similarityHashMap.put("Dot product", new DotProduct(connection));
         similarityHashMap.put("Cosine", new Cosine(connection));
 
         //Create weight objects
@@ -103,7 +103,7 @@ public class ModelOperations {
             }
         }
         else{
-            System.out.println("\nTrying to calculate an already calculated weight method!\nSkipping...\n");
+            //System.out.println("\nTrying to calculate an already calculated weight method!\nSkipping...\n");
         }
     }
 
