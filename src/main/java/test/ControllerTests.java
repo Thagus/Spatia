@@ -175,105 +175,104 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
         int numOfQueries = db.countQueries();
 
+        for(int k=1; k<=1; k++) {   //Number of feedback iterations
+            for (int i = 4; i <= 4; i++) {    //Iterate through document limits
+                for (int j = 10; j <= 10; j++) {   //Iterate through term limits
+                    String testName = "Test - " + i + ", " + j + ", " + k;
+                    //Create average chart and axis
+                    NumberAxis xAxis = new NumberAxis(0, 100, 10);
+                    NumberAxis yAxis = new NumberAxis(0, 100, 10);
+                    xAxis.setLabel("Recall %");
+                    LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+                    lineChart.setCreateSymbols(false);
+                    lineChart.setCursor(Cursor.CROSSHAIR);
+                    lineChart.getYAxis().setAnimated(true);
+                    lineChart.getXAxis().setAnimated(true);
+                    lineChart.setMinHeight(640);
 
-        for(int i=1; i<=10; i++){    //Iterate through document limits
-            for(int j=1; j<=10; j++){   //Iterate through term limits
-                String testName = "Test - " + i + ", " + j;
-                //Create average chart and axis
-                NumberAxis xAxis = new NumberAxis(0, 100, 10);
-                NumberAxis yAxis = new NumberAxis(0, 100, 10);
-                xAxis.setLabel("Recall %");
-                LineChart<Number, Number> lineChart = new LineChart<>(xAxis,yAxis);
-                lineChart.setCreateSymbols(false);
-                lineChart.setCursor(Cursor.CROSSHAIR);
-                lineChart.getYAxis().setAnimated(true);
-                lineChart.getXAxis().setAnimated(true);
-                lineChart.setMinHeight(640);
+                    lineCharts.put(testName, lineChart);
 
-                lineCharts.put(testName, lineChart);
-
-                //Load queries
-                ArrayList<QueryObject> queries = db.getQueries();
-                //Sort them according the id (ascendant)
-                Collections.sort(queries);
+                    //Load queries
+                    ArrayList<QueryObject> queries = db.getQueries();
+                    //Sort them according the id (ascendant)
+                    Collections.sort(queries);
 
 
-                //Begin tests for each similarity and weight combination
-                for(String w : weightNames) {
-                    //Set weight method
-                    mainDatabase.opModel.setWeightMethod(w);
-                    mainDatabase.opModel.calculateWeights();    //Calculate weights
+                    //Begin tests for each similarity and weight combination
+                    for (String w : weightNames) {
+                        //Set weight method
+                        mainDatabase.opModel.setWeightMethod(w);
 
-                    for (String s : similarityNames) {
-                        //Set similarity method
-                        mainDatabase.opModel.setSimilarityMethod(s);
-                        //Define test name
-                        String name = w + " - " + s;
+                        for (String s : similarityNames) {
+                            //Set similarity method
+                            mainDatabase.opModel.setSimilarityMethod(s);
+                            //Define test name
+                            String name = w + " - " + s;
 
-                        HashMap<String, HashMap<Integer, ArrayList<Float>>> testNameMap = precisionMap.get(testName);
+                            HashMap<String, HashMap<Integer, ArrayList<Float>>> testNameMap = precisionMap.get(testName);
 
-                        if(testNameMap==null){
-                            testNameMap = new HashMap<>();
+                            if (testNameMap == null) {
+                                testNameMap = new HashMap<>();
+                            }
+
+                            HashMap<Integer, ArrayList<Float>> precisionSpecificMap = new HashMap<>();
+                            for (int p = 1; p <= 100; p++) {
+                                precisionSpecificMap.put(p, new ArrayList<>());
+                            }
+
+                            testNameMap.put(name, precisionSpecificMap);
+                            precisionMap.put(testName, testNameMap);
+
+                            HashMap<String, Float> precisions = testPrecisions.get(testName);
+                            if (precisions == null) {
+                                precisions = new HashMap<>();
+                            }
+                            precisions.put(name, 0f);
+                            testPrecisions.put(testName, precisions);
+
+
+                            HashMap<String, Float> averages = testAverages.get(testName);
+                            if (averages == null) {
+                                averages = new HashMap<>();
+                            }
+                            averages.put(name, 0f);
+                            testAverages.put(testName, averages);
+
+                            float recall = 0f, precision = 0f;
+
+
+                            //Execute the tests for each query
+                            for (QueryObject query : queries) {
+                                ArrayList<Integer> retrieved = query.getDocumentRetrieved();    //Obtain the reference to the ArrayList of the query
+
+                                //Reset the retrieved documents
+                                retrieved.clear();
+
+                                //Retrieve result documents from evaluating query
+                                mainDatabase.opModel.evaluateQuery(query.getQuery(), j, i, k).forEach(q ->
+                                        //For each retrieved document, extract its id and store it within the query
+                                        retrieved.add(q.getIdDoc())
+                                );
+
+                                //Evaluate results and create charts
+                                evaluateResults(query, name, testName);
+
+                                //Evaluate averages
+                                recall += query.getRecall() / numOfQueries;
+                                precision += query.getPrecision() / numOfQueries;
+                            }
+
+                            precisions.put(name, precision);
+                            averages.put(name, recall);
+
+                            fillAverageChart(name, testName);
                         }
-
-                        HashMap<Integer, ArrayList<Float>> precisionSpecificMap = new HashMap<>();
-                        for (int p = 1; p<=100; p++) {
-                            precisionSpecificMap.put(p, new ArrayList<>());
-                        }
-
-                        testNameMap.put(name, precisionSpecificMap);
-                        precisionMap.put(testName, testNameMap);
-
-                        HashMap<String, Float> precisions = testPrecisions.get(testName);
-                        if(precisions==null){
-                            precisions = new HashMap<>();
-                        }
-                        precisions.put(name, 0f);
-                        testPrecisions.put(testName, precisions);
-
-
-                        HashMap<String, Float> averages = testAverages.get(testName);
-                        if(averages==null){
-                            averages = new HashMap<>();
-                        }
-                        averages.put(name, 0f);
-                        testAverages.put(testName, averages);
-
-                        float recall = 0f, precision = 0f;
-
-
-                        //Execute the tests for each query
-                        for(QueryObject query : queries){
-                            ArrayList<Integer> retrieved = query.getDocumentRetrieved();    //Obtain the reference to the ArrayList of the query
-
-                            //Reset the retrieved documents
-                            retrieved.clear();
-
-                            //Retrieve result documents from evaluating query
-                            mainDatabase.opModel.evaluateQuery(query.getQuery(), j, i).forEach(q ->
-                                    //For each retrieved document, extract its id and store it within the query
-                                    retrieved.add(q.getIdDoc())
-                            );
-
-                            //Evaluate results and create charts
-                            evaluateResults(query, name, testName);
-
-                            //Evaluate averages
-                            recall += query.getRecall()/numOfQueries;
-                            precision += query.getPrecision()/numOfQueries;
-                        }
-
-                        precisions.put(name, precision);
-                        averages.put(name, recall);
-
-                        fillAverageChart(name, testName);
                     }
+                    //Add the tests to the view
+                    updateTreeView(queries, root, testName);
                 }
-                //Add the tests to the view
-                updateTreeView(queries, root, testName);
             }
         }
-
         //Update view
         view.setRootTreeView(root);
 
@@ -447,7 +446,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         }
         //Average precision at 3%   5%   10%   15%   20%   30%
         System.out.println( seriesName + " ( " + testName + ")\t" + first3 + "\t" + first5 + "\t" + first10 + "\t" + first15 + "\t" + first20 + "\t" + first30);
-        System.out.println();
+        //System.out.println();
 
         lineCharts.get(testName).getData().add(series);
     }
@@ -461,7 +460,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         //Update lateral tree view, with format "Query #", where # is the number of query from the array
         TreeItem<String> rootItem = new TreeItem<>(testName);
         rootItem.setExpanded(true);
-        System.out.println("--------------------------------");
+        //System.out.println("--------------------------------");
 
         for(QueryObject query : queries){
             String tag = "Query " + query.getQid() + " (" + testName + ")";
