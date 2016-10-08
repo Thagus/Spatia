@@ -1,2 +1,2 @@
 # Spatia
-A little search engine using vector spaces for documents
+A search engine for the CACM collection using vector spaces
