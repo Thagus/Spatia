@@ -27,7 +27,7 @@ public class ModelOperations {
     private boolean idfCalculated;
 
     protected ModelOperations(Connection connection) throws SQLException{
-        idfCalculated = false;
+        idfCalculated = true;
 
         similarityHashMap = new HashMap<>();
         weightHashMap = new HashMap<>();
@@ -93,17 +93,11 @@ public class ModelOperations {
     public void setWeightMethod(String weightMethod){
         if(this.weight==null || !this.weight.getWeightMethodName().equals(weightMethod)) {
             this.weight = weightHashMap.get(weightMethod);
-            if(idfCalculated) {
-                weight.calculateWeights();
-            }
-            else{
+            if(!idfCalculated) {
                 weight.calculateIDFs();
                 idfCalculated = true;
                 weight.calculateWeights();
             }
-        }
-        else{
-            //System.out.println("\nTrying to calculate an already calculated weight method!\nSkipping...\n");
         }
     }
 
