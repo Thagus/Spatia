@@ -1,5 +1,6 @@
 package test;
 
+import controller.ControllerImportDocument;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -15,6 +16,7 @@ import javafx.scene.control.TreeItem;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import model.ModelDatabase;
+import utilities.TermExtractor;
 
 import javax.swing.JOptionPane;
 import java.io.File;
@@ -166,20 +168,6 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         precisionMap = new HashMap<>();
         precisions = new HashMap<>();
         averages = new HashMap<>();
-        for(String w : weightNames){
-            for(String s : similarityNames){
-                String name = w + " - " + s;
-                HashMap<Integer, ArrayList<Float>> precisionSpecificMap = new HashMap<>();
-
-                for (int i = 1; i <= 100; i++) {
-                    precisionSpecificMap.put(i, new ArrayList<>());
-                }
-
-                precisionMap.put(name, precisionSpecificMap);
-                precisions.put(name, 0f);
-                averages.put(name, 0f);
-            }
-        }
 
         //Create average chart and axis
         final NumberAxis xAxis = new NumberAxis(0, 100, 10);
@@ -197,47 +185,69 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
         int numOfQueries = db.countQueries();
 
+        String[] testNames = {"Raw", "StopWord-R", "Stemming", "StopWord-Stemming"};
+        ControllerImportDocument controllerImportDocument = new ControllerImportDocument();
 
-        //Begin tests for each similarity and weight combination
-        for(String w : weightNames) {
-            //Set weight method
-            mainDatabase.opModel.setWeightMethod(w);
-            for (String s : similarityNames) {
-                //Set similarity method
-                mainDatabase.opModel.setSimilarityMethod(s);
-                //Define test name
-                String name = w + " - " + s;
-                System.out.println("Starting test: " + name);
+        for(String name : testNames){
+            System.out.println("Starting test: " + name);
 
-                float recall = 0f, precision = 0f;
+            HashMap<Integer, ArrayList<Float>> precisionSpecificMap = new HashMap<>();
 
-
-                //Execute the tests for each query
-                for(QueryObject query : queries){
-                    ArrayList<Integer> retrieved = query.getDocumentRetrieved();    //Obtain the reference to the ArrayList of the query
-
-                    //Reset the retrieved documents
-                    retrieved.clear();
-
-                    //Retrieve result documents from evaluating query
-                    mainDatabase.opModel.evaluateQuery(query.getQuery()).forEach(i ->
-                            //For each retrieved document, extract its id and store it within the query
-                            retrieved.add(i.getIdDoc())
-                    );
-
-                    //Evaluate results and create charts
-                    evaluateResults(query, name);
-
-                    //Evaluate averages
-                    recall += query.getRecall()/numOfQueries;
-                    precision += query.getPrecision()/numOfQueries;
-                }
-
-                precisions.put(name, precision);
-                averages.put(name, recall);
-
-                fillAverageChart(name);
+            for (int i = 1; i <= 100; i++) {
+                precisionSpecificMap.put(i, new ArrayList<>());
             }
+
+            precisionMap.put(name, precisionSpecificMap);
+            precisions.put(name, 0f);
+            averages.put(name, 0f);
+
+            ModelDatabase.instance().clearDB();
+            ModelDatabase.instance().createTables();
+
+            if(name.contains("StopWord")){
+                TermExtractor.setStopWordRemoval(true);
+            }
+            else{
+                TermExtractor.setStopWordRemoval(false);
+            }
+
+            if(name.contains("Stemming")){
+                TermExtractor.setUseStemming(true);
+            }
+            else {
+                TermExtractor.setUseStemming(false);
+            }
+
+            controllerImportDocument.readFile(new File(getClass().getClassLoader().getResource("cacm.all").getFile()));
+
+            float recall = 0f, precision = 0f;
+
+
+            //Execute the tests for each query
+            for(QueryObject query : queries){
+                ArrayList<Integer> retrieved = query.getDocumentRetrieved();    //Obtain the reference to the ArrayList of the query
+
+                //Reset the retrieved documents
+                retrieved.clear();
+
+                //Retrieve result documents from evaluating query
+                mainDatabase.opModel.evaluateQuery(query.getQuery()).forEach(i ->
+                        //For each retrieved document, extract its id and store it within the query
+                        retrieved.add(i.getIdDoc())
+                );
+
+                //Evaluate results and create charts
+                evaluateResults(query, name);
+
+                //Evaluate averages
+                recall += query.getRecall()/numOfQueries;
+                precision += query.getPrecision()/numOfQueries;
+            }
+
+            precisions.put(name, precision);
+            averages.put(name, recall);
+
+            fillAverageChart(name);
         }
 
         //Update view
@@ -381,6 +391,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         float maxPrecision = precisions.get(seriesName);
 
         System.out.println("Test: " + seriesName + ". Max recall: " + maxRecall + ", max precision: " + maxPrecision);
+        float first3=0, first5=0, first10=0, first15=0, first20=0, first30=0;
 
         //From 1% to 100% recall
         for(int recall=1; recall<=maxRecall; recall++){
@@ -394,7 +405,24 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
             //Add values to the chart
             series.getData().add(new XYChart.Data<>(recall, averagePrecision));
+
+            if(recall<=3)
+                first3+=averagePrecision/3;
+            if(recall<=5)
+                first5+=averagePrecision/5;
+            if(recall<=10)
+                first10+=averagePrecision/10;
+            if(recall<=15)
+                first15+=averagePrecision/15;
+            if(recall<=20)
+                first20+=averagePrecision/20;
+            if(recall<=30)
+                first30+=averagePrecision/30;
         }
+
+        //Average precision at 3%   5%   10%   15%   20%   30%
+        System.out.println( seriesName + " ( " + seriesName + ")\t" + first3 + "\t" + first5 + "\t" + first10 + "\t" + first15 + "\t" + first20 + "\t" + first30);
+
 
         lineChart.getData().add(series);
     }
