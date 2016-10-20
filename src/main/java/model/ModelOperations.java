@@ -51,12 +51,12 @@ public class ModelOperations {
      * @param query The input query from the user
      * @return An ArrayList of Documents sorted by their similarity to the query
      */
-    public ObservableList<Document> evaluateQuery(String query, int termLimit, int documentLimit, int iterations){
+    public ObservableList<Document> evaluateQuery(String query){
         HashMap<String, Integer> wordCount = TermExtractor.extractTerms(query);           //Counter for word occurrence in the query
         ObservableList<Document> searchResult;
 
         //Request the calculation of similarity for the query, and save the results in the searchResult list
-        searchResult = similarity.similarityFeedback(wordCount, termLimit, documentLimit, iterations);   //0,0 for default limits, and the 1 for one iteration
+        searchResult = similarity.calculateSimilarity(wordCount);
 
         //Sort the results by similarity, from highest to lowest
         Collections.sort(searchResult, Collections.reverseOrder());
