@@ -20,10 +20,18 @@ import java.util.stream.Stream;
 public class ControllerImportDocument implements EventHandler<ActionEvent> {
     private final Stage window;
     private final ModelDatabase db;
+    private boolean messagesEnabled;
+
+    public ControllerImportDocument(){
+        this.db = ModelDatabase.instance();
+        window = null;
+        messagesEnabled = false;
+    }
 
     public ControllerImportDocument(Stage window) {
         this.window = window;
         this.db = ModelDatabase.instance();
+        messagesEnabled = true;
     }
 
     /**
@@ -47,7 +55,7 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
      *
      * @param file The file that will be read
      */
-    private void readFile(File file){
+    public void readFile(File file){
         //Read file and feed database
         try (Stream<String> stream = Files.lines(file.toPath())) {
             final boolean[] currentType = new boolean[8];     //0-T, 1-B, 2-N, 3-A, 4-W, 5-K, 6-C, 7-X
@@ -115,11 +123,13 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
                     }
                 }
             });
-            //A message to alert the user about the number of read documents
-            Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Read " + documents.size() + " documents");
-            countInfo.setTitle("Successful reading!");
-            countInfo.setHeaderText(null);
-            countInfo.showAndWait();
+            if(messagesEnabled) {
+                //A message to alert the user about the number of read documents
+                Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Read " + documents.size() + " documents");
+                countInfo.setTitle("Successful reading!");
+                countInfo.setHeaderText(null);
+                countInfo.showAndWait();
+            }
 
             //Call to feed database with new documents
             feedDatabase(documents);
@@ -159,11 +169,13 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
         //Requests the calculation of IDFs and weights
         db.opModel.recalculateWeights();
 
-        //Message to alert the user of the total amount of successfully added documents
-        Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Successfully added " + documentCount + " documents");
-        countInfo.setTitle("Successful index!");
-        countInfo.setHeaderText(null);
-        countInfo.showAndWait();
+        if(messagesEnabled) {
+            //Message to alert the user of the total amount of successfully added documents
+            Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Successfully added " + documentCount + " documents");
+            countInfo.setTitle("Successful index!");
+            countInfo.setHeaderText(null);
+            countInfo.showAndWait();
+        }
     }
 
     /**
