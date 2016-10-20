@@ -81,7 +81,7 @@ public class ModelDatabase {
     /**
      * Create database tables
      */
-    private void createTables(){
+    public void createTables(){
         //Create Documents table
         try {
             st.execute("CREATE TABLE SPATIA.DOCUMENT(" +
@@ -148,8 +148,9 @@ public class ModelDatabase {
     public void clearDB(){
         try {
             st.execute("DROP TABLE SPATIA.DOCUMENT");
-            st.execute("DROP TABLE SPATIA.TERMS");
-            st.execute("DROP TABLE SPATIA.TFIDF");
+            st.execute("DROP TABLE SPATIA.INVERTEDINDEX");
+            st.execute("DROP TABLE SPATIA.TERM");
+            st.execute("DROP TABLE QUERY");
         } catch (SQLException e) {
             //System.out.println("Error cleaning DB:");
             //e.printStackTrace();
