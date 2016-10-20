@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.ListIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +17,8 @@ import java.util.regex.Pattern;
  */
 public class TermExtractor {
     private static Pattern reg = Pattern.compile("[a-z]+");
+
+    private static boolean stopWordRemoval=true, useStemming=true;
 
     private static HashSet<String> stopWords;
 
@@ -69,8 +72,13 @@ public class TermExtractor {
             words.add(matcher.group()); //Add the matched strings to the words array
         }
 
-        //Stem and remove stop words from the array
-        words = stemmingAndStopWordsRemoval(words);
+
+        if(stopWordRemoval){    //If we have to remove stop words, remove them
+            removeStopWords(words);
+        }
+        if(useStemming){    //If we should stem the word, stem them
+            words = stemming(words);
+        }
 
         //Count words and add them to a HashMap
         for(String word : words){
@@ -87,21 +95,40 @@ public class TermExtractor {
     }
 
     /**
-     * A method to obtain stemmed words without stop words
+     * A method to obtain stemmed words
      * @param words The original array containing words to stem
      * @return The new array containing stemmed words
      */
-    private static ArrayList<String> stemmingAndStopWordsRemoval(ArrayList<String> words){
+    private static ArrayList<String> stemming(ArrayList<String> words){
         ArrayList<String> stemmedWords = new ArrayList<>();
         for(String word : words){
-            //Skip stop words
-            if(!stopWords.contains(word)) {
-                //Stem word
-                String stemmed = PorterStemmer.stem(word);
-                //Add the stemmed word to teh array
-                stemmedWords.add(stemmed);
-            }
+            //Stem word
+            String stemmed = PorterStemmer.stem(word);
+            //Add the stemmed word to teh array
+            stemmedWords.add(stemmed);
         }
         return stemmedWords;
+    }
+
+    /**
+     * A method to remove stop words from an ArrayList
+     * @param words the ArrayList that contains the words that will be checked
+     */
+    private static void removeStopWords(ArrayList<String> words){
+        ListIterator<String> iterator = words.listIterator();
+        while (iterator.hasNext()){
+            //Remove word if contained in the stopwords set
+            if(stopWords.contains(iterator.next())){
+                iterator.remove();
+            }
+        }
+    }
+
+    public static void setStopWordRemoval(boolean stopWordRemoval) {
+        TermExtractor.stopWordRemoval = stopWordRemoval;
+    }
+
+    public static void setUseStemming(boolean useStemming) {
+        TermExtractor.useStemming = useStemming;
     }
 }
