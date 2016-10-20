@@ -40,12 +40,16 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
      */
     @Override
     public void handle(ActionEvent event) {
+        /*
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(window);
 
         if(file!=null) {
             readFile(file);
         }
+        */
+
+        readFile(new File(getClass().getClassLoader().getResource("cacm.all").getFile()));
     }
 
     /**
