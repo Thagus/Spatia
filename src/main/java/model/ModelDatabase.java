@@ -53,6 +53,10 @@ public class ModelDatabase {
         }
     }
 
+    public Connection getCon() {
+        return con;
+    }
+
     /**
      * Create the operations objects to handle requests
      */
@@ -125,6 +129,19 @@ public class ModelDatabase {
                     ")");
         } catch (SQLException e) {
             //System.out.println("Error creating TFIDF table:");
+            //e.printStackTrace();
+        }
+
+        //Create clusters table
+        try{
+            st.execute("CREATE TABLE SPATIA.CLUSTER(" +
+                    "clusterName VARCHAR NOT NULL," +
+                    "parentName VARCHAR NOT NULL," +
+                    "strategy VARCHAR NOT NULL," +
+                    "PRIMARY KEY (clusterName,parentName,strategy)" +
+                    ")");
+        } catch (SQLException e){
+            //System.out.println("Error creating Cluster table:");
             //e.printStackTrace();
         }
 
