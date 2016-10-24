@@ -3,7 +3,7 @@ package model.clustering;
 /**
  * Created by Thagus on 22/10/16.
  *
- * Represents a cluster in the hierarchy
+ * An object to store a cluster
  */
 public class Cluster {
     private String code;
@@ -17,29 +17,33 @@ public class Cluster {
         this.code = code;
     }
 
+    /**
+     * Getters
+     */
     public Cluster getLeftChild() {
         return leftChild;
     }
-
     public Cluster getRightChild() {
         return rightChild;
     }
-
     public Cluster getParent() {
         return parent;
     }
-
-    public void setParent(Cluster parent) {
-        this.parent = parent;
-    }
-
-    public String getCode()
-    {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    /**
+     * Setters
+     */
+    public void setLeftChild(Cluster child) {
+        this.leftChild = child;
+    }
+    public void setRightChild(Cluster child) {
+        this.rightChild = child;
+    }
+    public void setParent(Cluster parent) {
+        this.parent = parent;
     }
 
     @Override
@@ -57,18 +61,18 @@ public class Cluster {
 
     @Override
     public int hashCode() {
+        //Calculate the hashcode based on the code of this Cluster
         return (code == null) ? 0 : code.hashCode();
     }
 
+    /**
+     * A method to check if the Cluster is a leaf
+     * @return whether this Cluster is a leaf or not
+     */
     public boolean isLeaf() {
+        //If there are no children, this is a leaf
         return leftChild==null && rightChild==null;
     }
 
-    public void setLeftChild(Cluster child) {
-        this.leftChild = child;
-    }
 
-    public void setRightChild(Cluster child) {
-        this.rightChild = child;
-    }
 }
