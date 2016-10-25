@@ -39,7 +39,7 @@ public class ControllerSceneSwitcher implements EventHandler<ActionEvent> {
     }
 
     private void switchToSearch(){
-        window.setTitle("Spatia v0.02");
+        window.setTitle("Spatia v0.06");
 
         window.setScene(searchScene);
         window.show();
