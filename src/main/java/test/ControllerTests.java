@@ -160,10 +160,6 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         //Sort them according the id (ascendant)
         Collections.sort(queries);
 
-        Set<String> weightNames = mainDatabase.opModel.getWeightMethods();
-        Set<String> similarityNames = mainDatabase.opModel.getSimilarityMethods();
-
-
         //Instantiate arrays to contain average series
         precisionMap = new HashMap<>();
         precisions = new HashMap<>();
@@ -218,7 +214,14 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
                 TermExtractor.setUseStemming(false);
             }
 
-            controllerImportDocument.readFile(new File(getClass().getClassLoader().getResource("cacm.all").getFile()));
+            //Re-read files
+            int startingIndex;
+
+            startingIndex = 0;
+            controllerImportDocument.readFile(new File(getClass().getClassLoader().getResource("cacm.all").getFile()), startingIndex);
+
+            startingIndex = mainDatabase.opDocuments.countDocuments();
+            controllerImportDocument.readFile(new File(getClass().getClassLoader().getResource("med.all").getFile()), startingIndex);
 
             float recall = 0f, precision = 0f;
 

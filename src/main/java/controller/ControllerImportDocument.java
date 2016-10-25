@@ -40,7 +40,13 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent event) {
         //Send starting index, for multiple collections
-        readFile(new File(getClass().getClassLoader().getResource("cacm.all").getFile()));
+        int startingIndex;
+
+        startingIndex = 0;
+        readFile(new File(getClass().getClassLoader().getResource("cacm.all").getFile()), startingIndex);
+
+        startingIndex = db.opDocuments.countDocuments();
+        readFile(new File(getClass().getClassLoader().getResource("med.all").getFile()), startingIndex);
     }
 
     /**
@@ -50,7 +56,7 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
      *
      * @param file The file that will be read
      */
-    public void readFile(File file){
+    public void readFile(File file, int startingIndex){
         //Read file and feed database
         try (Stream<String> stream = Files.lines(file.toPath())) {
             final boolean[] currentType = new boolean[8];     //0-T, 1-B, 2-N, 3-A, 4-W, 5-K, 6-C, 7-X
@@ -59,7 +65,7 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
             stream.forEach(line -> {
                 if(line.startsWith(".I")){
                     //The format is "I. " + id
-                    int id = Integer.parseInt(line.substring(3));
+                    int id = Integer.parseInt(line.substring(3)) + startingIndex;
                     documents.add(new Document(id));
                 } else if(line.startsWith(".T")){
                     setAllFalse(currentType);
