@@ -4,7 +4,6 @@ import dataObjects.Document;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
-import javafx.stage.Stage;
 import model.ModelDatabase;
 import test.QueryObject;
 
@@ -20,20 +19,12 @@ import java.util.stream.Stream;
  * Created by Thagus on 03/09/16.
  */
 public class ControllerImportDocument implements EventHandler<ActionEvent> {
-    private final Stage window;
     private final ModelDatabase db;
     private boolean messagesEnabled;
 
-    public ControllerImportDocument(){
+    public ControllerImportDocument(boolean messagesEnabled){
         this.db = ModelDatabase.instance();
-        window = null;
-        messagesEnabled = false;
-    }
-
-    public ControllerImportDocument(Stage window) {
-        this.window = window;
-        this.db = ModelDatabase.instance();
-        messagesEnabled = true;
+        this.messagesEnabled = messagesEnabled;
     }
 
     /**

@@ -40,7 +40,7 @@ public class Main extends Application{
         //Create the switching controller
         ControllerSceneSwitcher sceneSwitcher = new ControllerSceneSwitcher(window);
 
-        Scene searchScene = view.createScene(window, sceneSwitcher);
+        Scene searchScene = view.createScene(sceneSwitcher);
         Scene testScene = viewTest.createScene(sceneSwitcher);
 
         sceneSwitcher.setSearchScene(searchScene);

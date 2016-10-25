@@ -13,7 +13,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
 
 /**
  * Created by Thagus on 02/09/16.
@@ -26,16 +25,15 @@ public class View {
 
     /**
      * Creates the scene for the search
-     * @param window The window where the scene will run
      * @param controllerSceneSwitcher The controller that handles scene switching
      */
-    public Scene createScene(Stage window, ControllerSceneSwitcher controllerSceneSwitcher) {
+    public Scene createScene(ControllerSceneSwitcher controllerSceneSwitcher) {
         VBox layout = new VBox();
         layout.setSpacing(5);
 
         //Create controllers
         this.controllerSceneSwitcher = controllerSceneSwitcher;
-        controllerImportDocument = new ControllerImportDocument(window);
+        controllerImportDocument = new ControllerImportDocument(true);
         controllerSearch = new ControllerSearch();
         controllerMethodToggle = new ControllerMethodToggle();
 

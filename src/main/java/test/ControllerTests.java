@@ -10,24 +10,15 @@ import javafx.scene.Cursor;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
 import model.ModelDatabase;
 import utilities.TermExtractor;
 
-import javax.swing.JOptionPane;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Set;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 /**
  * Created by Thagus on 11/09/16.
@@ -94,7 +85,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         int numOfQueries = db.opTests.countQueries();
 
         String[] testNames = {"Raw", "StopWord-R", "Stemming", "StopWord-Stemming"};
-        ControllerImportDocument controllerImportDocument = new ControllerImportDocument();
+        ControllerImportDocument controllerImportDocument = new ControllerImportDocument(false);
 
         for(String name : testNames){
             System.out.println("Starting test: " + name);
