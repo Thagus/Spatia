@@ -1,71 +1,32 @@
-package test;
+package model;
 
-import javax.swing.JOptionPane;
-import java.sql.*;
+import test.QueryObject;
+
+import javax.swing.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Created by Thagus on 11/09/16.
+ * Created by Thagus on 25/10/16.
  */
-public class TestsDatabase {
-    private static TestsDatabase uniqueInstance;
-
-    private Statement st;
-    private Connection con;
-
+public class TestsOperations {
     private PreparedStatement stGetRelevant, stGetQueries, stAddQuery, stAddRelevant;
     private PreparedStatement stCountQueries, stClearEmptyQueries;
 
-    /**
-     * Constructor to create connection to the database, handle the creation of the tables, and create the prepared statements
-     */
-    private TestsDatabase(){
-        try {
-            Class.forName("org.h2.Driver");
-            con = DriverManager.getConnection("jdbc:h2:./database/spatiaTests", "spatia", "hi");
-            st = con.createStatement();
-
-            //Create the schema and tables if they don't already exists
-            //clearDB();
-            createSchema();
-            createTables();
-
-            //Prepare statements
-            stGetRelevant = con.prepareStatement("SELECT did FROM SPATIATESTS.RELEVANT WHERE qid=?");
-            stGetQueries = con.prepareStatement("SELECT * FROM SPATIATESTS.QUERIES");
-            stAddQuery = con.prepareStatement("INSERT INTO SPATIATESTS.QUERIES(qid,query) VALUES(?,?)");
-            stAddRelevant = con.prepareStatement("INSERT INTO SPATIATESTS.RELEVANT(qid,did) VALUES(?,?)");
-            stClearEmptyQueries = con.prepareStatement("DELETE FROM SPATIATESTS.QUERIES WHERE qid not in" +
-                    "(" +
-                    "SELECT DISTINCT r.qid FROM SPATIATESTS.RELEVANT r"+
-                    ")");
-            stCountQueries = con.prepareStatement("SELECT COUNT(*) FROM SPATIATESTS.QUERIES");
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString(), "Error, database driver not found", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString(), "Error creating connection to database. Please, restart the program and ensure that there's no other instance running", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Instance the singleton datbase
-     * @return The unique instance from the database
-     */
-    public static TestsDatabase instance() {
-        if (uniqueInstance==null) {
-            try {
-                uniqueInstance = new TestsDatabase();
-            }
-            catch(Exception e) {
-                e.printStackTrace();
-            }
-            return uniqueInstance;
-        }  else {
-            return uniqueInstance;
-        }
+    public TestsOperations(Connection connection) throws SQLException {
+        //Prepare statements
+        stGetRelevant = connection.prepareStatement("SELECT did FROM SPATIATESTS.RELEVANT WHERE qid=?");
+        stGetQueries = connection.prepareStatement("SELECT * FROM SPATIATESTS.QUERIES");
+        stAddQuery = connection.prepareStatement("INSERT INTO SPATIATESTS.QUERIES(qid,query) VALUES(?,?)");
+        stAddRelevant = connection.prepareStatement("INSERT INTO SPATIATESTS.RELEVANT(qid,did) VALUES(?,?)");
+        stClearEmptyQueries = connection.prepareStatement("DELETE FROM SPATIATESTS.QUERIES WHERE qid not in" +
+                "(" +
+                "SELECT DISTINCT r.qid FROM SPATIATESTS.RELEVANT r"+
+                ")");
+        stCountQueries = connection.prepareStatement("SELECT COUNT(*) FROM SPATIATESTS.QUERIES");
     }
 
     /**
@@ -199,69 +160,4 @@ public class TestsDatabase {
         }
         return -1;
     }
-
-    /**
-     * Create database schema
-     */
-    private void createSchema(){
-        try {
-            st.execute("CREATE SCHEMA SPATIATESTS");
-        } catch (SQLException e) {
-            //e.printStackTrace();
-        }
-    }
-
-    /**
-     * Create database tables
-     */
-    private void createTables(){
-        //Create Queries table
-        try {
-            st.execute("CREATE TABLE SPATIATESTS.QUERIES(" +
-                    "qid INTEGER NOT NULL," +         //Must have an ID
-                    "query VARCHAR NOT NULL," +       //Must have a query
-                    "PRIMARY KEY (qid)" +
-                    ")");
-        } catch (SQLException e) {
-            //e.printStackTrace();
-        }
-
-        //Create Relevant documents for query table
-        try {
-            st.execute("CREATE TABLE SPATIATESTS.RELEVANT(" +
-                    "qid INTEGER NOT NULL," +
-                    "did INTEGER NOT NULL," +
-                    "FOREIGN KEY(qid) REFERENCES QUERIES(qid) ON DELETE CASCADE," +
-                    "PRIMARY KEY (qid,did)" +
-                    ")");
-        } catch (SQLException e) {
-            //e.printStackTrace();
-        }
-    }
-
-    /**
-     * Delete the database tables
-     */
-    public void clearDB(){
-        try {
-            st.execute("DROP TABLE SPATIATESTS.QUERIES");
-            st.execute("DROP TABLE SPATIATESTS.RELEVANT");
-        } catch (SQLException e) {
-            //System.out.println("Error cleaning DB:");
-            //e.printStackTrace();
-        }
-    }
-
-    /**
-     * Close the connection to the database
-     */
-    public void close() throws SQLException {
-        st.close();
-        stGetRelevant.close();
-        stGetQueries.close();
-        stAddRelevant.close();
-        stAddQuery.close();
-        con.close();
-    }
-
 }

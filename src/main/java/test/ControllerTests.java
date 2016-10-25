@@ -34,7 +34,7 @@ import java.util.stream.Stream;
  */
 public class ControllerTests implements EventHandler<ActionEvent>, ChangeListener<TreeItem<String>>{
     private final Stage window;
-    private final TestsDatabase db;
+    private final ModelDatabase db;
     private HashMap<String, QueryObject> tagQuery;
 
     private HashMap<String, HashMap<Integer, ArrayList<Float>>> precisionMap;
@@ -44,7 +44,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
     private ViewTest view;
 
     public ControllerTests(Stage window, ViewTest viewTest){
-        db = TestsDatabase.instance();
+        db = ModelDatabase.instance();
         this.window = window;
         this.view = viewTest;
     }
@@ -64,7 +64,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
             File file = fileChooser.showDialog(window);
 
             if (file != null) {
-                importTests(file);
+                importTests("cacm", 0, 0);
             }
         }
         else if(userData.equals("begin")){
@@ -74,16 +74,12 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
     /**
      * Imports the tests files (query and qrels)
-     * @param folder The folder containing the files
+     * @param collectionName The name of the collection we want the queries from
      */
-    public void importTests(File folder){
-        String folderPath = folder.getAbsolutePath();
-        //Query documents paths
-        String queryTextPath = folderPath + "\\query.text";
-        String qrelsTextPath = folderPath + "\\qrels.text";
-
-        File queryTextFile = new File(queryTextPath);
-        File qrelsTextFile = new File(qrelsTextPath);
+    public void importTests(String collectionName, int queryStartIndex, int documentStartIndex){
+        //Query documents files from resources
+        File queryTextFile = new File(getClass().getClassLoader().getResource(collectionName + ".qry").getFile());
+        File qrelsTextFile = new File(getClass().getClassLoader().getResource(collectionName + ".rels").getFile());
 
         final ArrayList<QueryObject> queriesRead = new ArrayList<>();
 
@@ -94,7 +90,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
             stream.forEach(line -> {
                 if(line.startsWith(".I")){
                     //The format is "I. " + id
-                    int id = Integer.parseInt(line.substring(3));
+                    int id = Integer.parseInt(line.substring(3) + queryStartIndex);
                     queriesRead.add(new QueryObject(id));
                 } else if(line.startsWith(".W")){
                     currentType[0] = 0;
@@ -118,7 +114,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
         //Write to database the queries
         for(QueryObject queryObject : queriesRead){
-            db.addQuery(queryObject.getQid(), queryObject.getQuery());
+            db.opTests.addQuery(queryObject.getQid(), queryObject.getQuery());
         }
 
         Pattern numberPattern = Pattern.compile("\\s+");
@@ -126,7 +122,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         try (Stream<String> stream = Files.lines(qrelsTextFile.toPath())) {
             stream.forEach(line -> {
                 String[] numbers = numberPattern.split(line);
-                db.addRelevant(Integer.parseInt(numbers[0]), Integer.parseInt(numbers[1]));
+                db.opTests.addRelevant(Integer.parseInt(numbers[0]) + queryStartIndex, Integer.parseInt(numbers[1]) + documentStartIndex);
             });
         } catch (IOException e) {
             e.printStackTrace();
@@ -139,10 +135,10 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         countInfo.showAndWait();
 
         //Delete queries with no relevant documents
-        db.deleteEmptyQueries();
+        db.opTests.deleteEmptyQueries();
 
         //A message to alert the user about the number of read documents
-        countInfo = new Alert(Alert.AlertType.INFORMATION, "Cleared empty queries!, remained " + db.countQueries() + " queries");
+        countInfo = new Alert(Alert.AlertType.INFORMATION, "Cleared empty queries!, remained " + db.opTests.countQueries() + " queries");
         countInfo.setTitle("Successful cleaning!");
         countInfo.setHeaderText(null);
         countInfo.showAndWait();
@@ -154,9 +150,8 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
     public void beginTests(){
         long startTest = System.nanoTime();
         //Load queries
-        ArrayList<QueryObject> queries = db.getQueries();
-        //Get the main database instance
-        ModelDatabase mainDatabase = ModelDatabase.instance();
+        ArrayList<QueryObject> queries = db.opTests.getQueries();
+
         //Sort them according the id (ascendant)
         Collections.sort(queries);
 
@@ -179,7 +174,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
         tagQuery = new HashMap<>();
 
-        int numOfQueries = db.countQueries();
+        int numOfQueries = db.opTests.countQueries();
 
         String[] testNames = {"Raw", "StopWord-R", "Stemming", "StopWord-Stemming"};
         ControllerImportDocument controllerImportDocument = new ControllerImportDocument();
@@ -220,7 +215,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
             startingIndex = 0;
             controllerImportDocument.readFile(new File(getClass().getClassLoader().getResource("cacm.all").getFile()), startingIndex);
 
-            startingIndex = mainDatabase.opDocuments.countDocuments();
+            startingIndex = db.opDocuments.countDocuments();
             controllerImportDocument.readFile(new File(getClass().getClassLoader().getResource("med.all").getFile()), startingIndex);
 
             float recall = 0f, precision = 0f;
@@ -234,7 +229,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
                 retrieved.clear();
 
                 //Retrieve result documents from evaluating query
-                mainDatabase.opModel.evaluateQuery(query.getQuery()).forEach(i ->
+                db.opModel.evaluateQuery(query.getQuery()).forEach(i ->
                         //For each retrieved document, extract its id and store it within the query
                         retrieved.add(i.getIdDoc())
                 );

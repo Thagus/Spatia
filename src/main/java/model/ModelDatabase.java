@@ -18,6 +18,7 @@ public class ModelDatabase {
     public InvertedIndexOperations opInvertedIndex;
     public DocumentOperations opDocuments;
     public ModelOperations opModel;
+    public TestsOperations opTests;
 
     private ModelDatabase() {
         try {
@@ -65,6 +66,7 @@ public class ModelDatabase {
             opInvertedIndex = new InvertedIndexOperations(con);
             opDocuments = new DocumentOperations(con);
             opModel = new ModelOperations(con);
+            opTests = new TestsOperations(con);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -79,6 +81,12 @@ public class ModelDatabase {
         } catch (SQLException e) {
             //System.out.println("Error creating schema:");
             //e.printStackTrace();
+        }
+
+        try{
+            st.execute("CREATE SCHEMA SPATIATESTS");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -151,6 +159,32 @@ public class ModelDatabase {
             //System.out.println("Error creating Query table:");
             //e.printStackTrace();
         }
+
+        /**
+         * Tests database
+         */
+        //Create Queries table
+        try {
+            st.execute("CREATE TABLE SPATIATESTS.QUERIES(" +
+                    "qid INTEGER NOT NULL," +         //Must have an ID
+                    "query VARCHAR NOT NULL," +       //Must have a query
+                    "PRIMARY KEY (qid)" +
+                    ")");
+        } catch (SQLException e) {
+            //e.printStackTrace();
+        }
+
+        //Create Relevant documents for query table
+        try {
+            st.execute("CREATE TABLE SPATIATESTS.RELEVANT(" +
+                    "qid INTEGER NOT NULL," +
+                    "did INTEGER NOT NULL," +
+                    "FOREIGN KEY(qid) REFERENCES QUERIES(qid) ON DELETE CASCADE," +
+                    "PRIMARY KEY (qid,did)" +
+                    ")");
+        } catch (SQLException e) {
+            //e.printStackTrace();
+        }
     }
 
     /**
@@ -163,6 +197,9 @@ public class ModelDatabase {
             st.execute("DROP TABLE SPATIA.TERM");
             st.execute("DROP TABLE QUERY");
             st.execute("DROP TABLE SPATIA.CLUSTER");
+
+            st.execute("DROP TABLE SPATIATESTS.QUERIES");
+            st.execute("DROP TABLE SPATIATESTS.RELEVANT");
         } catch (SQLException e) {
             //System.out.println("Error cleaning DB:");
             //e.printStackTrace();
