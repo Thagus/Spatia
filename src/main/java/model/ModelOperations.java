@@ -73,6 +73,10 @@ public class ModelOperations {
         this.weight.calculateQueryWeights();
     }
 
+    public void setClusteringActivated(boolean clusteringActivated) {
+        this.clusteringActivated = clusteringActivated;
+    }
+
     public void toggleClustering() {
         //this.clusteringActivated ^= true;
         this.clusteringActivated = !this.clusteringActivated;
