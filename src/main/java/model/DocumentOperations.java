@@ -14,7 +14,7 @@ public class DocumentOperations {
 
     protected DocumentOperations(Connection connection) throws SQLException {
         //Create prepared statements
-        stAddDocument = connection.prepareStatement("INSERT INTO SPATIA.DOCUMENT(idDoc,title,journal,libraryNotes,authors,abstractText,keywords,classification,citations) VALUES(?,?,?,?,?,?,?,?,?)");
+        stAddDocument = connection.prepareStatement("INSERT INTO SPATIA.DOCUMENT(idDoc,text) VALUES(?,?)");
         stGetDocument = connection.prepareStatement("SELECT * FROM SPATIA.DOCUMENT WHERE idDoc=?");
         stCountDocuments = connection.prepareStatement("SELECT COUNT(*) FROM SPATIA.DOCUMENT");
     }
@@ -23,49 +23,13 @@ public class DocumentOperations {
      * Adds a document tuple to the database
      *
      * @param idDoc the id of the document
-     * @param title the title of teh document
-     * @param journal the journal where the document belongs
-     * @param libraryNotes the library notes of the document
-     * @param authors the authors of teh document
-     * @param abstractText the abstract of the document
-     * @param keywords the keywords provided by the document
-     * @param classification the classification of the document
-     * @param citations the citations in the document
-     * @return true if the insertion was successful, false otherwise
+     * @param text the text in the document
      */
-    public boolean addDocument(int idDoc, String title, String journal, String libraryNotes, String authors, String abstractText, String keywords, String classification, String citations){
+    public boolean addDocument(int idDoc, String text){
         try{
             stAddDocument.clearParameters();
             stAddDocument.setInt(1, idDoc);
-            stAddDocument.setString(2, title);
-            stAddDocument.setString(3, journal);
-            stAddDocument.setString(4, libraryNotes);
-            //The following might be null
-            if(authors==null)
-                stAddDocument.setNull(5, Types.VARCHAR);
-            else
-                stAddDocument.setString(5, authors);
-
-            if(abstractText==null)
-                stAddDocument.setNull(6, Types.VARCHAR);
-            else
-                stAddDocument.setString(6, abstractText);
-
-            if(keywords==null)
-                stAddDocument.setNull(7, Types.VARCHAR);
-            else
-                stAddDocument.setString(7, keywords);
-
-            if(classification==null)
-                stAddDocument.setNull(8, Types.VARCHAR);
-            else
-                stAddDocument.setString(8, classification);
-
-            if(citations==null)
-                stAddDocument.setNull(9, Types.VARCHAR);
-            else
-                stAddDocument.setString(9, citations);
-
+            stAddDocument.setString(2, text);
 
             stAddDocument.executeUpdate();
             return true;
@@ -101,14 +65,7 @@ public class DocumentOperations {
 
             while(rs.next()){
                 check = true;
-                document.appendTitle(rs.getString("title"));
-                document.setJournal(rs.getString("journal"));
-                document.setLibraryNotes(rs.getString("libraryNotes"));
-                document.appendAuthor(rs.getString("authors"));
-                document.appendAbstract(rs.getString("abstractText"));
-                document.appendKeywords(rs.getString("keywords"));
-                document.appendClassification(rs.getString("classification"));
-                document.appendCitations(rs.getString("citations"));
+                document.appendText(rs.getString("text"));
             }
             rs.close();
 

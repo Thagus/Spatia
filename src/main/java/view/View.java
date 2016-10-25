@@ -160,19 +160,16 @@ public class View {
         idCol.setPrefWidth(45);
         idCol.setStyle("-fx-alignment: CENTER;");       //Center values from column
 
-        TableColumn<Document, String> titleCol = new TableColumn<>("Title");
-        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-        titleCol.setMinWidth(500);
-
-        TableColumn<Document, String> journalCol = new TableColumn<>("Journal");
-        journalCol.setCellValueFactory(new PropertyValueFactory<>("journal"));
-        journalCol.setMinWidth(150);
+        TableColumn<Document, String> textCol = new TableColumn<>("Title");
+        textCol.setCellValueFactory(new PropertyValueFactory<>("text"));
+        textCol.setMinWidth(500);
 
         TableColumn<Document, Integer> simCol = new TableColumn<>("Similarity");
         simCol.setCellValueFactory(new PropertyValueFactory<>("similarity"));
         simCol.setMinWidth(125);
+        simCol.setStyle("-fx-alignment: CENTER;");       //Center values from column
 
-        tableDocuments.getColumns().addAll(idCol, titleCol, journalCol, simCol);
+        tableDocuments.getColumns().addAll(idCol, textCol, simCol);
 
 
         /***********************************************************

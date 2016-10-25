@@ -32,7 +32,7 @@ public class ModelOperations {
 
     protected ModelOperations(Connection connection) throws SQLException{
         idfCalculated = true;
-        clusteringActivated = true;
+        clusteringActivated = false;
 
         clustering = new Clustering();
 

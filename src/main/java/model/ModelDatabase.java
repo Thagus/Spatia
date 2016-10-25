@@ -90,14 +90,7 @@ public class ModelDatabase {
         try {
             st.execute("CREATE TABLE SPATIA.DOCUMENT(" +
                     "idDoc INTEGER NOT NULL," +         //Must have an ID
-                    "title VARCHAR NOT NULL," +         //Must have a title
-                    "journal VARCHAR NOT NULL," +       //It must belong to a journal
-                    "libraryNotes VARCHAR NOT NULL," +   //There must be library notes
-                    "authors VARCHAR," +                //There can be no authors
-                    "abstractText VARCHAR," +           //Might have an abstract
-                    "keyWords VARCHAR," +               //There might be keyWords
-                    "classification VARCHAR," +         //There might be classification
-                    "citations VARCHAR," +              //There might be citations
+                    "text VARCHAR NOT NULL," +         //Must have text
                     "PRIMARY KEY (idDoc)" +
                     ")");
         } catch (SQLException e) {

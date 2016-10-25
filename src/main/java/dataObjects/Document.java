@@ -11,125 +11,29 @@ import java.util.Map;
  */
 public class Document implements Comparable<Document>{
     private int idDoc;
-    private String title;
-    private String journal;
-    private String libraryNotes;
-    private String authors;
-    private String abstractText;
-    private String keywords;
-    private String classification;
-    private String citations;
+    private String text;
 
     private double similarity;
 
     public Document(int idDoc){
         this.idDoc = idDoc;
-        title = "";
+        this.text = "";
+        this.similarity = 0;
     }
 
     /**
-     * Add a string to the title
-     * @param string The string that will be added to the title
+     * Add a String to the text
+     * @param text the string to add
      */
-    public void appendTitle(String string){
-        title += " " + string.trim();
-        title = title.trim();
-        similarity = 0;
-    }
-
-    /**
-     * Add an author to the authors string
-     * @param author
-     */
-    public void appendAuthor(String author){
-        if(author == null)  //Handle null values
+    public void appendText(String text){
+        if(text==null)
             return;
-        if(authors==null){
-            authors = author.trim();
-        } else {
-            authors = authors + "; " + author.trim();
-        }
-    }
 
-    /**
-     * Set the journal attribute
-     * @param journal The attribute' data
-     */
-    public void setJournal(String journal){
-        if(this.journal == null) {
-            this.journal = journal.trim();
+        if(text.equals("\n")){
+            this.text += "\n" + text;
         }
         else {
-            JOptionPane.showMessageDialog(null, "There is more than one journal entry for document idDoc: " + idDoc);
-        }
-    }
-
-    /**
-     * Set the library notes attribute
-     * @param libraryNotes The value of the attribute
-     */
-    public void setLibraryNotes(String libraryNotes){
-        if(this.libraryNotes == null)
-            this.libraryNotes = libraryNotes;
-        else {
-            JOptionPane.showMessageDialog(null, "There is more than one library note entry for document idDoc: " + idDoc);
-        }
-    }
-
-    /**
-     * Add a line to the abstract of the document
-     * @param text The line to be added to the abstract
-     */
-    public void appendAbstract(String text){
-        if(text==null)      //Handle null values
-            return;
-        if(abstractText ==null){
-            abstractText = text.trim();
-        } else {
-            abstractText += " " + text.trim();
-        }
-    }
-
-    /**
-     * Append a line of keywords
-     * @param keywords The line of keywords to be added
-     */
-    public void appendKeywords(String keywords) {
-        if(keywords==null)      //Handle null values
-            return;
-        if(this.keywords == null){
-            this.keywords = keywords.trim();
-        } else {
-            this.keywords += " " + keywords.trim();
-        }
-    }
-
-    /**
-     * Append classifications to teh attribute
-     * @param classification the classifications to be added
-     */
-    public void appendClassification(String classification) {
-        if(classification==null)    //Handle null values
-            return;
-        if(this.classification == null){
-            this.classification = classification.trim();
-        } else {
-            this.classification += "; " + classification.trim();
-        }
-    }
-
-    /**
-     * Add a line of citations to the attribute
-     * @param citations The line that will be added
-     */
-    public void appendCitations(String citations) {
-        if(citations==null)     //Handle null values
-            return;
-        if(this.citations == null){
-            this.citations = citations.trim();
-        }
-        else{
-            this.citations += "; " + citations.trim();
+            this.text += " " + text.trim();
         }
     }
 
@@ -140,39 +44,10 @@ public class Document implements Comparable<Document>{
     /****************
      *  Getters     *
      ****************/
-
     public int getIdDoc() { return idDoc; }
-
-    public String getTitle() {
-        return title;
+    public String getText() {
+        return text;
     }
-
-    public String getJournal() {
-        return journal;
-    }
-
-    public String getLibraryNotes() { return libraryNotes; }
-
-    public String getAuthors(){
-        return authors;
-    }
-
-    public String getAbstractText() {
-        return abstractText;
-    }
-
-    public String getKeywords() {
-        return keywords;
-    }
-
-    public String getClassification() {
-        return classification;
-    }
-
-    public String getCitations() {
-        return citations;
-    }
-
     public double getSimilarity() {
         return similarity;
     }
@@ -182,15 +57,7 @@ public class Document implements Comparable<Document>{
      * @return The HashMap containing the terms and their TF
      */
     public HashMap<String, Integer> countWords(){
-        String text = title;
-        if(abstractText!=null)
-            text += " " + abstractText;
-        if(authors!=null)
-            text += " " + authors;
-        if(keywords!=null)
-            text += " " + keywords;
-
-        return TermExtractor.extractTerms(text);
+        return TermExtractor.extractTerms(this.text);
     }
 
     /**

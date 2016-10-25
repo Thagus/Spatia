@@ -4,7 +4,6 @@ import dataObjects.Document;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.ModelDatabase;
 import javax.swing.JOptionPane;
@@ -40,15 +39,7 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
      */
     @Override
     public void handle(ActionEvent event) {
-        /*
-        FileChooser fileChooser = new FileChooser();
-        File file = fileChooser.showOpenDialog(window);
-
-        if(file!=null) {
-            readFile(file);
-        }
-        */
-
+        //Send starting index, for multiple collections
         readFile(new File(getClass().getClassLoader().getResource("cacm.all").getFile()));
     }
 
@@ -72,61 +63,49 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
                     documents.add(new Document(id));
                 } else if(line.startsWith(".T")){
                     setAllFalse(currentType);
-                    currentType[0] = true;
-                } else if(line.startsWith(".B")){
-                    setAllFalse(currentType);
                     currentType[1] = true;
-                } else if(line.startsWith(".N")){
+                } else if(line.startsWith(".B")){
+                    documents.get(documents.size()-1).appendText("\n");
                     setAllFalse(currentType);
                     currentType[2] = true;
                 } else if(line.startsWith(".A")){
+                    documents.get(documents.size()-1).appendText("\n");
                     setAllFalse(currentType);
                     currentType[3] = true;
                 } else if(line.startsWith(".W")){
+                    documents.get(documents.size()-1).appendText("\n");
                     setAllFalse(currentType);
                     currentType[4] = true;
                 } else if(line.startsWith(".K")){
+                    documents.get(documents.size()-1).appendText("\n");
                     setAllFalse(currentType);
                     currentType[5] = true;
-                } else if(line.startsWith(".C")){
+                } else if(line.startsWith(".")){
                     setAllFalse(currentType);
-                    currentType[6] = true;
-                } else if(line.startsWith(".X")){
-                    setAllFalse(currentType);
-                    currentType[7] = true;
+                    currentType[0] = true;
                 } else {    //When the line is not a header
                     int type = getTrueValueIndex(currentType);
 
                     switch (type) {
-                        case 0:     //Case for .T - Title
-                            documents.get(documents.size()-1).appendTitle(" " + line);
+                        case 0: //Ignore the rest
                             break;
-                        case 1:     //Case for .B - Journal name and edition
-                            documents.get(documents.size()-1).setJournal(line);
-                            break;
-                        case 2:     //Case for .N - library notes
-                            documents.get(documents.size()-1).setLibraryNotes(line);
-                            break;
+                        case 1:     //Case for .T - Title
+                        case 2:     //Case for .B - Journal name and edition
                         case 3:     //Case for .A - Authors
-                            documents.get(documents.size()-1).appendAuthor(line);
-                            break;
                         case 4:     //Case for .W - abstract
-                            documents.get(documents.size()-1).appendAbstract(line);
-                            break;
                         case 5:     //Case for .K - key words
-                            documents.get(documents.size()-1).appendKeywords(line);
-                            break;
-                        case 6:     //Case for .C - Classification
-                            documents.get(documents.size()-1).appendClassification(line);
-                            break;
-                        case 7:     //Case for .X - Citations
-                            documents.get(documents.size()-1).appendCitations(line);
+                            documents.get(documents.size()-1).appendText(line);
                             break;
                         default:
                             JOptionPane.showMessageDialog(null, "The file doesn't follow the expected structure!");
                     }
                 }
             });
+            for(Document document : documents){
+                System.out.println(document.getText());
+                System.out.println("\n");
+            }
+
             if(messagesEnabled) {
                 //A message to alert the user about the number of read documents
                 Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Read " + documents.size() + " documents");
@@ -157,7 +136,7 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
 
         //Add documents and terms
         for(Document doc : documents){
-            boolean insertCheck = db.opDocuments.addDocument(doc.getIdDoc(), doc.getTitle(), doc.getJournal(), doc.getLibraryNotes(), doc.getAuthors(), doc.getAbstractText(), doc.getKeywords(), doc.getClassification(), doc.getCitations());
+            boolean insertCheck = db.opDocuments.addDocument(doc.getIdDoc(), doc.getText());
 
             //The document was correctly added if there is no duplicate key
             if(insertCheck) {
