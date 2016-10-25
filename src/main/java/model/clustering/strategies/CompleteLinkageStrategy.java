@@ -2,7 +2,11 @@ package model.clustering.strategies;
 
 import java.util.Collection;
 
-public class CompleteLinkageStrategy implements LinkageStrategy {
+public class CompleteLinkageStrategy extends LinkageStrategy {
+
+	public CompleteLinkageStrategy() {
+		super("Complete linkage");
+	}
 
 	@Override
 	public double calculateSimilarity(Collection<Double> similarities) {
