@@ -29,7 +29,7 @@ public class Document implements Comparable<Document>{
         if(text==null)
             return;
 
-        if(text.equals("\n")){
+        if(text.equals("\n") && this.text.length()!=0){
             this.text += "\n" + text;
         }
         else {
