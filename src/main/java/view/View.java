@@ -21,7 +21,6 @@ public class View {
     private ControllerImportDocument controllerImportDocument;
     private ControllerSearch controllerSearch;
     private ControllerSceneSwitcher controllerSceneSwitcher;
-    private ControllerMethodToggle controllerMethodToggle;
 
     /**
      * Creates the scene for the search
@@ -35,7 +34,6 @@ public class View {
         this.controllerSceneSwitcher = controllerSceneSwitcher;
         controllerImportDocument = new ControllerImportDocument(true);
         controllerSearch = new ControllerSearch();
-        controllerMethodToggle = new ControllerMethodToggle();
 
         //Create menu bar
         createMenus(layout);
@@ -60,55 +58,6 @@ public class View {
         importDoc.setOnAction(controllerImportDocument);
         menuFile.getItems().add(importDoc);
 
-
-        //Methods menu
-        Menu methodsMenu = new Menu("_Methods");
-
-        //Similarity submenu
-        Menu similarityMenu = new Menu("_Similarity");
-        ToggleGroup similarityToggleGroup = new ToggleGroup();
-
-        /*RadioMenuItem dotProduct = new RadioMenuItem("Dot product");
-        dotProduct.setUserData("Dot product");
-        dotProduct.setToggleGroup(similarityToggleGroup);*/
-
-        RadioMenuItem cosine = new RadioMenuItem("Cosine of the angle");
-        cosine.setUserData("Cosine");
-        cosine.setToggleGroup(similarityToggleGroup);
-        cosine.setSelected(true);
-
-        similarityMenu.getItems().addAll(/*dotProduct,*/ cosine);
-
-        //Weight submenu
-        Menu weightMenu = new Menu("_Weight");
-        ToggleGroup weightToggleGroup = new ToggleGroup();
-
-        RadioMenuItem idf = new RadioMenuItem("TF-IDF");
-        idf.setUserData("TF-IDF");
-        idf.setToggleGroup(weightToggleGroup);
-        idf.setSelected(true);
-
-        /*RadioMenuItem normIDF = new RadioMenuItem("Normalized TF-IDF");
-        normIDF.setUserData("Normalized TF-IDF");
-        normIDF.setToggleGroup(weightToggleGroup);
-
-        RadioMenuItem ftd = new RadioMenuItem("Maximum normalized TF");
-        ftd.setUserData("Maximum normalized TF");
-        ftd.setToggleGroup(weightToggleGroup);
-
-        RadioMenuItem stdFTD = new RadioMenuItem("Maximum normalized TF-IDF");
-        stdFTD.setUserData("Maximum normalized TF-IDF");
-        stdFTD.setToggleGroup(weightToggleGroup);*/
-
-        weightMenu.getItems().addAll(idf/*, normIDF, ftd, stdFTD*/);
-
-        //Add controller to toggle groups
-        similarityToggleGroup.selectedToggleProperty().addListener(controllerMethodToggle);
-        weightToggleGroup.selectedToggleProperty().addListener(controllerMethodToggle);
-        //Add the submenus to the menu
-        methodsMenu.getItems().addAll(similarityMenu, weightMenu);
-
-
         //Tests menu
         Menu testsMenu = new Menu("_Tests");
         MenuItem openTests = new MenuItem("Open tests");
@@ -116,7 +65,7 @@ public class View {
         openTests.setOnAction(controllerSceneSwitcher);
         testsMenu.getItems().add(openTests);
 
-        menuBar.getMenus().addAll(menuFile, methodsMenu, testsMenu);
+        menuBar.getMenus().addAll(menuFile, testsMenu);
         layout.getChildren().add(menuBar);
     }
 
