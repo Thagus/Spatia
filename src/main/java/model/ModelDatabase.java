@@ -86,7 +86,7 @@ public class ModelDatabase {
         try{
             st.execute("CREATE SCHEMA SPATIATESTS");
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 

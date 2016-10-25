@@ -58,7 +58,7 @@ public class View {
         Menu menuFile = new Menu("_File");
 
         //Import document
-        MenuItem importDoc = new MenuItem("Import document...");
+        MenuItem importDoc = new MenuItem("Import documents");
         importDoc.setOnAction(controllerImportDocument);
         menuFile.getItems().add(importDoc);
 

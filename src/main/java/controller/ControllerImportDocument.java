@@ -6,11 +6,14 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import model.ModelDatabase;
+import test.QueryObject;
+
 import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /**
@@ -41,16 +44,93 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
     public void handle(ActionEvent event) {
         //Send starting index, for multiple collections
         int startingIndex;
+        int queryStartIndex;
 
         startingIndex = 0;
         readFile(new File(getClass().getClassLoader().getResource("cacm.all").getFile()), startingIndex);
+        queryStartIndex = 0;
+        readTestsFiles("cacm", queryStartIndex, startingIndex);
 
         startingIndex = db.opDocuments.countDocuments();
         readFile(new File(getClass().getClassLoader().getResource("med.all").getFile()), startingIndex);
+        queryStartIndex = db.opTests.countQueries();
+        readTestsFiles("med", queryStartIndex, startingIndex);
+
+        //Delete queries with no relevant documents
+        db.opTests.deleteEmptyQueries();
+
+        //A message to alert the user about the number of read documents
+        Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Cleared empty queries!, remained " + db.opTests.countQueries() + " queries");
+        countInfo.setTitle("Successful cleaning!");
+        countInfo.setHeaderText(null);
+        countInfo.showAndWait();
     }
 
     /**
-     * Reads the input file following the CACM collection document structure
+     * Reads the tests files (query and query relations) from resources for the specific collection
+     * @param collectionName The name of the collection we want the queries from
+     */
+    public void readTestsFiles(String collectionName, int queryStartIndex, int documentStartIndex){
+        //Query documents files from resources
+        File queryTextFile = new File(getClass().getClassLoader().getResource(collectionName + ".qry").getFile());
+        File qrelsTextFile = new File(getClass().getClassLoader().getResource(collectionName + ".rels").getFile());
+
+        final ArrayList<QueryObject> queriesRead = new ArrayList<>();
+
+        //Read query.text file
+        try (Stream<String> stream = Files.lines(queryTextFile.toPath())) {
+            final int[] currentType = new int[1];
+
+            stream.forEach(line -> {
+                if(line.startsWith(".I")){
+                    //The format is "I. " + id
+                    int id = Integer.parseInt(line.substring(3)) + queryStartIndex;
+                    queriesRead.add(new QueryObject(id));
+                } else if(line.startsWith(".W")){
+                    currentType[0] = 0;
+                } else if(line.startsWith(".")) {   //Ignore all other tags
+                    currentType[0] = 1;
+                } else {    //When the line is not a header
+                    switch (currentType[0]) {
+                        case 0:     //Case for .W - query
+                            queriesRead.get(queriesRead.size()-1).appendQuery(line.trim());
+                            break;
+                        case 1:     //Case for ignored tags
+                            break;
+                        default:
+                            JOptionPane.showMessageDialog(null, "The file doesn't follow the expected structure!");
+                    }
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Write to database the queries
+        for(QueryObject queryObject : queriesRead){
+            db.opTests.addQuery(queryObject.getQid(), queryObject.getQuery());
+        }
+
+        Pattern numberPattern = Pattern.compile("\\s+");
+        //Read qrels.text file and write to database its contents
+        try (Stream<String> stream = Files.lines(qrelsTextFile.toPath())) {
+            stream.forEach(line -> {
+                String[] numbers = numberPattern.split(line);
+                db.opTests.addRelevant(Integer.parseInt(numbers[0]) + queryStartIndex, Integer.parseInt(numbers[1]) + documentStartIndex);
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //A message to alert the user about the number of read documents
+        Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Read " + queriesRead.size() + " queries");
+        countInfo.setTitle("Successful reading!");
+        countInfo.setHeaderText(null);
+        countInfo.showAndWait();
+    }
+
+    /**
+     * Reads the input file following the general collections structure
      * and creates Document objects to store the data related to each document from teh collection
      * Finally calls the feedDatabase method with the constructed array of Documents
      *
@@ -107,10 +187,6 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
                     }
                 }
             });
-            for(Document document : documents){
-                System.out.println(document.getText());
-                System.out.println("\n");
-            }
 
             if(messagesEnabled) {
                 //A message to alert the user about the number of read documents
