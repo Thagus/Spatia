@@ -41,7 +41,7 @@ public class Main extends Application{
         ControllerSceneSwitcher sceneSwitcher = new ControllerSceneSwitcher(window);
 
         Scene searchScene = view.createScene(window, sceneSwitcher);
-        Scene testScene = viewTest.createScene(window, sceneSwitcher);
+        Scene testScene = viewTest.createScene(sceneSwitcher);
 
         sceneSwitcher.setSearchScene(searchScene);
         sceneSwitcher.setTestScene(testScene);

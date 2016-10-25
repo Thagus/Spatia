@@ -33,7 +33,6 @@ import java.util.stream.Stream;
  * Created by Thagus on 11/09/16.
  */
 public class ControllerTests implements EventHandler<ActionEvent>, ChangeListener<TreeItem<String>>{
-    private final Stage window;
     private final ModelDatabase db;
     private HashMap<String, QueryObject> tagQuery;
 
@@ -43,9 +42,8 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
     private ViewTest view;
 
-    public ControllerTests(Stage window, ViewTest viewTest){
+    public ControllerTests(ViewTest viewTest){
         db = ModelDatabase.instance();
-        this.window = window;
         this.view = viewTest;
     }
 
@@ -58,94 +56,13 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
         MenuItem node = (MenuItem) event.getSource();
         String userData = (String) node.getUserData();
 
-        if(userData.equals("import")) {
-
-            DirectoryChooser fileChooser = new DirectoryChooser();
-            File file = fileChooser.showDialog(window);
-
-            if (file != null) {
-                importTests("cacm", 0, 0);
-            }
-        }
-        else if(userData.equals("begin")){
+        if(userData.equals("begin")){
             beginTests();
         }
     }
 
     /**
-     * Imports the tests files (query and qrels)
-     * @param collectionName The name of the collection we want the queries from
-     */
-    public void importTests(String collectionName, int queryStartIndex, int documentStartIndex){
-        //Query documents files from resources
-        File queryTextFile = new File(getClass().getClassLoader().getResource(collectionName + ".qry").getFile());
-        File qrelsTextFile = new File(getClass().getClassLoader().getResource(collectionName + ".rels").getFile());
-
-        final ArrayList<QueryObject> queriesRead = new ArrayList<>();
-
-        //Read query.text file
-        try (Stream<String> stream = Files.lines(queryTextFile.toPath())) {
-            final int[] currentType = new int[1];
-
-            stream.forEach(line -> {
-                if(line.startsWith(".I")){
-                    //The format is "I. " + id
-                    int id = Integer.parseInt(line.substring(3) + queryStartIndex);
-                    queriesRead.add(new QueryObject(id));
-                } else if(line.startsWith(".W")){
-                    currentType[0] = 0;
-                } else if(line.startsWith(".")) {   //Ignore all other tags
-                    currentType[0] = 1;
-                } else {    //When the line is not a header
-                    switch (currentType[0]) {
-                        case 0:     //Case for .W - query
-                            queriesRead.get(queriesRead.size()-1).appendQuery(line.trim());
-                            break;
-                        case 1:     //Case for ignored tags
-                            break;
-                        default:
-                            JOptionPane.showMessageDialog(null, "The file doesn't follow the expected structure!");
-                    }
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //Write to database the queries
-        for(QueryObject queryObject : queriesRead){
-            db.opTests.addQuery(queryObject.getQid(), queryObject.getQuery());
-        }
-
-        Pattern numberPattern = Pattern.compile("\\s+");
-        //Read qrels.text file and write to database its contents
-        try (Stream<String> stream = Files.lines(qrelsTextFile.toPath())) {
-            stream.forEach(line -> {
-                String[] numbers = numberPattern.split(line);
-                db.opTests.addRelevant(Integer.parseInt(numbers[0]) + queryStartIndex, Integer.parseInt(numbers[1]) + documentStartIndex);
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //A message to alert the user about the number of read documents
-        Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Read " + queriesRead.size() + " queries");
-        countInfo.setTitle("Successful reading!");
-        countInfo.setHeaderText(null);
-        countInfo.showAndWait();
-
-        //Delete queries with no relevant documents
-        db.opTests.deleteEmptyQueries();
-
-        //A message to alert the user about the number of read documents
-        countInfo = new Alert(Alert.AlertType.INFORMATION, "Cleared empty queries!, remained " + db.opTests.countQueries() + " queries");
-        countInfo.setTitle("Successful cleaning!");
-        countInfo.setHeaderText(null);
-        countInfo.showAndWait();
-    }
-
-    /**
-     * Obstans the queries to execute and start the tests
+     * Obtains the queries to execute and starts the tests
      */
     public void beginTests(){
         long startTest = System.nanoTime();

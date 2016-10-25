@@ -21,16 +21,15 @@ public class ViewTest {
 
     /**
      * Start the application
-     * @param window The window where the application will run
      */
-    public Scene createScene(Stage window, ControllerSceneSwitcher controllerSceneSwitcher){
+    public Scene createScene(ControllerSceneSwitcher controllerSceneSwitcher){
         //Create the main layout
         VBox layout = new VBox();
         layout.setSpacing(5);
 
         //Create the controller
         this.controllerSceneSwitcher = controllerSceneSwitcher;
-        controllerTests = new ControllerTests(window, this);
+        controllerTests = new ControllerTests(this);
 
         createMenus(layout);
         createSplitPane(layout);
@@ -47,21 +46,13 @@ public class ViewTest {
         //File menu
         Menu menuFile = new Menu("_Tests");
 
-        //Import document
-        MenuItem importTests = new MenuItem("Select tests folder...");
-        importTests.setOnAction(controllerTests);
-        importTests.setUserData("import");
-
-        //Separator
-        SeparatorMenuItem separator = new SeparatorMenuItem();
-
         //Begin tests
         MenuItem beginTests = new MenuItem("Begin tests");
         beginTests.setOnAction(controllerTests);
         beginTests.setUserData("begin");
 
         //Add menu items to the menu
-        menuFile.getItems().addAll(importTests, separator, beginTests);
+        menuFile.getItems().addAll(beginTests);
 
 
         //Open search menu
