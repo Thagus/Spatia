@@ -1,5 +1,8 @@
 package model.clustering;
 
+import dataObjects.Document;
+import javafx.collections.ObservableList;
+
 import java.util.HashMap;
 
 /**
@@ -18,6 +21,11 @@ public class Clustering {
      */
     public void readClusters(){
 
+    }
+
+    public ObservableList<Document> getClusteredDocumentsFor(int docID){
+        System.out.println(docID);
+        return null;
     }
 
     /**
