@@ -77,6 +77,9 @@ public abstract class Similarity {
             //Calculate the query term weights
             ModelDatabase.instance().opModel.calculateQueryWeights();
 
+            //Get all the documents from the query
+            stCalculateSimilarity.setMaxRows(0);
+
             //Execute calculation of similarity
             ResultSet rs = stCalculateSimilarity.executeQuery();
 
@@ -100,5 +103,47 @@ public abstract class Similarity {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * Get the ID of the most relevant document for the given query
+     * @param wordCount a hash table containing the terms of the query and their frequencies
+     * @return the ID of the most relevant document
+     */
+    public int getMostRelevantDocumentID(HashMap<String, Integer> wordCount){
+        int result = -1;
+
+        try{
+            //Insert query terms to memory table
+            for(Map.Entry<String, Integer> entry : wordCount.entrySet()){
+                addQuery.clearParameters();
+                addQuery.setString(1, entry.getKey());
+                addQuery.setInt(2, entry.getValue());
+
+                addQuery.executeUpdate();
+            }
+
+            //Calculate the query term weights
+            ModelDatabase.instance().opModel.calculateQueryWeights();
+
+            //Get just the first document from the query
+            stCalculateSimilarity.setMaxRows(1);
+
+            //Execute calculation of similarity
+            ResultSet rs = stCalculateSimilarity.executeQuery();
+
+            //Obtain every resulting document
+            while (rs.next()){
+                result = rs.getInt(1);
+            }
+
+            //Clear Query table
+            clearQuery.executeUpdate();
+
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
