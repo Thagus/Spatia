@@ -21,7 +21,7 @@ public class HierarchicalClustering {
                 "GROUP BY i2.idDoc " +
                 "ORDER BY i2.idDoc");
 
-        stAddCluster = connection.prepareStatement("INSERT INTO SPATIA.CLUSTER(clusterName,parentName,strategy) VALUES(?,?,?)");
+        stAddCluster = connection.prepareStatement("INSERT INTO SPATIA.CLUSTER(clusterName,parentName,level,strategy) VALUES(?,?,?,?)");
 
         //The default linkage strategy is the Complete linkage
         linkageStrategy = new CompleteLinkageStrategy();
@@ -66,6 +66,7 @@ public class HierarchicalClustering {
                 lastDoc++;
 
                 similarities.add(sim);
+                //System.out.println("Document " + i + " with " + rs.getInt(1) + " = " + sim);
             }
 
             //Add the missing documents if they exist after the ones added
@@ -117,7 +118,7 @@ public class HierarchicalClustering {
         }
 
         System.out.println();
-        saveClustersToDatabase(builder.getRootCluster(), null);
+        saveClustersToDatabase(builder.getRootCluster(), null, 0);
     }
 
     /**
@@ -172,7 +173,7 @@ public class HierarchicalClustering {
      * @param cluster the cluster currently being saved
      * @param parent the parent of the cluster
      */
-    private void saveClustersToDatabase(Cluster cluster, Cluster parent) throws SQLException {
+    private void saveClustersToDatabase(Cluster cluster, Cluster parent, int level) throws SQLException {
         stAddCluster.setString(1, cluster.getCode());
         if(parent==null){
             stAddCluster.setString(2, "null");
@@ -180,25 +181,28 @@ public class HierarchicalClustering {
         else {
             stAddCluster.setString(2, parent.getCode());
         }
-        stAddCluster.setString(3, linkageStrategy.getStrategyName());
+        stAddCluster.setInt(3, level);
+        stAddCluster.setString(4, linkageStrategy.getStrategyName());
 
         stAddCluster.executeUpdate();
 
         if(parent!=null)
-            System.out.println( "Child of " + parent.getCode() + ", name: " + cluster.getCode());
+            System.out.println("Level " + level +  ". Child of " + parent.getCode() + ", name: " + cluster.getCode());
         else
-            System.out.println("Name: " + cluster.getCode() + " (root)");
+            System.out.println("Level " + level +  ". Name: " + cluster.getCode() + " (root)");
         
         if(cluster.isLeaf()){
             return;
         }
 
+        level++;
+
         if(cluster.getLeftChild()!=null){
-            saveClustersToDatabase(cluster.getLeftChild(), cluster);
+            saveClustersToDatabase(cluster.getLeftChild(), cluster, level);
         }
 
         if(cluster.getRightChild()!=null){
-            saveClustersToDatabase(cluster.getRightChild(), cluster);
+            saveClustersToDatabase(cluster.getRightChild(), cluster, level);
         }
     }
 

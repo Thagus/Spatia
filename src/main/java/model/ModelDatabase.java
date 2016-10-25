@@ -137,6 +137,7 @@ public class ModelDatabase {
             st.execute("CREATE TABLE SPATIA.CLUSTER(" +
                     "clusterName VARCHAR NOT NULL," +
                     "parentName VARCHAR NOT NULL," +
+                    "level INT NOT NULL," +
                     "strategy VARCHAR NOT NULL," +
                     "PRIMARY KEY (clusterName,parentName,strategy)" +
                     ")");
@@ -168,6 +169,7 @@ public class ModelDatabase {
             st.execute("DROP TABLE SPATIA.INVERTEDINDEX");
             st.execute("DROP TABLE SPATIA.TERM");
             st.execute("DROP TABLE QUERY");
+            st.execute("DROP TABLE SPATIA.CLUSTER");
         } catch (SQLException e) {
             //System.out.println("Error cleaning DB:");
             //e.printStackTrace();
