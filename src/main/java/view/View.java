@@ -68,7 +68,7 @@ public class View {
 
         //Enable clustering
         RadioMenuItem enableClustering = new RadioMenuItem("Use clustering");
-        enableClustering.setSelected(true);
+        enableClustering.setSelected(false);
         enableClustering.setUserData("toggle");
         enableClustering.setOnAction(controllerClustering);
         menuFile.getItems().add(enableClustering);

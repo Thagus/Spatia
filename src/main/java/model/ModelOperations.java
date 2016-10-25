@@ -43,14 +43,13 @@ public class ModelOperations {
      */
     public ObservableList<Document> evaluateQuery(String query){
         HashMap<String, Integer> wordCount = TermExtractor.extractTerms(query);           //Counter for word occurrence in the query
-        ObservableList<Document> searchResult = null;
+        ObservableList<Document> searchResult;
 
         if(clusteringActivated){
             //Get the documents that are related by cluster to the must relevant document based on its similarity to the query
             searchResult = clustering.getClusteredDocumentsFor(similarity.getMostRelevantDocumentID(wordCount));
         }
         else {
-
             //Request the calculation of similarity for the query, and save the results in the searchResult list
             searchResult = similarity.calculateSimilarity(wordCount);
 
