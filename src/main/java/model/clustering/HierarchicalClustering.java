@@ -3,8 +3,7 @@ package model.clustering;
 import model.ModelDatabase;
 import model.clustering.strategies.CompleteLinkageStrategy;
 import model.clustering.strategies.LinkageStrategy;
-
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,6 +26,7 @@ public class HierarchicalClustering {
                 "GROUP BY i2.idDoc " +
                 "ORDER BY i2.idDoc");
 
+        //The default linkage strategy is the Complete linkage
         linkageStrategy = new CompleteLinkageStrategy();
     }
 
@@ -204,5 +204,12 @@ public class HierarchicalClustering {
      */
     public Cluster getDocumentCluster(int id){
         return documents.get("D"+id);
+    }
+
+    /**
+     * Linkage strategy setter
+     */
+    public void setLinkageStrategy(LinkageStrategy linkageStrategy) {
+        this.linkageStrategy = linkageStrategy;
     }
 }
