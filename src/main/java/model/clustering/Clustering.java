@@ -5,11 +5,11 @@ import java.util.HashMap;
 /**
  * Created by Thagus on 24/10/16.
  */
-public class ClusterHolder {
+public class Clustering {
     private HashMap<String, Cluster> documents; //A HashMap that contains the document clusters, and indexed by their document names
     private Cluster root;
 
-    public ClusterHolder(){
+    public Clustering(){
         documents = new HashMap<>();    //Initialize the documents HashMap
     }
 
