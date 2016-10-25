@@ -4,27 +4,26 @@ import model.ModelDatabase;
 import model.clustering.strategies.CompleteLinkageStrategy;
 import model.clustering.strategies.LinkageStrategy;
 import javax.swing.JOptionPane;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class HierarchicalClustering {
     private PreparedStatement stSimilaritiesCondensed;    //The statement that retrieves all document vs document similarities as a condensed matrix
+    private PreparedStatement stAddCluster;
 
     private HashMap<String, Cluster> documents; //A HashMap that contains the document clusters, and indexed by their document names
     private LinkageStrategy linkageStrategy;    //the strategy object that will be use to recalculate similarities
 
     public HierarchicalClustering(Connection connection) throws SQLException{
         stSimilaritiesCondensed = connection.prepareStatement("SELECT i2.idDoc, SUM((i1.weight*i2.weight)/SQRT((SELECT SUM(i11.weight) FROM (SELECT weight FROM SPATIA.INVERTEDINDEX WHERE idDoc=?) i11)*(SELECT SUM(i22.weight) FROM SPATIA.INVERTEDINDEX i22 WHERE i2.idDoc=i22.idDoc))) as sim " +
-                "FROM (SELECT term, weight FROM SPATIA.INVERTEDINDEX WHERE idDoc=?) AS i1, " +
-                "       SPATIA.INVERTEDINDEX i2 " +
+                "FROM (SELECT term, weight FROM SPATIA.INVERTEDINDEX WHERE idDoc=?) AS i1, SPATIA.INVERTEDINDEX i2 " +
                 "WHERE i2.term=i1.term AND i2.idDoc>? " +
                 "GROUP BY i2.idDoc " +
                 "ORDER BY i2.idDoc");
+
+        stAddCluster = connection.prepareStatement("INSERT INTO SPATIA.CLUSTER(clusterName,parentName,strategy) VALUES(?,?,?)");
 
         //The default linkage strategy is the Complete linkage
         linkageStrategy = new CompleteLinkageStrategy();
@@ -101,7 +100,7 @@ public class HierarchicalClustering {
      * @param documentNames an array containing the document names
      * @return the root of the cluster hierarchy
      */
-    private void performClustering(ArrayList<Double> similarities, ArrayList<String> documentNames) {
+    private void performClustering(ArrayList<Double> similarities, ArrayList<String> documentNames) throws SQLException {
         //We must ensure the existence of a linkage strategy
         if (linkageStrategy == null) {
             JOptionPane.showMessageDialog(null, "Undefined linkage strategy");
@@ -122,7 +121,7 @@ public class HierarchicalClustering {
         }
 
         System.out.println();
-        printChildrens(builder.getRootCluster(), null);
+        saveClustersToDatabase(builder.getRootCluster(), null);
     }
 
     /**
@@ -174,26 +173,37 @@ public class HierarchicalClustering {
     }
 
     /**
-     * Recursively prints the clusters and their children on the console
-     * @param cluster the cluster currently being printed
+     * Saves the generated clusters into database, recursively from the hierarchy root
+     * @param cluster the cluster currently being saved
      * @param parent the parent of the cluster
      */
-    private void printChildrens(Cluster cluster, Cluster parent){
+    private void saveClustersToDatabase(Cluster cluster, Cluster parent) throws SQLException {
+        stAddCluster.setString(1, cluster.getCode());
+        if(parent==null){
+            stAddCluster.setString(2, "null");
+        }
+        else {
+            stAddCluster.setString(2, parent.getCode());
+        }
+        stAddCluster.setString(3, linkageStrategy.getStrategyName());
+
+        stAddCluster.executeUpdate();
+
         if(parent!=null)
             System.out.println( "Child of " + parent.getCode() + ", name: " + cluster.getCode());
         else
             System.out.println("Name: " + cluster.getCode() + " (root)");
-
+        
         if(cluster.isLeaf()){
             return;
         }
 
         if(cluster.getLeftChild()!=null){
-            printChildrens(cluster.getLeftChild(), cluster);
+            saveClustersToDatabase(cluster.getLeftChild(), cluster);
         }
 
         if(cluster.getRightChild()!=null){
-            printChildrens(cluster.getRightChild(), cluster);
+            saveClustersToDatabase(cluster.getRightChild(), cluster);
         }
     }
 
