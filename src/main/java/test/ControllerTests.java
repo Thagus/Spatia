@@ -84,8 +84,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
         int numOfQueries = db.opTests.countQueries();
 
-        String[] testNames = {"Raw", "StopWord-R", "Stemming", "StopWord-Stemming"};
-        ControllerImportDocument controllerImportDocument = new ControllerImportDocument(false);
+        String[] testNames = {"Base", "Clustering"};
 
         for(String name : testNames){
             System.out.println("Starting test: " + name);
@@ -100,31 +99,12 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
             precisions.put(name, 0f);
             averages.put(name, 0f);
 
-            ModelDatabase.instance().clearDB();
-            ModelDatabase.instance().createTables();
-
-            if(name.contains("StopWord")){
-                TermExtractor.setStopWordRemoval(true);
-            }
-            else{
-                TermExtractor.setStopWordRemoval(false);
-            }
-
-            if(name.contains("Stemming")){
-                TermExtractor.setUseStemming(true);
+            if(name.contains("Clustering")){
+                db.opModel.setClusteringActivated(true);
             }
             else {
-                TermExtractor.setUseStemming(false);
+                db.opModel.setClusteringActivated(false);
             }
-
-            //Re-read files
-            int startingIndex;
-
-            startingIndex = 0;
-            controllerImportDocument.readFile(new File(getClass().getClassLoader().getResource("cacm.all").getFile()), startingIndex);
-
-            startingIndex = db.opDocuments.countDocuments();
-            controllerImportDocument.readFile(new File(getClass().getClassLoader().getResource("med.all").getFile()), startingIndex);
 
             float recall = 0f, precision = 0f;
 
