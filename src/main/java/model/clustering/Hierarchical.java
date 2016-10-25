@@ -75,7 +75,7 @@ public class Hierarchical {
             }
         }
 
-        ClusteringAlgorithm alg = new ClusteringAlgorithm();
+        HierarchicalClustering alg = new HierarchicalClustering();
         Cluster cluster = alg.performClustering(similarities, documentsList, new CompleteLinkageStrategy());
 
         System.out.println();
