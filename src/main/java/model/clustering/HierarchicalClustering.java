@@ -6,14 +6,12 @@ import model.clustering.strategies.LinkageStrategy;
 import javax.swing.JOptionPane;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class HierarchicalClustering {
     private PreparedStatement stSimilaritiesCondensed;    //The statement that retrieves all document vs document similarities as a condensed matrix
     private PreparedStatement stAddCluster;
 
-    private HashMap<String, Cluster> documents; //A HashMap that contains the document clusters, and indexed by their document names
     private LinkageStrategy linkageStrategy;    //the strategy object that will be use to recalculate similarities
 
     public HierarchicalClustering(Connection connection) throws SQLException{
@@ -107,8 +105,6 @@ public class HierarchicalClustering {
             return;
         }
 
-		documents = new HashMap<>();    //Initialize the documents HashMap
-
         List<Cluster> clusters = beginClustering(documentNames); //Create the base clusters based on the documents array
         SimilarityMap linkages = createLinkages(similarities, clusters);    //Create the first links between clusters using the similarity condensed matrix
 
@@ -156,7 +152,6 @@ public class HierarchicalClustering {
         for (String clusterName : clusterNames) {
             Cluster cluster = new Cluster(clusterName);
             clusters.add(cluster);
-            documents.put(clusterName, cluster);
         }
         return clusters;
     }
@@ -205,15 +200,6 @@ public class HierarchicalClustering {
         if(cluster.getRightChild()!=null){
             saveClustersToDatabase(cluster.getRightChild(), cluster);
         }
-    }
-
-    /**
-     * A method to get the corresponding CLuster for a document ID
-     * @param id the document ID
-     * @return the Cluster that corresponds to the searched document
-     */
-    public Cluster getDocumentCluster(int id){
-        return documents.get("D"+id);
     }
 
     /**
