@@ -42,7 +42,7 @@ public class HierarchicalClustering {
         //As we know we have consecutive document ids in the database from 1 to numDocs, obtain the data from every id until the number of documents
         for(int i=1; i<=numDocs; i++){
             documentsList.add("D"+i);   //Add the name of the document as "D"+id
-            System.out.println("Processing document " + i);
+            System.out.println("Calculating similarities for document " + i);
 
             //Set the parameters for the query (AKA the document id)
             stSimilaritiesCondensed.setInt(1, i);

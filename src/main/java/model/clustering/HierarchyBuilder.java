@@ -56,6 +56,7 @@ public class HierarchyBuilder {
     }
 
     public boolean isTreeComplete() {
+        System.out.println(clusters.size() + " cluster remaining");
         return clusters.size() == 1;
     }
 

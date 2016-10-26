@@ -26,6 +26,8 @@ public class SimilarityMap {
             return null;
         }
 
+        System.out.println("Grouping " + poll.getlCluster().getCode() + " - " + poll.getrCluster().getCode());
+
         //Remove the recently obtained pair from the HashMap
         pairHash.remove(pairCode(poll));
         //Return the obtained pair
@@ -34,7 +36,7 @@ public class SimilarityMap {
 
     /**
      * Remove a ClusterPair from the pairHash and pairQueue
-     * @param link the CLusterPair to be removed
+     * @param link the ClusterPair to be removed
      */
     public void remove(ClusterPair link) {
         //Remove a pair from the HashMap and obtain the deleted entry value
