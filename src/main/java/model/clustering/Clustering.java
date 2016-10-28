@@ -81,6 +81,14 @@ public class Clustering {
             result.add(document);
         }
 
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        arrayList.add(1);
+        arrayList.add(2);
+        arrayList.add(3);
+        arrayList.add(4);
+        arrayList.add(5);
+        findSuperclusterForDocuments(arrayList, 1);
+
         return result;
     }
 
@@ -125,6 +133,51 @@ public class Clustering {
         }
     }
 
+    /**
+     * PostOrder to find the clusters of a certain level
+     * @param root
+     * @param resultNames
+     * @param level
+     */
+    public void postOrder(Cluster root, ArrayList<Cluster> resultNames, int level) {
+        if(root !=  null && root.getLevel()<level) {
+            postOrder(root.getLeftChild(), resultNames, level);
+            postOrder(root.getRightChild(), resultNames, level);
+        }
+        else if(root !=  null && root.getLevel()==level){
+            if(!root.isLeaf()) {
+                resultNames.add(root);
+            }
+        }
+    }
+
+    /**
+     * Counts how many documents are within the same clusters up to a certain level
+     * @param documentIDs the documents we want to check if they are in the same cluster
+     * @param level analyze 2^level clusters
+     */
+    public void findSuperclusterForDocuments(ArrayList<Integer> documentIDs, int level){
+        //Find all the documents within a subtree of a certain level, use postOrder
+        System.out.println("Starting search");
+
+        ArrayList<Cluster> results = new ArrayList<>();
+
+        postOrder(root, results, level);
+
+        System.out.println("Results size: " + results.size());
+
+        for(Cluster cluster : results){
+            System.out.println("---" + cluster.getCode());
+            ArrayList<Integer> documentClusterNames = new ArrayList<>();
+            postOrder(cluster, documentClusterNames);
+
+            for(int name : documentClusterNames){
+                if(documentIDs.contains(name)){
+                    System.out.println(name + " - " + cluster.getCode());
+                }
+            }
+        }
+    }
 
     /**
      * A method to get the corresponding CLuster for a document ID
