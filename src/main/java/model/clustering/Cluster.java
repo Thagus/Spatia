@@ -11,6 +11,8 @@ public class Cluster {
     private Cluster parent;
     private Cluster leftChild, rightChild;
 
+    private int level;
+
     public Cluster(String code) {
         this.leftChild = null;
         this.rightChild = null;
@@ -32,6 +34,9 @@ public class Cluster {
     public String getCode() {
         return code;
     }
+    public int getLevel() {
+        return level;
+    }
 
     /**
      * Setters
@@ -44,6 +49,21 @@ public class Cluster {
     }
     public void setParent(Cluster parent) {
         this.parent = parent;
+    }
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void addChild(Cluster child){
+        if(this.leftChild==null){
+            this.leftChild = child;
+        }
+        else if(this.rightChild==null){
+            this.rightChild = child;
+        }
+        else{
+            System.out.println(code + " cluster full!");
+        }
     }
 
     @Override
@@ -74,5 +94,20 @@ public class Cluster {
         return leftChild==null && rightChild==null;
     }
 
-
+    /**
+     * Get the child that is not the one passed
+     * @param cluster the cluster we want to get its sibling
+     * @return the sibling cluster
+     */
+    public Cluster getOtherChild(Cluster cluster) {
+        if(cluster.equals(leftChild)){
+            return rightChild;
+        }
+        else if(cluster.equals(rightChild)){
+            return leftChild;
+        }
+        else {
+            return null;
+        }
+    }
 }
