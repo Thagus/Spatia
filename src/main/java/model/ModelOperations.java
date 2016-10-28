@@ -26,9 +26,10 @@ public class ModelOperations {
     private boolean clusteringActivated;
 
     protected ModelOperations(Connection connection) throws SQLException{
-        clusteringActivated = false;
+        clusteringActivated = true;
 
-        clustering = new Clustering();
+        clustering = new Clustering(connection);
+        clustering.readClusters();
 
         weight = new TFIDF(connection);
         similarity = new Cosine(connection);
