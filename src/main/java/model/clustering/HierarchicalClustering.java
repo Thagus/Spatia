@@ -1,8 +1,11 @@
 package model.clustering;
 
 import model.ModelDatabase;
+import model.clustering.strategies.AverageLinkageStrategy;
 import model.clustering.strategies.CompleteLinkageStrategy;
 import model.clustering.strategies.LinkageStrategy;
+import model.clustering.strategies.SingleLinkageStrategy;
+
 import javax.swing.JOptionPane;
 import java.sql.*;
 import java.util.ArrayList;
@@ -89,6 +92,11 @@ public class HierarchicalClustering {
             JOptionPane.showMessageDialog(null, "The similarities array doesn't have the expected size for the number of documents");
         }
         else {  //We execute the clustering if all checks have passed
+            linkageStrategy = new CompleteLinkageStrategy();
+            performClustering(similarities, documentsList);
+            linkageStrategy = new SingleLinkageStrategy();
+            performClustering(similarities, documentsList);
+            linkageStrategy = new AverageLinkageStrategy();
             performClustering(similarities, documentsList);
         }
     }
