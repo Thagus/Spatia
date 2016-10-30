@@ -16,15 +16,15 @@ import java.util.HashMap;
  * Created by Thagus on 24/10/16.
  */
 public class Clustering {
-    private HashMap<String, Cluster> clusters;
+    private HashMap<String, HashMap<String, Cluster>> clusters;
     private int maxLevel = 2;
-    private Cluster root;
+    private HashMap<String, Cluster> roots;
 
     private PreparedStatement stParents;
 
     public Clustering(Connection connection) throws SQLException {
         clusters = new HashMap<>();    //Initialize the clusters HashMap
-        root = null;
+        roots = new HashMap<>();
 
         stParents = connection.prepareStatement("SELECT * FROM SPATIA.CLUSTER");
     }
@@ -40,35 +40,59 @@ public class Clustering {
                 String node = rs.getString(1);
                 String parent = rs.getString(2);
                 int level = rs.getInt(3);
-                //String strategy = rs.getString(4);
+                String strategy = rs.getString(4);
 
                 Cluster cluster = new Cluster(node);
                 cluster.setLevel(level);
-                clusters.put(node, cluster);
 
-                Cluster parentCluster = clusters.get(parent);
+                HashMap<String, Cluster> stringClusterHashMap = clusters.get(strategy);
+                if(stringClusterHashMap==null){
+                    stringClusterHashMap = new HashMap<>();
+                    clusters.put(strategy, stringClusterHashMap);
+                }
+
+                stringClusterHashMap.put(node, cluster);
+
+                Cluster parentCluster = stringClusterHashMap.get(parent);
 
                 if(parentCluster!=null){
                     cluster.setParent(parentCluster);
                     parentCluster.addChild(cluster);
-                    //System.out.println(parent + " - " + node);
                 }
                 else{
-                    root = cluster;
-                    System.out.println("Found the root!: " + node);
+                    roots.put(strategy, cluster);
+                    System.out.println("Found the roots!: " + node);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+        String[] strategies = {"Complete linkage", "Single linkage", "Average linkage"};
+
+        for(String strategy:strategies) {
+            System.out.println("\n" + strategy);
+            //Find superclusters
+            ArrayList<Integer> arrayList = new ArrayList<>();
+            for (int i = 3205; i <= 4237; i++) {
+                arrayList.add(i);
+            }
+            findSuperclusterForDocuments(arrayList, 4, strategy);
+            System.out.println("---------------------");
+
+            arrayList = new ArrayList<>();
+            for (int i = 1; i <= 3204; i++) {
+                arrayList.add(i);
+            }
+            findSuperclusterForDocuments(arrayList, 4, strategy);
+        }
     }
 
-    public ObservableList<Document> getClusteredDocumentsFor(int docID){
+    public ObservableList<Document> getClusteredDocumentsFor(int docID, String strategy){
         ObservableList<Document> result = FXCollections.observableArrayList();
         ArrayList<Integer> resultNames = new ArrayList<>();
 
-        Cluster docCluster = clusters.get("D"+docID);
+        Cluster docCluster = clusters.get(strategy).get("D"+docID);
 
         resultNames.add(Integer.parseInt(docCluster.getCode().substring(1)));
 
@@ -80,14 +104,6 @@ public class Clustering {
             Document document = db.opDocuments.getDocument(id);
             result.add(document);
         }
-
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        arrayList.add(1);
-        arrayList.add(2);
-        arrayList.add(3);
-        arrayList.add(4);
-        arrayList.add(5);
-        findSuperclusterForDocuments(arrayList, 1);
 
         return result;
     }
@@ -156,13 +172,13 @@ public class Clustering {
      * @param documentIDs the documents we want to check if they are in the same cluster
      * @param level analyze 2^level clusters
      */
-    public void findSuperclusterForDocuments(ArrayList<Integer> documentIDs, int level){
+    public void findSuperclusterForDocuments(ArrayList<Integer> documentIDs, int level, String strategy){
         //Find all the documents within a subtree of a certain level, use postOrder
-        System.out.println("Starting search");
+        System.out.println("Starting search using " + strategy + " up to " + level + " levels");
 
         ArrayList<Cluster> results = new ArrayList<>();
 
-        postOrder(root, results, level);
+        postOrder(roots.get(strategy), results, level);
 
         System.out.println("Results size: " + results.size());
 
@@ -171,20 +187,17 @@ public class Clustering {
             ArrayList<Integer> documentClusterNames = new ArrayList<>();
             postOrder(cluster, documentClusterNames);
 
+            int count = 0;
+
+            System.out.println("Contains " + documentClusterNames.size() + " documents");
+
             for(int name : documentClusterNames){
                 if(documentIDs.contains(name)){
-                    System.out.println(name + " - " + cluster.getCode());
+                    count++;
                 }
             }
-        }
-    }
 
-    /**
-     * A method to get the corresponding CLuster for a document ID
-     * @param id the document ID
-     * @return the Cluster that corresponds to the searched document
-     */
-    public Cluster getDocumentCluster(int id){
-        return clusters.get("D"+id);
+            System.out.println("Contains " + count + " of the documents");
+        }
     }
 }

@@ -42,13 +42,13 @@ public class ModelOperations {
      * @param query The input query from the user
      * @return An ArrayList of Documents sorted by their similarity to the query
      */
-    public ObservableList<Document> evaluateQuery(String query){
+    public ObservableList<Document> evaluateQuery(String query, String clusteringStrategy){
         HashMap<String, Integer> wordCount = TermExtractor.extractTerms(query);           //Counter for word occurrence in the query
         ObservableList<Document> searchResult;
 
         if(clusteringActivated){
             //Get the documents that are related by cluster to the must relevant document based on its similarity to the query
-            searchResult = clustering.getClusteredDocumentsFor(similarity.getMostRelevantDocumentID(wordCount));
+            searchResult = clustering.getClusteredDocumentsFor(similarity.getMostRelevantDocumentID(wordCount), clusteringStrategy);
         }
         else {
             //Request the calculation of similarity for the query, and save the results in the searchResult list

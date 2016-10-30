@@ -84,7 +84,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
 
         int numOfQueries = db.opTests.countQueries();
 
-        String[] testNames = {"Base", "Clustering"};
+        String[] testNames = {"Base", "Clustering-complete", "Clustering-single", "Clustering-average"};
 
         for(String name : testNames){
             System.out.println("Starting test: " + name);
@@ -99,8 +99,19 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
             precisions.put(name, 0f);
             averages.put(name, 0f);
 
+            String strategy = "";
+
             if(name.contains("Clustering")){
                 db.opModel.setClusteringActivated(true);
+                if(name.contains("complete")){
+                    strategy = "Complete linkage";
+                }
+                else if (name.contains("single")){
+                    strategy = "Single linkage";
+                }
+                else if (name.contains("average")){
+                    strategy = "Average linkage";
+                }
             }
             else {
                 db.opModel.setClusteringActivated(false);
@@ -117,7 +128,7 @@ public class ControllerTests implements EventHandler<ActionEvent>, ChangeListene
                 retrieved.clear();
 
                 //Retrieve result documents from evaluating query
-                db.opModel.evaluateQuery(query.getQuery()).forEach(i ->
+                db.opModel.evaluateQuery(query.getQuery(), strategy).forEach(i ->
                         //For each retrieved document, extract its id and store it within the query
                         retrieved.add(i.getIdDoc())
                 );
