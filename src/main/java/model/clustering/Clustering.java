@@ -81,14 +81,14 @@ public class Clustering {
             for (int i = 3205; i <= 4237; i++) {
                 arrayList.add(i);
             }
-            findSuperclusterForDocuments(arrayList, 4, strategy);
+            findSuperclusterForDocuments(arrayList, 3, strategy);
             System.out.println("---------------------");
 
             arrayList = new ArrayList<>();
             for (int i = 1; i <= 3204; i++) {
                 arrayList.add(i);
             }
-            findSuperclusterForDocuments(arrayList, 4, strategy);
+            findSuperclusterForDocuments(arrayList, 3, strategy);
         }
     }
 
