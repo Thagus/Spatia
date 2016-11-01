@@ -114,7 +114,7 @@ public class HierarchicalClustering {
             return;
         }
 
-        List<Cluster> clusters = beginClustering(documentNames); //Create the base clusters based on the documents array
+        ArrayList<Cluster> clusters = beginClustering(documentNames); //Create the base clusters based on the documents array
         SimilarityMap linkages = createLinkages(similarities, clusters);    //Create the first links between clusters using the similarity condensed matrix
 
         //Give the hierarchy builder the initial clusters with the similarity map
@@ -135,7 +135,7 @@ public class HierarchicalClustering {
      * @param clusters the list of initial clusters that have their similarities in the previous matrix
      * @return the built similarity map
      */
-    private SimilarityMap createLinkages(ArrayList<Double> similarities, List<Cluster> clusters) {
+    private SimilarityMap createLinkages(ArrayList<Double> similarities, ArrayList<Cluster> clusters) {
         SimilarityMap linkages = new SimilarityMap();
         for (int col = 0; col < clusters.size(); col++) {
             Cluster cluster_col = clusters.get(col);
