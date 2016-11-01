@@ -68,6 +68,10 @@ public class Clustering {
             e.printStackTrace();
         }
 
+
+        //Test clustering effectiveness
+        // knowing that Medline documents have ID greater than 3204, and CACM documents are equal and below that id number
+
         String[] strategies = {"Complete linkage", "Single linkage", "Average linkage"};
 
         for(String strategy:strategies) {
@@ -88,6 +92,12 @@ public class Clustering {
         }
     }
 
+    /**
+     * Get the documents that are in the same cluster as the given document with a particular similarity strategy
+     * @param docID the document id from where we start
+     * @param strategy the similarity strategy we will use to find the other documents
+     * @return an ArrayList containing the found documents in order
+     */
     public ObservableList<Document> getClusteredDocumentsFor(int docID, String strategy){
         ObservableList<Document> result = FXCollections.observableArrayList();
         ArrayList<Integer> resultNames = new ArrayList<>();
@@ -108,7 +118,12 @@ public class Clustering {
         return result;
     }
 
-    public void recursiveIterationUp(Cluster cluster, ArrayList<Integer> resultNames){
+    /**
+     * A method to traverse the tree going upwards from a leaf
+     * @param cluster the child cluster
+     * @param resultNames the ArrayList where we will add the found leaf clusters
+     */
+    private void recursiveIterationUp(Cluster cluster, ArrayList<Integer> resultNames){
         //Get parent
         Cluster parent = cluster.getParent();
 
@@ -135,10 +150,10 @@ public class Clustering {
 
     /**
      * Traverse the tree in postOrder to find the leafs
-     * @param root
-     * @param resultNames
+     * @param root the starting cluster
+     * @param resultNames the ArrayList where we will add the found leafs
      */
-    public void postOrder(Cluster root, ArrayList<Integer> resultNames) {
+    private void postOrder(Cluster root, ArrayList<Integer> resultNames) {
         if(root !=  null) {
             postOrder(root.getLeftChild(), resultNames);
             postOrder(root.getRightChild(), resultNames);
@@ -151,11 +166,11 @@ public class Clustering {
 
     /**
      * PostOrder to find the clusters of a certain level
-     * @param root
-     * @param resultNames
-     * @param level
+     * @param root the starting cluster
+     * @param resultNames the ArrayList where we will add the found leafs
+     * @param level the level we want the leafs for
      */
-    public void postOrder(Cluster root, ArrayList<Cluster> resultNames, int level) {
+    private void postOrder(Cluster root, ArrayList<Cluster> resultNames, int level) {
         if(root !=  null && root.getLevel()<level) {
             postOrder(root.getLeftChild(), resultNames, level);
             postOrder(root.getRightChild(), resultNames, level);
@@ -172,7 +187,7 @@ public class Clustering {
      * @param documentIDs the documents we want to check if they are in the same cluster
      * @param level analyze 2^level clusters
      */
-    public void findSuperclusterForDocuments(ArrayList<Integer> documentIDs, int level, String strategy){
+    private void findSuperclusterForDocuments(ArrayList<Integer> documentIDs, int level, String strategy){
         //Find all the documents within a subtree of a certain level, use postOrder
         System.out.println("Starting search using " + strategy + " up to " + level + " levels");
 
