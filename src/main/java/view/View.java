@@ -122,7 +122,7 @@ public class View {
         idCol.setPrefWidth(45);
         idCol.setStyle("-fx-alignment: CENTER;");       //Center values from column
 
-        TableColumn<Document, String> textCol = new TableColumn<>("Title");
+        TableColumn<Document, String> textCol = new TableColumn<>("Text");
         textCol.setCellValueFactory(new PropertyValueFactory<>("text"));
         textCol.setMinWidth(500);
 
