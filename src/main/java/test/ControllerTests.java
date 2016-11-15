@@ -1,6 +1,5 @@
 package test;
 
-import controller.ControllerImportDocument;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -13,9 +12,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import model.ModelDatabase;
-import utilities.TermExtractor;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
