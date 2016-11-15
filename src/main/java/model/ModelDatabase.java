@@ -90,6 +90,7 @@ public class ModelDatabase {
         try {
             st.execute("CREATE TABLE SPATIA.DOCUMENT(" +
                     "url VARCHAR NOT NULL," +         //Must have an ID
+                    "title VARCHAR NOT NULL," +
                     "text VARCHAR NOT NULL," +         //Must have text
                     "PRIMARY KEY (url)" +
                     ")");

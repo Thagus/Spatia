@@ -32,6 +32,11 @@ public class DocumentView {
 
         Separator idSeparator = new Separator();
 
+        Label titleLabel = new Label("ID: " + document.getTitle());
+        titleLabel.setFont(headerFont);
+
+        Separator titleSeparator = new Separator();
+
         Text text = new Text();
         text.setFont(textFont);
         text.setText(document.getText());
@@ -41,6 +46,7 @@ public class DocumentView {
 
         layout.getChildren().addAll(
                 idLabel, idSeparator,
+                titleLabel, titleSeparator,
                 text
         );
 

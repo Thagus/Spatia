@@ -10,6 +10,7 @@ import java.util.HashMap;
  */
 public class Document implements Comparable<Document>{
     private String url;
+    private String title;
     private String text;
 
     private double similarity;
@@ -20,6 +21,9 @@ public class Document implements Comparable<Document>{
         this.similarity = 0;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
     public void setText(String text) {
         this.text = text;
     }
@@ -31,6 +35,9 @@ public class Document implements Comparable<Document>{
      *  Getters     *
      ****************/
     public String getUrl() { return url; }
+    public String getTitle() {
+        return title;
+    }
     public String getText() {
         return text;
     }
