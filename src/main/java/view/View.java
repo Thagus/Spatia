@@ -1,6 +1,5 @@
 package view;
 
-import controller.ControllerClustering;
 import controller.ControllerImportDocument;
 import controller.ControllerSceneSwitcher;
 import controller.ControllerSearch;
@@ -21,7 +20,6 @@ public class View {
     private ControllerImportDocument controllerImportDocument;
     private ControllerSearch controllerSearch;
     private ControllerSceneSwitcher controllerSceneSwitcher;
-    private ControllerClustering controllerClustering;
 
     /**
      * Creates the scene for the search
@@ -35,7 +33,6 @@ public class View {
         this.controllerSceneSwitcher = controllerSceneSwitcher;
         this.controllerImportDocument = new ControllerImportDocument(true);
         this.controllerSearch = new ControllerSearch();
-        this.controllerClustering = new ControllerClustering();
 
         //Create menu bar
         createMenus(layout);
@@ -59,19 +56,6 @@ public class View {
         MenuItem importDoc = new MenuItem("Import documents");
         importDoc.setOnAction(controllerImportDocument);
         menuFile.getItems().add(importDoc);
-
-        //Create clusters
-        MenuItem createClusters = new MenuItem("Create clusters");
-        createClusters.setUserData("create");
-        createClusters.setOnAction(controllerClustering);
-        menuFile.getItems().add(createClusters);
-
-        //Enable clustering
-        RadioMenuItem enableClustering = new RadioMenuItem("Use clustering");
-        enableClustering.setSelected(false);
-        enableClustering.setUserData("toggle");
-        enableClustering.setOnAction(controllerClustering);
-        menuFile.getItems().add(enableClustering);
 
         //Tests menu
         Menu testsMenu = new Menu("_Tests");
