@@ -49,9 +49,9 @@ public class View {
         Menu menuFile = new Menu("_File");
 
         //Import document
-        MenuItem importDoc = new MenuItem("Import documents");
-        importDoc.setOnAction(controllerCrawlFeed);
-        menuFile.getItems().add(importDoc);
+        MenuItem crawl = new MenuItem("Crawl");
+        crawl.setOnAction(controllerCrawlFeed);
+        menuFile.getItems().add(crawl);
 
         menuBar.getMenus().addAll(menuFile);
         layout.getChildren().add(menuBar);
