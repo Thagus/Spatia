@@ -17,7 +17,13 @@ public class Document implements Comparable<Document>{
 
     public Document(String url){
         this.url = url;
-        this.text = "";
+        this.similarity = 0;
+    }
+
+    public Document(String url, String title, String text) {
+        this.url = url;
+        this.title = title;
+        this.text = text;
         this.similarity = 0;
     }
 
