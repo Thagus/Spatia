@@ -8,25 +8,13 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
 import java.util.ArrayList;
 
-/**
- * Created by Thagus on 14/11/16.
- */
 public class CrawlerController {
-    public static void main(String[] args) throws Exception {
-        CrawlerController controller = new CrawlerController();
-
-        ArrayList<String> seeds = new ArrayList<>();
-        seeds.add("http://udlap.mx/inicio.aspx");
-
-        controller.startCrawling(seeds);
-    }
-
     public void startCrawling(ArrayList<String> seeds) throws Exception {
         /*
          * crawlStorageFolder is a folder where intermediate crawl data is
          * stored.
          */
-        String crawlStorageFolder = "/data/crawl/root";
+        String crawlStorageFolder = "./data/crawl/root";
 
         /*
          * numberOfCrawlers shows the number of concurrent threads that should
@@ -60,7 +48,6 @@ public class CrawlerController {
          * example: the contents of pdf, or the metadata of images etc
         */
         config.setIncludeBinaryContentInCrawling(false);
-
 
         /*
          * This config parameter can be used to set your crawl to be resumable
