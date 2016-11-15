@@ -5,23 +5,19 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import model.ModelDatabase;
-import test.QueryObject;
 
 import javax.swing.JOptionPane;
 import java.io.*;
-import java.nio.file.Files;
 import java.util.*;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 /**
  * Created by Thagus on 03/09/16.
  */
-public class ControllerImportDocument implements EventHandler<ActionEvent> {
+public class ControllerCrawlFeed implements EventHandler<ActionEvent> {
     private final ModelDatabase db;
     private boolean messagesEnabled;
 
-    public ControllerImportDocument(boolean messagesEnabled){
+    public ControllerCrawlFeed(boolean messagesEnabled){
         this.db = ModelDatabase.instance();
         this.messagesEnabled = messagesEnabled;
     }
@@ -32,87 +28,7 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
      */
     @Override
     public void handle(ActionEvent event) {
-        //Send starting index, for multiple collections
-        int startingIndex;
-        int queryStartIndex;
 
-        startingIndex = 0;
-        readFile(getClass().getResourceAsStream("/cacm.all"), startingIndex);
-        queryStartIndex = 0;
-        readTestsFiles("cacm", queryStartIndex, startingIndex);
-
-        startingIndex = db.opDocuments.countDocuments();
-        readFile(getClass().getResourceAsStream("/med.all"), startingIndex);
-        queryStartIndex = db.opTests.countQueries();
-        readTestsFiles("med", queryStartIndex, startingIndex);
-
-        //Delete queries with no relevant documents
-        db.opTests.deleteEmptyQueries();
-
-        //A message to alert the user about the number of read documents
-        Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Cleared empty queries!, remained " + db.opTests.countQueries() + " queries");
-        countInfo.setTitle("Successful cleaning!");
-        countInfo.setHeaderText(null);
-        countInfo.showAndWait();
-    }
-
-    /**
-     * Reads the tests files (query and query relations) from resources for the specific collection
-     * @param collectionName The name of the collection we want the queries from
-     */
-    public void readTestsFiles(String collectionName, int queryStartIndex, int documentStartIndex){
-        final ArrayList<QueryObject> queriesRead = new ArrayList<>();
-
-        //Read query.text file
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(collectionName + ".qry")))) {
-            final int[] currentType = new int[1];
-
-            br.lines().forEach(line -> {
-                if(line.startsWith(".I")){
-                    //The format is "I. " + id
-                    int id = Integer.parseInt(line.substring(3)) + queryStartIndex;
-                    queriesRead.add(new QueryObject(id));
-                } else if(line.startsWith(".W")){
-                    currentType[0] = 0;
-                } else if(line.startsWith(".")) {   //Ignore all other tags
-                    currentType[0] = 1;
-                } else {    //When the line is not a header
-                    switch (currentType[0]) {
-                        case 0:     //Case for .W - query
-                            queriesRead.get(queriesRead.size()-1).appendQuery(line.trim());
-                            break;
-                        case 1:     //Case for ignored tags
-                            break;
-                        default:
-                            JOptionPane.showMessageDialog(null, "The file doesn't follow the expected structure!");
-                    }
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //Write to database the queries
-        for(QueryObject queryObject : queriesRead){
-            db.opTests.addQuery(queryObject.getQid(), queryObject.getQuery());
-        }
-
-        Pattern numberPattern = Pattern.compile("\\s+");
-        //Read qrels.text file and write to database its contents
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(collectionName + ".rels")))) {
-            br.lines().forEach(line -> {
-                String[] numbers = numberPattern.split(line);
-                db.opTests.addRelevant(Integer.parseInt(numbers[0]) + queryStartIndex, Integer.parseInt(numbers[1]) + documentStartIndex);
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //A message to alert the user about the number of read documents
-        Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Read " + queriesRead.size() + " queries");
-        countInfo.setTitle("Successful reading!");
-        countInfo.setHeaderText(null);
-        countInfo.showAndWait();
     }
 
     /**

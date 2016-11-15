@@ -18,7 +18,6 @@ public class ModelDatabase {
     public InvertedIndexOperations opInvertedIndex;
     public DocumentOperations opDocuments;
     public ModelOperations opModel;
-    public TestsOperations opTests;
 
     private ModelDatabase() {
         try {
@@ -66,7 +65,6 @@ public class ModelDatabase {
             opInvertedIndex = new InvertedIndexOperations(con);
             opDocuments = new DocumentOperations(con);
             opModel = new ModelOperations(con);
-            opTests = new TestsOperations(con);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -157,32 +155,6 @@ public class ModelDatabase {
                     ") NOT PERSISTENT");
         } catch (SQLException e) {
             //System.out.println("Error creating Query table:");
-            //e.printStackTrace();
-        }
-
-        /**
-         * Tests database
-         */
-        //Create Queries table
-        try {
-            st.execute("CREATE TABLE SPATIATESTS.QUERIES(" +
-                    "qid INTEGER NOT NULL," +         //Must have an ID
-                    "query VARCHAR NOT NULL," +       //Must have a query
-                    "PRIMARY KEY (qid)" +
-                    ")");
-        } catch (SQLException e) {
-            //e.printStackTrace();
-        }
-
-        //Create Relevant documents for query table
-        try {
-            st.execute("CREATE TABLE SPATIATESTS.RELEVANT(" +
-                    "qid INTEGER NOT NULL," +
-                    "did INTEGER NOT NULL," +
-                    "FOREIGN KEY(qid) REFERENCES QUERIES(qid) ON DELETE CASCADE," +
-                    "PRIMARY KEY (qid,did)" +
-                    ")");
-        } catch (SQLException e) {
             //e.printStackTrace();
         }
     }

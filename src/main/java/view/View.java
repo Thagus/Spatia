@@ -1,7 +1,6 @@
 package view;
 
-import controller.ControllerImportDocument;
-import controller.ControllerSceneSwitcher;
+import controller.ControllerCrawlFeed;
 import controller.ControllerSearch;
 import dataObjects.Document;
 import javafx.geometry.Insets;
@@ -17,21 +16,18 @@ import javafx.scene.text.FontWeight;
  * Created by Thagus on 02/09/16.
  */
 public class View {
-    private ControllerImportDocument controllerImportDocument;
+    private ControllerCrawlFeed controllerCrawlFeed;
     private ControllerSearch controllerSearch;
-    private ControllerSceneSwitcher controllerSceneSwitcher;
 
     /**
      * Creates the scene for the search
-     * @param controllerSceneSwitcher The controller that handles scene switching
      */
-    public Scene createScene(ControllerSceneSwitcher controllerSceneSwitcher) {
+    public Scene createScene() {
         VBox layout = new VBox();
         layout.setSpacing(5);
 
         //Create controllers
-        this.controllerSceneSwitcher = controllerSceneSwitcher;
-        this.controllerImportDocument = new ControllerImportDocument(true);
+        this.controllerCrawlFeed = new ControllerCrawlFeed(true);
         this.controllerSearch = new ControllerSearch();
 
         //Create menu bar
@@ -54,17 +50,10 @@ public class View {
 
         //Import document
         MenuItem importDoc = new MenuItem("Import documents");
-        importDoc.setOnAction(controllerImportDocument);
+        importDoc.setOnAction(controllerCrawlFeed);
         menuFile.getItems().add(importDoc);
 
-        //Tests menu
-        Menu testsMenu = new Menu("_Tests");
-        MenuItem openTests = new MenuItem("Open tests");
-        openTests.setUserData("openTests");
-        openTests.setOnAction(controllerSceneSwitcher);
-        testsMenu.getItems().add(openTests);
-
-        menuBar.getMenus().addAll(menuFile, testsMenu);
+        menuBar.getMenus().addAll(menuFile);
         layout.getChildren().add(menuBar);
     }
 
