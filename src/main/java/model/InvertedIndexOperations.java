@@ -39,7 +39,7 @@ public class InvertedIndexOperations {
 
             //Unhandled error
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString(), "Error adding Term", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.toString(), "Error adding term '" + term + "'", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
