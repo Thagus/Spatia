@@ -8,7 +8,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -28,7 +27,7 @@ public class DocumentView {
         Font textFont = Font.font("Arial", FontWeight.NORMAL, 12);
 
 
-        Label idLabel = new Label("ID: " + document.getIdDoc());
+        Label idLabel = new Label("ID: " + document.getUrl());
         idLabel.setFont(headerFont);
 
         Separator idSeparator = new Separator();

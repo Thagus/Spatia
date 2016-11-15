@@ -65,7 +65,7 @@ public class DocumentOperations {
 
             while(rs.next()){
                 check = true;
-                document.appendText(rs.getString("text"));
+                document.setText(rs.getString("text"));
             }
             rs.close();
 

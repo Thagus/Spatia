@@ -1,42 +1,28 @@
 package dataObjects;
 
 import utilities.TermExtractor;
-import javax.swing.JOptionPane;
+
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Thagus on 03/09/16.
  * Purpose: Store the document data
  */
 public class Document implements Comparable<Document>{
-    private String idDoc;
+    private String url;
     private String text;
 
     private double similarity;
 
-    public Document(String idDoc){
-        this.idDoc = idDoc;
+    public Document(String url){
+        this.url = url;
         this.text = "";
         this.similarity = 0;
     }
 
-    /**
-     * Add a String to the text
-     * @param text the string to add
-     */
-    public void appendText(String text){
-        if(text==null)
-            return;
-
-        if(text.equals("\n") && this.text.length()!=0){
-            this.text += "\n" + text;
-        }
-        else {
-            this.text += " " + text.trim();
-        }
+    public void setText(String text) {
+        this.text = text;
     }
-
     public void setSimilarity(double similarity) {
         this.similarity = similarity;
     }
@@ -44,7 +30,7 @@ public class Document implements Comparable<Document>{
     /****************
      *  Getters     *
      ****************/
-    public String getIdDoc() { return idDoc; }
+    public String getUrl() { return url; }
     public String getText() {
         return text;
     }
