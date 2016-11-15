@@ -27,7 +27,7 @@ public class View {
         layout.setSpacing(5);
 
         //Create controllers
-        this.controllerCrawlFeed = new ControllerCrawlFeed(true);
+        this.controllerCrawlFeed = new ControllerCrawlFeed();
         this.controllerSearch = new ControllerSearch();
 
         //Create menu bar
