@@ -29,7 +29,11 @@ public class DocumentOperations {
         try{
             stAddDocument.clearParameters();
             stAddDocument.setString(1, url);
-            stAddDocument.setString(2, title);
+            if(title==null){
+                stAddDocument.setString(2, url);
+            } else {
+                stAddDocument.setString(2, title);
+            }
             stAddDocument.setString(3, text);
 
             stAddDocument.executeUpdate();
