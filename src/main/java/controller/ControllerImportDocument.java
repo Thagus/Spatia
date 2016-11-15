@@ -8,8 +8,7 @@ import model.ModelDatabase;
 import test.QueryObject;
 
 import javax.swing.JOptionPane;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -38,12 +37,12 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
         int queryStartIndex;
 
         startingIndex = 0;
-        readFile(new File(getClass().getClassLoader().getResource("cacm.all").getFile()), startingIndex);
+        readFile(getClass().getResourceAsStream("/cacm.all"), startingIndex);
         queryStartIndex = 0;
         readTestsFiles("cacm", queryStartIndex, startingIndex);
 
         startingIndex = db.opDocuments.countDocuments();
-        readFile(new File(getClass().getClassLoader().getResource("med.all").getFile()), startingIndex);
+        readFile(getClass().getResourceAsStream("/med.all"), startingIndex);
         queryStartIndex = db.opTests.countQueries();
         readTestsFiles("med", queryStartIndex, startingIndex);
 
@@ -62,17 +61,13 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
      * @param collectionName The name of the collection we want the queries from
      */
     public void readTestsFiles(String collectionName, int queryStartIndex, int documentStartIndex){
-        //Query documents files from resources
-        File queryTextFile = new File(getClass().getClassLoader().getResource(collectionName + ".qry").getFile());
-        File qrelsTextFile = new File(getClass().getClassLoader().getResource(collectionName + ".rels").getFile());
-
         final ArrayList<QueryObject> queriesRead = new ArrayList<>();
 
         //Read query.text file
-        try (Stream<String> stream = Files.lines(queryTextFile.toPath())) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(collectionName + ".qry")))) {
             final int[] currentType = new int[1];
 
-            stream.forEach(line -> {
+            br.lines().forEach(line -> {
                 if(line.startsWith(".I")){
                     //The format is "I. " + id
                     int id = Integer.parseInt(line.substring(3)) + queryStartIndex;
@@ -104,8 +99,8 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
 
         Pattern numberPattern = Pattern.compile("\\s+");
         //Read qrels.text file and write to database its contents
-        try (Stream<String> stream = Files.lines(qrelsTextFile.toPath())) {
-            stream.forEach(line -> {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(collectionName + ".rels")))) {
+            br.lines().forEach(line -> {
                 String[] numbers = numberPattern.split(line);
                 db.opTests.addRelevant(Integer.parseInt(numbers[0]) + queryStartIndex, Integer.parseInt(numbers[1]) + documentStartIndex);
             });
@@ -127,13 +122,13 @@ public class ControllerImportDocument implements EventHandler<ActionEvent> {
      *
      * @param file The file that will be read
      */
-    public void readFile(File file, int startingIndex){
+    public void readFile(InputStream file, int startingIndex){
         //Read file and feed database
-        try (Stream<String> stream = Files.lines(file.toPath())) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(file))) {
             final boolean[] currentType = new boolean[8];     //0-T, 1-B, 2-N, 3-A, 4-W, 5-K, 6-C, 7-X
             final ArrayList<Document> documents = new ArrayList<>();
 
-            stream.forEach(line -> {
+            br.lines().forEach(line -> {
                 if(line.startsWith(".I")){
                     //The format is "I. " + id
                     int id = Integer.parseInt(line.substring(3)) + startingIndex;
