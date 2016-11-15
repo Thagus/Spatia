@@ -95,7 +95,7 @@ public class ModelDatabase {
                     ")");
         } catch (SQLException e) {
             //System.out.println("Error creating DOCUMENT table:");
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         //Create InvertedIndex table
@@ -110,7 +110,7 @@ public class ModelDatabase {
                     ")");
         } catch (SQLException e) {
             //System.out.println("Error creating TERMS table:");
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         //Create Terms table
@@ -122,7 +122,7 @@ public class ModelDatabase {
                     ")");
         } catch (SQLException e) {
             //System.out.println("Error creating TFIDF table:");
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         //Create Query table in memory
@@ -135,7 +135,7 @@ public class ModelDatabase {
                     ") NOT PERSISTENT");
         } catch (SQLException e) {
             //System.out.println("Error creating Query table:");
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
