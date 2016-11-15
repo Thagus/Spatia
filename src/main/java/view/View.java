@@ -89,10 +89,10 @@ public class View {
         VBox.setMargin(tableDocuments, new Insets(0, 5, 5, 5));
         VBox.setVgrow(tableDocuments, Priority.ALWAYS);         //Resize table to fit window
 
-        TableColumn<Document, Integer> idCol = new TableColumn<>("ID");
-        idCol.setCellValueFactory(new PropertyValueFactory<>("idDoc"));
-        idCol.setMinWidth(45);
-        idCol.setPrefWidth(45);
+        TableColumn<Document, Integer> idCol = new TableColumn<>("URL");
+        idCol.setCellValueFactory(new PropertyValueFactory<>("url"));
+        idCol.setMinWidth(500);
+        idCol.setPrefWidth(500);
         idCol.setStyle("-fx-alignment: CENTER;");       //Center values from column
 
         TableColumn<Document, String> textCol = new TableColumn<>("Text");
