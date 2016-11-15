@@ -80,12 +80,6 @@ public class ModelDatabase {
             //System.out.println("Error creating schema:");
             //e.printStackTrace();
         }
-
-        try{
-            st.execute("CREATE SCHEMA SPATIATESTS");
-        } catch (SQLException e) {
-            //e.printStackTrace();
-        }
     }
 
     /**
@@ -95,28 +89,28 @@ public class ModelDatabase {
         //Create Documents table
         try {
             st.execute("CREATE TABLE SPATIA.DOCUMENT(" +
-                    "idDoc INTEGER NOT NULL," +         //Must have an ID
+                    "url VARCHAR NOT NULL," +         //Must have an ID
                     "text VARCHAR NOT NULL," +         //Must have text
-                    "PRIMARY KEY (idDoc)" +
+                    "PRIMARY KEY (url)" +
                     ")");
         } catch (SQLException e) {
             //System.out.println("Error creating DOCUMENT table:");
-            //e.printStackTrace();
+            e.printStackTrace();
         }
 
         //Create InvertedIndex table
         try {
             st.execute("CREATE TABLE SPATIA.INVERTEDINDEX(" +
-                    "idDoc INTEGER NOT NULL," +
+                    "url VARCHAR NOT NULL," +
                     "term VARCHAR NOT NULL," +
                     "tf INTEGER NOT NULL," +
                     "weight DOUBLE NOT NULL DEFAULT '0'," +
-                    "FOREIGN KEY(idDoc) REFERENCES DOCUMENT(idDoc) ON DELETE CASCADE," +
-                    "PRIMARY KEY (idDoc,term)" +
+                    "FOREIGN KEY(url) REFERENCES DOCUMENT(url) ON DELETE CASCADE," +
+                    "PRIMARY KEY (url,term)" +
                     ")");
         } catch (SQLException e) {
             //System.out.println("Error creating TERMS table:");
-            //e.printStackTrace();
+            e.printStackTrace();
         }
 
         //Create Terms table
@@ -128,21 +122,7 @@ public class ModelDatabase {
                     ")");
         } catch (SQLException e) {
             //System.out.println("Error creating TFIDF table:");
-            //e.printStackTrace();
-        }
-
-        //Create clusters table
-        try{
-            st.execute("CREATE TABLE SPATIA.CLUSTER(" +
-                    "clusterName VARCHAR NOT NULL," +
-                    "parentName VARCHAR NOT NULL," +
-                    "level INT NOT NULL," +
-                    "strategy VARCHAR NOT NULL," +
-                    "PRIMARY KEY (clusterName,parentName,strategy)" +
-                    ")");
-        } catch (SQLException e){
-            //System.out.println("Error creating Cluster table:");
-            //e.printStackTrace();
+            e.printStackTrace();
         }
 
         //Create Query table in memory
@@ -155,7 +135,7 @@ public class ModelDatabase {
                     ") NOT PERSISTENT");
         } catch (SQLException e) {
             //System.out.println("Error creating Query table:");
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -168,10 +148,6 @@ public class ModelDatabase {
             st.execute("DROP TABLE SPATIA.INVERTEDINDEX");
             st.execute("DROP TABLE SPATIA.TERM");
             st.execute("DROP TABLE QUERY");
-            st.execute("DROP TABLE SPATIA.CLUSTER");
-
-            st.execute("DROP TABLE SPATIATESTS.QUERIES");
-            st.execute("DROP TABLE SPATIATESTS.RELEVANT");
         } catch (SQLException e) {
             //System.out.println("Error cleaning DB:");
             //e.printStackTrace();

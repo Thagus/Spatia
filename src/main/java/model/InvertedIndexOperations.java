@@ -10,19 +10,19 @@ public class InvertedIndexOperations {
     private PreparedStatement stAddTerm;
 
     protected InvertedIndexOperations(Connection connection) throws SQLException{
-        stAddTerm = connection.prepareStatement("INSERT INTO SPATIA.INVERTEDINDEX(idDoc,term,tf) VALUES(?,?,?)");
+        stAddTerm = connection.prepareStatement("INSERT INTO SPATIA.INVERTEDINDEX(url,term,tf) VALUES(?,?,?)");
     }
 
     /**
      * Add a term to the database
-     * @param idDoc The id of the document containing the term
+     * @param url The id of the document containing the term
      * @param term The term to be added
      * @param tf The Term Frequency (TF) of the term in the document
      */
-    public void addTerm(int idDoc, String term, int tf){
+    public void addTerm(String url, String term, int tf){
         try{
             stAddTerm.clearParameters();
-            stAddTerm.setInt(1, idDoc);
+            stAddTerm.setString(1, url);
             stAddTerm.setString(2, term);
             stAddTerm.setInt(3, tf);
 
@@ -30,11 +30,11 @@ public class InvertedIndexOperations {
         } catch(SQLException e){
             //The insertion fails due to duplicate key
             if(e.getErrorCode()==23505){
-                JOptionPane.showMessageDialog(null, "There is already the term \"" + term + "\" for document id: " + idDoc);
+                JOptionPane.showMessageDialog(null, "There is already the term \"" + term + "\" for document id: " + url);
             }
             //The insertion fails due to foreign key constraint failure
             else if(e.getErrorCode()==23506){
-                JOptionPane.showMessageDialog(null, "There is no document with id: " + idDoc);
+                JOptionPane.showMessageDialog(null, "There is no document with id: " + url);
             }
 
             //Unhandled error

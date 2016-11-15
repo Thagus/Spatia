@@ -14,21 +14,21 @@ public class DocumentOperations {
 
     protected DocumentOperations(Connection connection) throws SQLException {
         //Create prepared statements
-        stAddDocument = connection.prepareStatement("INSERT INTO SPATIA.DOCUMENT(idDoc,text) VALUES(?,?)");
-        stGetDocument = connection.prepareStatement("SELECT * FROM SPATIA.DOCUMENT WHERE idDoc=?");
+        stAddDocument = connection.prepareStatement("INSERT INTO SPATIA.DOCUMENT(url,text) VALUES(?,?)");
+        stGetDocument = connection.prepareStatement("SELECT * FROM SPATIA.DOCUMENT WHERE url=?");
         stCountDocuments = connection.prepareStatement("SELECT COUNT(*) FROM SPATIA.DOCUMENT");
     }
 
     /**
      * Adds a document tuple to the database
      *
-     * @param idDoc the id of the document
+     * @param url the id of the document
      * @param text the text in the document
      */
-    public boolean addDocument(int idDoc, String text){
+    public boolean addDocument(String url, String text){
         try{
             stAddDocument.clearParameters();
-            stAddDocument.setInt(1, idDoc);
+            stAddDocument.setString(1, url);
             stAddDocument.setString(2, text);
 
             stAddDocument.executeUpdate();
@@ -36,7 +36,7 @@ public class DocumentOperations {
         } catch(SQLException e){
             //The insertion fails due to duplicate key
             if(e.getErrorCode()==23505){
-                JOptionPane.showMessageDialog(null, "There is already a document with id: " + idDoc);
+                JOptionPane.showMessageDialog(null, "There is already a document with id: " + url);
                 return false;
             }
 
@@ -50,17 +50,17 @@ public class DocumentOperations {
     /**
      * Gets a document by id
      *
-     * @param idDoc the id of the document we want to retrieve
+     * @param url the id of the document we want to retrieve
      * @return the Document object that stores the document info
      */
-    public Document getDocument(int idDoc){
+    public Document getDocument(String url){
         try {
             stGetDocument.clearParameters();
-            stGetDocument.setInt(1, idDoc);
+            stGetDocument.setString(1, url);
 
             ResultSet rs = stGetDocument.executeQuery();
 
-            Document document = new Document(idDoc);
+            Document document = new Document(url);
             boolean check = false;
 
             while(rs.next()){
@@ -70,14 +70,14 @@ public class DocumentOperations {
             rs.close();
 
             if(!check){
-                JOptionPane.showMessageDialog(null, "There is no document with id: " + idDoc);
+                JOptionPane.showMessageDialog(null, "There is no document with id: " + url);
                 return null;
             }
 
             return document;
         } catch(SQLException e){
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString(), "Error getting Document with id: " + idDoc, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.toString(), "Error getting Document with id: " + url, JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }

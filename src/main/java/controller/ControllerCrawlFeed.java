@@ -38,7 +38,7 @@ public class ControllerCrawlFeed implements EventHandler<ActionEvent> {
      *
      * @param file The file that will be read
      */
-    public void readFile(InputStream file, int startingIndex){
+    /*public void readFile(InputStream file, int startingIndex){
         //Read file and feed database
         try (BufferedReader br = new BufferedReader(new InputStreamReader(file))) {
             final boolean[] currentType = new boolean[8];     //0-T, 1-B, 2-N, 3-A, 4-W, 5-K, 6-C, 7-X
@@ -104,7 +104,7 @@ public class ControllerCrawlFeed implements EventHandler<ActionEvent> {
             System.out.println("Error reading file:");
             e.printStackTrace();
         }
-    }
+    }*/
 
     /**
      * Counts the words on each document in order to calculate the TF of each term in the document

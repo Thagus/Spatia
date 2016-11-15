@@ -10,12 +10,12 @@ import java.util.Map;
  * Purpose: Store the document data
  */
 public class Document implements Comparable<Document>{
-    private int idDoc;
+    private String idDoc;
     private String text;
 
     private double similarity;
 
-    public Document(int idDoc){
+    public Document(String idDoc){
         this.idDoc = idDoc;
         this.text = "";
         this.similarity = 0;
@@ -44,7 +44,7 @@ public class Document implements Comparable<Document>{
     /****************
      *  Getters     *
      ****************/
-    public int getIdDoc() { return idDoc; }
+    public String getIdDoc() { return idDoc; }
     public String getText() {
         return text;
     }
