@@ -9,6 +9,7 @@ import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 import model.ModelDatabase;
+import org.jsoup.Jsoup;
 
 /**
  * Created by Thagus on 14/11/16.
@@ -17,6 +18,7 @@ public class Crawler extends WebCrawler{
     private static final Pattern IMAGE_EXTENSIONS = Pattern.compile(".*\\.(bmp|gif|jpg|png)$");
     private static final Pattern SOUND_EXTENSIONS = Pattern.compile(".*\\.(mp3|ogg)$");
     private static final Pattern COMPRESSED_EXTENSIONS = Pattern.compile(".*\\.(zip|rar|gz|tar)$");
+    private static final Pattern DOCUMENT_EXTENSIONS = Pattern.compile(".*\\.(pdf|doc|docx|xls|xlsx)$");
     private static final Pattern OTHER_EXTENSIONS = Pattern.compile(".*\\.(css|js)$");
     private ModelDatabase db = ModelDatabase.instance();
 
@@ -31,7 +33,10 @@ public class Crawler extends WebCrawler{
         return !(IMAGE_EXTENSIONS.matcher(href).matches() ||
                 SOUND_EXTENSIONS.matcher(href).matches() ||
                 COMPRESSED_EXTENSIONS.matcher(href).matches() ||
-                OTHER_EXTENSIONS.matcher(href).matches());
+                OTHER_EXTENSIONS.matcher(href).matches() ||
+                DOCUMENT_EXTENSIONS.matcher(href).matches())
+
+                && href.contains("udlap.mx");
     }
 
     /**
@@ -47,9 +52,15 @@ public class Crawler extends WebCrawler{
         if (page.getParseData() instanceof HtmlParseData) {
             HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
             String text = htmlParseData.getText();
-            String title = htmlParseData.getTitle();
+
+            if(text.length()<=0){   //There is no use for an empty website
+                return;
+            }
 
             String html = htmlParseData.getHtml();
+
+            org.jsoup.nodes.Document htmlDocument = Jsoup.parse(html);
+            String title = htmlDocument.getElementsByTag("title").get(0).text();
 
             Document document = new Document(url, title, text);
             feedDatabase(document);
