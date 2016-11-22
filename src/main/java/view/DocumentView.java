@@ -22,7 +22,7 @@ public class DocumentView {
 
         VBox layout = new VBox();
         layout.setSpacing(5);
-        Scene scene = new Scene(layout, 1200, 720);
+        Scene scene = new Scene(layout, 1200, 650);
 
         WebView webView = new WebView();
         WebEngine webEngine = webView.getEngine();
