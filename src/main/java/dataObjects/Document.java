@@ -22,8 +22,8 @@ public class Document implements Comparable<Document>{
 
     public Document(String url, String title, String text) {
         this.url = url;
-        this.title = title;
-        this.text = text;
+        setTitle(title);
+        setText(text);
         this.similarity = 0;
     }
 
@@ -31,7 +31,7 @@ public class Document implements Comparable<Document>{
         this.title = title;
     }
     public void setText(String text) {
-        this.text = text;
+        this.text = text.replaceAll("\\s+", " ");
     }
     public void setSimilarity(double similarity) {
         this.similarity = similarity;
