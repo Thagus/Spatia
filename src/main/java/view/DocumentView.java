@@ -8,6 +8,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -21,33 +23,15 @@ public class DocumentView {
 
         VBox layout = new VBox();
         layout.setSpacing(5);
-        Scene scene = new Scene(layout);
+        Scene scene = new Scene(layout, 1200, 720);
 
-        Font headerFont = Font.font("Arial", FontWeight.BOLD, 14);
-        Font textFont = Font.font("Arial", FontWeight.NORMAL, 12);
+        WebView webView = new WebView();
+        WebEngine webEngine = webView.getEngine();
 
-
-        Label idLabel = new Label("ID: " + document.getUrl());
-        idLabel.setFont(headerFont);
-
-        Separator idSeparator = new Separator();
-
-        Label titleLabel = new Label("ID: " + document.getTitle());
-        titleLabel.setFont(headerFont);
-
-        Separator titleSeparator = new Separator();
-
-        Text text = new Text();
-        text.setFont(textFont);
-        text.setText(document.getText());
-        text.setWrappingWidth(400);
-
-
+        webEngine.load(document.getUrl());
 
         layout.getChildren().addAll(
-                idLabel, idSeparator,
-                titleLabel, titleSeparator,
-                text
+                webView
         );
 
         stage.setScene(scene);
