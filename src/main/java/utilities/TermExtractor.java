@@ -3,6 +3,7 @@ package utilities;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 import utilities.stemmer.EnglishPorterStemmer;
+import utilities.stemmer.SpanishPorterStemmer;
 
 import javax.swing.JOptionPane;
 import java.io.IOException;
@@ -19,9 +20,9 @@ import java.util.regex.Pattern;
 public class TermExtractor {
     private static Pattern reg = Pattern.compile("[a-z]+");
 
-    private static boolean stopWordRemoval=false, useStemming=false;
+    private static boolean stopWordRemoval=true, useStemming=true;
 
-    private static HashSet<String> stopWords;
+    private static HashMap<String, HashSet<String>> stopWords;
 
     /**
      * Coordinates the initialization of the stopwords set and the dictionary for the spell checker
@@ -29,8 +30,11 @@ public class TermExtractor {
     public static void initialize(){
         //Load stop words
         try {
-            stopWords = new HashSet<>();
-            readStopWords();
+            stopWords = new HashMap<>();
+
+            readStopWords("en");
+            readStopWords("es");
+
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString(), "Error loading stopwords.txt", JOptionPane.ERROR_MESSAGE);
@@ -41,15 +45,18 @@ public class TermExtractor {
      * Read the stopwords file in order to feed the HashSet
      * @throws IOException in case that the file cant be opened or found
      */
-    private static void readStopWords() throws IOException {
-        LineIterator lineIterator = IOUtils.lineIterator(TermExtractor.class.getResourceAsStream("/stopwords/en.txt"), null);
+    private static void readStopWords(String language) throws IOException {
+        LineIterator lineIterator = IOUtils.lineIterator(TermExtractor.class.getResourceAsStream("/stopwords/" + language + ".txt"), null);
+
+        HashSet<String> languageWords = new HashSet<>();
+        stopWords.put(language, languageWords);
 
         try {
             while (lineIterator.hasNext()) {
                 String line = lineIterator.nextLine();
-                stopWords.add(line.trim());
+                languageWords.add(line.trim());
             }
-            System.out.println(stopWords.size() + " stop words read");
+            System.out.println(languageWords.size() + " stop words read");
         }
         finally {
             lineIterator.close();
@@ -103,10 +110,18 @@ public class TermExtractor {
     private static ArrayList<String> stemming(ArrayList<String> words, String language){
         ArrayList<String> stemmedWords = new ArrayList<>();
         for(String word : words){
-            //Stem word
-            String stemmed = EnglishPorterStemmer.stem(word);
-            //Add the stemmed word to teh array
-            stemmedWords.add(stemmed);
+            String stemmed;
+            //Stem word depending on language
+            if(language.equals("en")) {
+                stemmed = EnglishPorterStemmer.stem(word);
+                //Add the stemmed word to the array
+                stemmedWords.add(stemmed);
+            }
+            else if(language.equals("es")){
+                stemmed = SpanishPorterStemmer.stem(word);
+                //Add the stemmed word to the array
+                stemmedWords.add(stemmed);
+            }
         }
         return stemmedWords;
     }
@@ -119,7 +134,7 @@ public class TermExtractor {
         ListIterator<String> iterator = words.listIterator();
         while (iterator.hasNext()){
             //Remove word if contained in the stopwords set
-            if(stopWords.contains(iterator.next())){
+            if(stopWords.get(language).contains(iterator.next())){
                 iterator.remove();
             }
         }
