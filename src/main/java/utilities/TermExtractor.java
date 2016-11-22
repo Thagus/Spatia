@@ -1,7 +1,11 @@
 package utilities;
 
+import com.cybozu.labs.langdetect.Detector;
+import com.cybozu.labs.langdetect.DetectorFactory;
+import com.cybozu.labs.langdetect.LangDetectException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
+import utilities.stemmer.EnglishPorterStemmer;
 
 import javax.swing.JOptionPane;
 import java.io.IOException;
@@ -35,6 +39,12 @@ public class TermExtractor {
             JOptionPane.showMessageDialog(null, e.toString(), "Error loading stopwords.txt", JOptionPane.ERROR_MESSAGE);
         }
 
+        try{
+            DetectorFactory.loadProfile(TermExtractor.class.getResource("/languageProfiles").getFile());
+        } catch (LangDetectException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString(), "Error loading language profiles", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -72,17 +82,20 @@ public class TermExtractor {
             words.add(matcher.group()); //Add the matched strings to the words array
         }
 
+        if(stopWordRemoval || useStemming){
+            String language = detectLanguage(text);
 
-        if(stopWordRemoval){    //If we have to remove stop words, remove them
-            removeStopWords(words);
-        }
-        if(useStemming){    //If we should stem the word, stem them
-            words = stemming(words);
+            if(stopWordRemoval){    //If we have to remove stop words, remove them
+                removeStopWords(words, language);
+            }
+            if(useStemming){    //If we should stem the word, stem them
+                words = stemming(words, language);
+            }
         }
 
         //Count words and add them to a HashMap
         for(String word : words){
-            if(word.length()>0) {
+            if(word.length()>0) {   //If the word exists, proceed
                 Integer count = termResults.get(word);  //Check if the term is already on the HashMap and obtain its value
                 //If it's not on the HashSet, initialize the count
                 if (count == null) {
@@ -101,11 +114,11 @@ public class TermExtractor {
      * @param words The original array containing words to stem
      * @return The new array containing stemmed words
      */
-    private static ArrayList<String> stemming(ArrayList<String> words){
+    private static ArrayList<String> stemming(ArrayList<String> words, String language){
         ArrayList<String> stemmedWords = new ArrayList<>();
         for(String word : words){
             //Stem word
-            String stemmed = PorterStemmer.stem(word);
+            String stemmed = EnglishPorterStemmer.stem(word);
             //Add the stemmed word to teh array
             stemmedWords.add(stemmed);
         }
@@ -116,7 +129,7 @@ public class TermExtractor {
      * A method to remove stop words from an ArrayList
      * @param words the ArrayList that contains the words that will be checked
      */
-    private static void removeStopWords(ArrayList<String> words){
+    private static void removeStopWords(ArrayList<String> words, String language){
         ListIterator<String> iterator = words.listIterator();
         while (iterator.hasNext()){
             //Remove word if contained in the stopwords set
@@ -126,10 +139,26 @@ public class TermExtractor {
         }
     }
 
+    /**
+     * Identifies the language of a given text
+     * @param text the text we want the language for
+     * @return the language
+     */
+    private static String detectLanguage(String text) {
+        try {
+            Detector detector = DetectorFactory.create();
+            detector.append(text);
+            return detector.detect();
+        } catch (LangDetectException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Unknown language in: " + text);
+        return "unknown";
+    }
+
     public static void setStopWordRemoval(boolean stopWordRemoval) {
         TermExtractor.stopWordRemoval = stopWordRemoval;
     }
-
     public static void setUseStemming(boolean useStemming) {
         TermExtractor.useStemming = useStemming;
     }

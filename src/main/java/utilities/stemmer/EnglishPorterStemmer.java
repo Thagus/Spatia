@@ -1,15 +1,15 @@
-package utilities;
+package utilities.stemmer;
 
 /**
- * PorterStemmer. The original paper is in
+ * EnglishPorterStemmer. The original paper is in
  *     Porter, 1980, An algorithm for suffix stripping, Program, Vol. 14, no. 3, pp 130-137,
  * See also http://www.tartarus.org/~martin/PorterStemmer
  *
- * PorterStemmer, implementing the Porter Stemming Algorithm
- * The PorterStemmer class transforms a word into its root form.
+ * EnglishPorterStemmer, implementing the Porter Stemming Algorithm
+ * The EnglishPorterStemmer class transforms a word into its root form.
  */
 
-public class PorterStemmer {
+public class EnglishPorterStemmer {
     static private char[] b;
     static private int i,     /* offset into b */
             i_end, /* offset to end of stemmed word */
@@ -479,7 +479,7 @@ public class PorterStemmer {
             k--;
     }
 
-    /** Stem the word placed into the PorterStemmer buffer through calls to add().
+    /** Stem the word placed into the EnglishPorterStemmer buffer through calls to add().
      * Returns true if the stemming process resulted in a word different
      * from the input.  You can retrieve the result with
      * getResultLength()/getResultBuffer() or toString().
