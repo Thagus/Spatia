@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 public class TermExtractor {
     private static Pattern reg = Pattern.compile("[a-z]+");
 
-    private static boolean stopWordRemoval=true, useStemming=true;
+    private static boolean stopWordRemoval=false, useStemming=false;
 
     private static HashSet<String> stopWords;
 
@@ -82,12 +82,14 @@ public class TermExtractor {
 
         //Count words and add them to a HashMap
         for(String word : words){
-            Integer count = termResults.get(word);  //Check if the term is already on the HashMap and obtain its value
-            //If it's not on the HashSet, initialize the count
-            if(count==null){
-                count = 0;
+            if(word.length()>0) {
+                Integer count = termResults.get(word);  //Check if the term is already on the HashMap and obtain its value
+                //If it's not on the HashSet, initialize the count
+                if (count == null) {
+                    count = 0;
+                }
+                termResults.put(word, count + 1);     //Add +1 for each term occurrence
             }
-            termResults.put(word, count+1);     //Add +1 for each term occurrence
         }
 
         //Return the termResults HashMap
