@@ -1,8 +1,5 @@
 package utilities;
 
-import com.cybozu.labs.langdetect.Detector;
-import com.cybozu.labs.langdetect.DetectorFactory;
-import com.cybozu.labs.langdetect.LangDetectException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 import utilities.stemmer.EnglishPorterStemmer;
@@ -38,13 +35,6 @@ public class TermExtractor {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString(), "Error loading stopwords.txt", JOptionPane.ERROR_MESSAGE);
         }
-
-        try{
-            DetectorFactory.loadProfile(TermExtractor.class.getResource("/languageProfiles").getFile());
-        } catch (LangDetectException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString(), "Error loading language profiles", JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     /**
@@ -71,7 +61,7 @@ public class TermExtractor {
      * @param text The string from where obtain the terms
      * @return A HashMap containing as key the term and value its occurrence
      */
-    public static HashMap<String, Integer> extractTerms(String text){
+    public static HashMap<String, Integer> extractTerms(String text, String language){
         HashMap<String, Integer> termResults = new HashMap<>();  //Will contain as key every term in the text, and value the frequency of the term
         ArrayList<String> words = new ArrayList<>();
 
@@ -82,15 +72,11 @@ public class TermExtractor {
             words.add(matcher.group()); //Add the matched strings to the words array
         }
 
-        if(stopWordRemoval || useStemming){
-            String language = detectLanguage(text);
-
-            if(stopWordRemoval){    //If we have to remove stop words, remove them
-                removeStopWords(words, language);
-            }
-            if(useStemming){    //If we should stem the word, stem them
-                words = stemming(words, language);
-            }
+        if(stopWordRemoval){    //If we have to remove stop words, remove them
+            removeStopWords(words, language);
+        }
+        if(useStemming){    //If we should stem the word, stem them
+            words = stemming(words, language);
         }
 
         //Count words and add them to a HashMap
@@ -137,23 +123,6 @@ public class TermExtractor {
                 iterator.remove();
             }
         }
-    }
-
-    /**
-     * Identifies the language of a given text
-     * @param text the text we want the language for
-     * @return the language
-     */
-    private static String detectLanguage(String text) {
-        try {
-            Detector detector = DetectorFactory.create();
-            detector.append(text);
-            return detector.detect();
-        } catch (LangDetectException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Unknown language in: " + text);
-        return "unknown";
     }
 
     public static void setStopWordRemoval(boolean stopWordRemoval) {

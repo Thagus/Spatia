@@ -4,6 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import model.ModelDatabase;
+import utilities.LanguageDetector;
 import utilities.TermExtractor;
 import view.View;
 
@@ -34,6 +35,8 @@ public class Main extends Application{
         View view = new View();
         Scene searchScene = view.createScene();
 
+        //Initialize language detector
+        LanguageDetector.initialize();
         //Initialize term extractor dictionary and stopwords
         TermExtractor.initialize();
 
