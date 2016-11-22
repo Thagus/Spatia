@@ -89,21 +89,26 @@ public class View {
         VBox.setMargin(tableDocuments, new Insets(0, 5, 5, 5));
         VBox.setVgrow(tableDocuments, Priority.ALWAYS);         //Resize table to fit window
 
-        TableColumn<Document, Integer> idCol = new TableColumn<>("URL");
-        idCol.setCellValueFactory(new PropertyValueFactory<>("url"));
-        idCol.setMinWidth(500);
-        idCol.setPrefWidth(500);
+        TableColumn<Document, Integer> titleCol = new TableColumn<>("Title");
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        titleCol.setMinWidth(500);
+        titleCol.setPrefWidth(500);
 
-        TableColumn<Document, String> textCol = new TableColumn<>("Language");
-        textCol.setCellValueFactory(new PropertyValueFactory<>("language"));
-        textCol.setMinWidth(25);
+        TableColumn<Document, Integer> urlCol = new TableColumn<>("URL");
+        urlCol.setCellValueFactory(new PropertyValueFactory<>("url"));
+        urlCol.setMinWidth(500);
+        urlCol.setPrefWidth(500);
+
+        TableColumn<Document, String> langCol = new TableColumn<>("Language");
+        langCol.setCellValueFactory(new PropertyValueFactory<>("language"));
+        langCol.setMaxWidth(25);
 
         TableColumn<Document, Integer> simCol = new TableColumn<>("Similarity");
         simCol.setCellValueFactory(new PropertyValueFactory<>("similarity"));
         simCol.setMinWidth(125);
         simCol.setStyle("-fx-alignment: CENTER;");       //Center values from column
 
-        tableDocuments.getColumns().addAll(idCol, textCol, simCol);
+        tableDocuments.getColumns().addAll(titleCol, urlCol, langCol, simCol);
 
 
         /***********************************************************
