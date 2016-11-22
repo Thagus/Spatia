@@ -81,14 +81,7 @@ public class Crawler extends WebCrawler{
      * @param doc The document to be added
      */
     private synchronized void feedDatabase(Document doc){
-        if(doc.getUrl()!=null && doc.getUrl().length()>0) {
-            String language = LanguageDetector.detectLanguage(doc.getText());
-
-            if(language.equals("unknown")){
-                return;
-            }
-
-            doc.setLanguage(language);
+        if(doc.getUrl()!=null && doc.getUrl().length()>0 && !doc.getLanguage().equals("unknown")) {
             boolean insertCheck = db.opDocuments.addDocument(doc.getUrl(), doc.getTitle(), doc.getText(), doc.getLanguage());
 
             //The document was correctly added if there is no duplicate key

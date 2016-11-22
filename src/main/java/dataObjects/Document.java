@@ -1,5 +1,6 @@
 package dataObjects;
 
+import utilities.LanguageDetector;
 import utilities.TermExtractor;
 
 import java.util.HashMap;
@@ -23,8 +24,12 @@ public class Document implements Comparable<Document>{
 
     public Document(String url, String title, String text) {
         this.url = url;
+
         setTitle(title);
         setText(text);
+
+        this.language = LanguageDetector.detectLanguage(this.text);
+
         this.similarity = 0;
     }
 
