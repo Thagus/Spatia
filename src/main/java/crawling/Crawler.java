@@ -54,7 +54,7 @@ public class Crawler extends WebCrawler{
             HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
             String text = htmlParseData.getText();
 
-            if(text.length()<=0){   //There is no use for an empty website
+            if(text.length()<=1){   //There is no use for an empty website
                 return;
             }
 
