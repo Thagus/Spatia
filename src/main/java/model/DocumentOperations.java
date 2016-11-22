@@ -25,7 +25,7 @@ public class DocumentOperations {
      * @param url the id of the document
      * @param text the text in the document
      */
-    public boolean addDocument(String url, String title, String text, String language){
+    public synchronized boolean addDocument(String url, String title, String text, String language){
         try{
             stAddDocument.clearParameters();
             stAddDocument.setString(1, url);

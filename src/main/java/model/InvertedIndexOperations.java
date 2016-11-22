@@ -19,9 +19,8 @@ public class InvertedIndexOperations {
      * @param term The term to be added
      * @param tf The Term Frequency (TF) of the term in the document
      */
-    public void addTerm(String url, String term, int tf){
+    public synchronized void addTerm(String url, String term, int tf){
         try{
-            stAddTerm.clearParameters();
             stAddTerm.setString(1, url);
             stAddTerm.setString(2, term);
             stAddTerm.setInt(3, tf);
@@ -42,7 +41,7 @@ public class InvertedIndexOperations {
             //Unhandled error
             System.out.println("Error adding term '" + term + "'");
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString(), "Error adding term '" + term + "'", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.toString(), "Error adding term '" + term + "' in " + url + " with " + tf + " frequency", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
