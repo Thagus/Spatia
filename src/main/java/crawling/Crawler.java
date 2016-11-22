@@ -79,15 +79,17 @@ public class Crawler extends WebCrawler{
      *
      * @param doc The document to be added
      */
-    private void feedDatabase(Document doc){
-        boolean insertCheck = db.opDocuments.addDocument(doc.getUrl(), doc.getTitle(), doc.getText());
+    private synchronized void feedDatabase(Document doc){
+        if(doc.getUrl()!=null && doc.getUrl().length()>0) {
+            boolean insertCheck = db.opDocuments.addDocument(doc.getUrl(), doc.getTitle(), doc.getText());
 
-        //The document was correctly added if there is no duplicate key
-        if(insertCheck) {
-            HashMap<String, Integer> wordCountLocal = doc.countWords();    //Request the count of words for the inserted document
-            for(Map.Entry<String, Integer> termEntry : wordCountLocal.entrySet()){      //For each term obtained from the document (Key String is the term, Value Integer is the TF)
-                //Write the term, with the document id and the TF
-                db.opInvertedIndex.addTerm(doc.getUrl(), termEntry.getKey(), termEntry.getValue());
+            //The document was correctly added if there is no duplicate key
+            if (insertCheck) {
+                HashMap<String, Integer> wordCountLocal = doc.countWords();    //Request the count of words for the inserted document
+                for (Map.Entry<String, Integer> termEntry : wordCountLocal.entrySet()) {      //For each term obtained from the document (Key String is the term, Value Integer is the TF)
+                    //Write the term, with the document id and the TF
+                    db.opInvertedIndex.addTerm(doc.getUrl(), termEntry.getKey(), termEntry.getValue());
+                }
             }
         }
     }
