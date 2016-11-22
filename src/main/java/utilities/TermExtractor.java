@@ -52,7 +52,7 @@ public class TermExtractor {
      * @throws IOException in case that the file cant be opened or found
      */
     private static void readStopWords() throws IOException {
-        LineIterator lineIterator = IOUtils.lineIterator(TermExtractor.class.getResourceAsStream("/stopwords.txt"), null);
+        LineIterator lineIterator = IOUtils.lineIterator(TermExtractor.class.getResourceAsStream("/stopwords/en.txt"), null);
 
         try {
             while (lineIterator.hasNext()) {
