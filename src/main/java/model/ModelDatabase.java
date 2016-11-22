@@ -92,6 +92,7 @@ public class ModelDatabase {
                     "url VARCHAR NOT NULL," +         //Must have an ID
                     "title VARCHAR NOT NULL," +
                     "text VARCHAR NOT NULL," +         //Must have text
+                    "language CHAR(2) NOT NULL," +         //Detected language has 2 letter
                     "PRIMARY KEY (url)" +
                     ")");
         } catch (SQLException e) {

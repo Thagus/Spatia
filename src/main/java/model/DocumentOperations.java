@@ -14,7 +14,7 @@ public class DocumentOperations {
 
     protected DocumentOperations(Connection connection) throws SQLException {
         //Create prepared statements
-        stAddDocument = connection.prepareStatement("INSERT INTO SPATIA.DOCUMENT(url,title,text) VALUES(?,?,?)");
+        stAddDocument = connection.prepareStatement("INSERT INTO SPATIA.DOCUMENT(url,title,text,language) VALUES(?,?,?,?)");
         stGetDocument = connection.prepareStatement("SELECT * FROM SPATIA.DOCUMENT WHERE url=?");
         stCountDocuments = connection.prepareStatement("SELECT COUNT(*) FROM SPATIA.DOCUMENT");
     }
@@ -25,7 +25,7 @@ public class DocumentOperations {
      * @param url the id of the document
      * @param text the text in the document
      */
-    public boolean addDocument(String url, String title, String text){
+    public boolean addDocument(String url, String title, String text, String language){
         try{
             stAddDocument.clearParameters();
             stAddDocument.setString(1, url);
@@ -35,6 +35,7 @@ public class DocumentOperations {
                 stAddDocument.setString(2, title);
             }
             stAddDocument.setString(3, text);
+            stAddDocument.setString(4, language);
 
             stAddDocument.executeUpdate();
             return true;
@@ -72,6 +73,7 @@ public class DocumentOperations {
                 check = true;
                 document.setTitle(rs.getString("title"));
                 document.setText(rs.getString("text"));
+                document.setLanguage(rs.getString("language"));
             }
             rs.close();
 

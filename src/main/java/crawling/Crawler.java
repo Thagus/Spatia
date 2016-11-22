@@ -10,6 +10,7 @@ import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 import model.ModelDatabase;
 import org.jsoup.Jsoup;
+import utilities.LanguageDetector;
 
 /**
  * Created by Thagus on 14/11/16.
@@ -81,7 +82,14 @@ public class Crawler extends WebCrawler{
      */
     private synchronized void feedDatabase(Document doc){
         if(doc.getUrl()!=null && doc.getUrl().length()>0) {
-            boolean insertCheck = db.opDocuments.addDocument(doc.getUrl(), doc.getTitle(), doc.getText());
+            String language = LanguageDetector.detectLanguage(doc.getText());
+
+            if(language.equals("unknown")){
+                return;
+            }
+
+            doc.setLanguage(language);
+            boolean insertCheck = db.opDocuments.addDocument(doc.getUrl(), doc.getTitle(), doc.getText(), doc.getLanguage());
 
             //The document was correctly added if there is no duplicate key
             if (insertCheck) {

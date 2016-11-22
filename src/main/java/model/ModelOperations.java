@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import model.similarity.Cosine;
 import model.similarity.Similarity;
 import model.weight.*;
+import utilities.LanguageDetector;
 import utilities.TermExtractor;
 
 import java.sql.Connection;
@@ -19,11 +20,7 @@ public class ModelOperations {
     private Weight weight;
     private Similarity similarity;
 
-    private boolean clusteringActivated;
-
     protected ModelOperations(Connection connection) throws SQLException{
-        clusteringActivated = true;
-
         weight = new TFIDF(connection);
         similarity = new Cosine(connection);
     }
@@ -36,7 +33,7 @@ public class ModelOperations {
      * @return An ArrayList of Documents sorted by their similarity to the query
      */
     public ObservableList<Document> evaluateQuery(String query){
-        HashMap<String, Integer> wordCount = TermExtractor.extractTerms(query);           //Counter for word occurrence in the query
+        HashMap<String, Integer> wordCount = TermExtractor.extractTerms(query, LanguageDetector.detectLanguage(query));           //Counter for word occurrence in the query
         ObservableList<Document> searchResult;
 
         //Request the calculation of similarity for the query, and save the results in the searchResult list

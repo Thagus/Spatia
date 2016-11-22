@@ -12,6 +12,7 @@ public class Document implements Comparable<Document>{
     private String url;
     private String title;
     private String text;
+    private String language;
 
     private double similarity;
 
@@ -33,6 +34,9 @@ public class Document implements Comparable<Document>{
     public void setText(String text) {
         this.text = text.replaceAll("\\s+", " ");
     }
+    public void setLanguage(String language) {
+        this.language = language;
+    }
     public void setSimilarity(double similarity) {
         this.similarity = similarity;
     }
@@ -47,6 +51,9 @@ public class Document implements Comparable<Document>{
     public String getText() {
         return text;
     }
+    public String getLanguage() {
+        return language;
+    }
     public double getSimilarity() {
         return similarity;
     }
@@ -56,7 +63,7 @@ public class Document implements Comparable<Document>{
      * @return The HashMap containing the terms and their TF
      */
     public HashMap<String, Integer> countWords(){
-        return TermExtractor.extractTerms(this.text);
+        return TermExtractor.extractTerms(this.text, language);
     }
 
     /**
