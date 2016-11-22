@@ -30,14 +30,17 @@ public class InvertedIndexOperations {
         } catch(SQLException e){
             //The insertion fails due to duplicate key
             if(e.getErrorCode()==23505){
+                System.out.println("There is already the term \"" + term + "\" for document id: " + url);
                 JOptionPane.showMessageDialog(null, "There is already the term \"" + term + "\" for document id: " + url);
             }
             //The insertion fails due to foreign key constraint failure
             else if(e.getErrorCode()==23506){
+                System.out.println("There is no document with id: " + url);
                 JOptionPane.showMessageDialog(null, "There is no document with id: " + url);
             }
 
             //Unhandled error
+            System.out.println("Error adding term '" + term + "'");
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString(), "Error adding term '" + term + "'", JOptionPane.ERROR_MESSAGE);
         }
