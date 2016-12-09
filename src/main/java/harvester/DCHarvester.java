@@ -32,10 +32,7 @@ public class DCHarvester {
         boolean more = true;
         while (more) {
             for (Header header : list.asList()) {
-                System.out.println(header.getIdentifier());
                 Record record = server.getRecord(header.getIdentifier(), "oai_dc");
-                String metadataString = record.getMetadataAsString();
-                System.out.println(metadataString);
 
                 String url = "";
                 String title = "";
@@ -51,10 +48,12 @@ public class DCHarvester {
 
                     switch (elementName) {
                         case "identifier":
-                            url = elementText;
+                            if(url.length()==0)
+                                url = elementText;
                             break;
                         case "title":
-                            title = elementText;
+                            if(title.length()==0)
+                                title = elementText;
                             break;
                         default:
                             text += elementText + "";
