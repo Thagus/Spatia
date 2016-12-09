@@ -1,6 +1,6 @@
 package controller;
 
-import crawling.CrawlerController;
+import harvester.DCHarvester;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -11,13 +11,13 @@ import java.util.ArrayList;
 /**
  * Created by Thagus on 03/09/16.
  */
-public class ControllerCrawlFeed implements EventHandler<ActionEvent> {
+public class ControllerHarvest implements EventHandler<ActionEvent> {
     private final ModelDatabase db;
-    private final CrawlerController crawlerController;
+    private final DCHarvester dcHarvester;
 
-    public ControllerCrawlFeed(){
+    public ControllerHarvest(){
         this.db = ModelDatabase.instance();
-        this.crawlerController = new CrawlerController();
+        this.dcHarvester = new DCHarvester();
     }
 
     /**
@@ -27,10 +27,13 @@ public class ControllerCrawlFeed implements EventHandler<ActionEvent> {
     public void handle(ActionEvent event) {
         ArrayList<String> seeds = new ArrayList<>();
 
-        seeds.add("http://udlap.mx/inicio.aspx");
+        seeds.add("http://red.mnstate.edu/do/oai/");
+        seeds.add("http://www.la-press.com/oai.php");
+        seeds.add("http://ricabib.cab.cnea.gov.ar/cgi/oai2");
 
         try {
-            crawlerController.startCrawling(seeds);
+            for(String site : seeds)
+                dcHarvester.harvest(site);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -40,7 +43,7 @@ public class ControllerCrawlFeed implements EventHandler<ActionEvent> {
 
         //A message to alert the user about the number of read documents
         Alert countInfo = new Alert(Alert.AlertType.INFORMATION, "Read " + db.opDocuments.countDocuments() + " documents");
-        countInfo.setTitle("Successful crawl!");
+        countInfo.setTitle("Successful harvest!");
         countInfo.setHeaderText(null);
         countInfo.showAndWait();
     }

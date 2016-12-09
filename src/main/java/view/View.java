@@ -1,6 +1,6 @@
 package view;
 
-import controller.ControllerCrawlFeed;
+import controller.ControllerHarvest;
 import controller.ControllerSearch;
 import dataObjects.Document;
 import javafx.geometry.Insets;
@@ -16,7 +16,7 @@ import javafx.scene.text.FontWeight;
  * Created by Thagus on 02/09/16.
  */
 public class View {
-    private ControllerCrawlFeed controllerCrawlFeed;
+    private ControllerHarvest controllerHarvest;
     private ControllerSearch controllerSearch;
 
     /**
@@ -27,7 +27,7 @@ public class View {
         layout.setSpacing(5);
 
         //Create controllers
-        this.controllerCrawlFeed = new ControllerCrawlFeed();
+        this.controllerHarvest = new ControllerHarvest();
         this.controllerSearch = new ControllerSearch();
 
         //Create menu bar
@@ -49,9 +49,9 @@ public class View {
         Menu menuFile = new Menu("_File");
 
         //Import document
-        MenuItem crawl = new MenuItem("Crawl");
-        crawl.setOnAction(controllerCrawlFeed);
-        menuFile.getItems().add(crawl);
+        MenuItem harvest = new MenuItem("Harvest");
+        harvest.setOnAction(controllerHarvest);
+        menuFile.getItems().add(harvest);
 
         menuBar.getMenus().addAll(menuFile);
         layout.getChildren().add(menuBar);
