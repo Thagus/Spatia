@@ -24,6 +24,10 @@ public class DCHarvester {
         db = ModelDatabase.instance();
     }
 
+    /**
+     * Method to harvest an OAI-PMH collection that follows the Dublin Core standard
+     * @param repository the URL of the OAI-PMH collection
+     */
     public void harvest(String repository) throws OAIException, IOException {
         OaiPmhServer server = new OaiPmhServer(repository);
 
@@ -32,14 +36,16 @@ public class DCHarvester {
         boolean more = true;
         while (more) {
             for (Header header : list.asList()) {
+                //Read the record of the given identifier
                 Record record = server.getRecord(header.getIdentifier(), "oai_dc");
 
                 String url = "";
                 String title = "";
                 String text = "";
 
-                // You can now use the org.dom4j.Element to handle the metadata as you see fit.
+                //Now use the dom4j to handle the metadata
                 Element root = record.getMetadata();
+                //Iterate through every element withing the record to obtain the metadata
                 for (Iterator i = root.elementIterator(); i.hasNext(); ) {
                     Element element = (Element) i.next();
 
